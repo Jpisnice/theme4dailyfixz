@@ -18,8 +18,6 @@ function initDrawer(header) {
   if (!toggle || !drawer) return;
 
   const closeButton = drawer.querySelector('[data-menu-close]');
-  drawer.setAttribute('role', 'dialog');
-  drawer.setAttribute('aria-modal', 'true');
   const nav = drawer.querySelector('nav');
   drawer.setAttribute('aria-label', (nav && nav.getAttribute('aria-label')) || toggle.textContent.trim());
 
@@ -28,6 +26,8 @@ function initDrawer(header) {
   function open() {
     if (isOpen() || DESKTOP.matches) return;
     drawer.classList.add('is-open');
+    drawer.setAttribute('role', 'dialog');
+    drawer.setAttribute('aria-modal', 'true');
     if (backdrop) backdrop.hidden = false;
     toggle.setAttribute('aria-expanded', 'true');
     document.documentElement.classList.add('menu-open');
@@ -38,6 +38,8 @@ function initDrawer(header) {
   function close({ returnFocus = true } = {}) {
     if (!isOpen()) return;
     drawer.classList.remove('is-open');
+    drawer.removeAttribute('role');
+    drawer.removeAttribute('aria-modal');
     if (backdrop) backdrop.hidden = true;
     toggle.setAttribute('aria-expanded', 'false');
     document.documentElement.classList.remove('menu-open');
@@ -49,6 +51,8 @@ function initDrawer(header) {
   if (backdrop) backdrop.addEventListener('click', () => close());
 
   drawer.addEventListener('keydown', (event) => {
+    // The trap and Escape only apply while the mobile drawer is open.
+    if (!isOpen()) return;
     if (event.key === 'Escape') {
       event.stopPropagation();
       close();

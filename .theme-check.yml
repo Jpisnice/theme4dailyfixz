@@ -1,6 +1,11 @@
 extends: theme-check:recommended
 
-# Design-system snippets (product-card, price, badge, button, section-heading)
-# are consumed by templates from sprint 02 onward; until then they are orphans.
+# Design-system snippets not yet consumed by any template. Remove this ignore
+# list once sprint 02 renders them (button is already used by the footer).
 OrphanedSnippet:
-  enabled: false
+  enabled: true
+  ignore:
+    - snippets/price.liquid
+    - snippets/badge.liquid
+    - snippets/product-card.liquid
+    - snippets/section-heading.liquid

@@ -323,6 +323,9 @@ svg.icon {
   margin: 0 auto;
   max-width: var(--page-width);
 }
+.announcement-bar a:focus-visible {
+  outline-color: currentColor;
+}
 .announcement-bar__link {
   display: inline-block;
   color: inherit;
@@ -359,6 +362,8 @@ svg.icon {
   display: inline-flex;
   align-items: center;
   min-height: var(--tap-size);
+  max-width: 100%;
+  min-width: 0;
   text-decoration: none;
 }
 .site-header__wordmark {
@@ -367,6 +372,10 @@ svg.icon {
   font-size: 1.5rem;
   line-height: 1;
   letter-spacing: -0.01em;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .site-header__logo {
   width: auto;

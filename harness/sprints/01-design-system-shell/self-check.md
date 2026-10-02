@@ -40,3 +40,11 @@ Run against the AGREED contract. Browser criteria (B1 to B20) are not run: no pr
 - Newsletter redirect-to-anchor behaviour (B12), dropdown Escape, cart refresh and drawer focus management are written defensively but untested in a browser.
 - `header.cart_label` pluralisation with count 99999 is used as a placeholder in `data-label-other`, replaced in JS.
 - Account is a plain `routes.account_url` link (the old `shopify-account` component and `customer_account_menu` setting were removed).
+
+## Round 1 fixes
+- header.js: keydown handler (Tab trap and Escape) returns early unless the drawer is open, so desktop keyboard users reach search, account and cart.
+- header.js: role=dialog and aria-modal=true are set only in open() and removed in close() (also runs on the desktop media change).
+- .theme-check.yml: repo-wide OrphanedSnippet disable replaced by an ignore list (price, badge, product-card, section-heading); remove it once sprint 02 consumes them.
+- icon.liquid: `return` arc shortened (r5, ends y=22) so it no longer clips.
+- base.css: wordmark truncates with ellipsis (min-width:0); announcement-bar links use outline-color: currentColor on focus for 3:1.
+- Left as is: data-label-other placeholder approach.
