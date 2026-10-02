@@ -46,7 +46,9 @@ function initFilters(root) {
     panel.setAttribute('aria-modal', 'true');
     if (backdrop) backdrop.hidden = false;
     opener.setAttribute('aria-expanded', 'true');
+    panel.setAttribute('aria-labelledby', 'CollectionFiltersTitle');
     document.documentElement.classList.add('filters-open');
+    document.addEventListener('keydown', onKeydown);
     const first = closeButton || panel.querySelector(FOCUSABLE);
     if (first) first.focus();
   }
@@ -56,6 +58,8 @@ function initFilters(root) {
     panel.classList.remove('is-open');
     panel.removeAttribute('role');
     panel.removeAttribute('aria-modal');
+    panel.removeAttribute('aria-labelledby');
+    document.removeEventListener('keydown', onKeydown);
     if (backdrop) backdrop.hidden = true;
     opener.setAttribute('aria-expanded', 'false');
     document.documentElement.classList.remove('filters-open');
@@ -66,7 +70,10 @@ function initFilters(root) {
   if (closeButton) closeButton.addEventListener('click', () => close());
   if (backdrop) backdrop.addEventListener('click', () => close());
 
-  panel.addEventListener('keydown', (event) => {
+  // Attached to the document only while the drawer is open, so Escape and
+  // the Tab trap still work if focus has dropped to <body> (for example after
+  // a click on blank space inside the panel).
+  function onKeydown(event) {
     if (!isOpen()) return;
     if (event.key === 'Escape') {
       event.stopPropagation();
@@ -78,14 +85,18 @@ function initFilters(root) {
     if (items.length === 0) return;
     const first = items[0];
     const last = items[items.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
+    const active = document.activeElement;
+    if (!panel.contains(active)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+    } else if (event.shiftKey && active === first) {
       event.preventDefault();
       last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
+    } else if (!event.shiftKey && active === last) {
       event.preventDefault();
       first.focus();
     }
-  });
+  }
 
   // Growing past the drawer breakpoint while open: reset without stealing focus.
   DESKTOP.addEventListener('change', (event) => {

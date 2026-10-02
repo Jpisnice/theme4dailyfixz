@@ -17,7 +17,7 @@
   assign button_2_label = block.settings.button_2_label | escape
   assign button_2_link = block.settings.button_2_link
   assign alignment = block.settings.text_alignment | default: 'left'
-  assign hero_alt = hero_image.alt | default: block.settings.heading
+  assign hero_alt = hero_image.alt | default: ''
   assign show_buttons = false
   if button_1_label != blank
     assign show_buttons = true
@@ -51,7 +51,7 @@
       {%- if hero_heading != blank -%}
         {% render 'section-heading', heading: hero_heading, subheading: hero_sub, level: 1, class: 'hero__heading' %}
       {%- else -%}
-        <h1 class="visually-hidden">{{ shop.name }}</h1>
+        <h1 class="visually-hidden">{{ shop.name | escape }}</h1>
         {%- if hero_sub != blank -%}
           <p class="hero__sub">{{ hero_sub }}</p>
         {%- endif -%}

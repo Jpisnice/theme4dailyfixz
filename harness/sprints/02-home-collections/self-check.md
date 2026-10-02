@@ -47,3 +47,9 @@ Run against the AGREED contract (Round 2). Browser criteria B1 to B26 are not ru
 - Desktop chips auto-submit on change; the Apply button stays visible everywhere (simpler than hiding it).
 - `placeholder_svg_tag` names (`lifestyle-1`, `lifestyle-2`, `collection-1..6`, `product-1..4`) are assumed valid.
 - B26 focus clause: added one `base.css` rule so keyboard focus on the card link also reveals the second image (`:has(:focus-visible)`); hover is from sprint 01. S26 grep note: collection.js has no `dataset` use (hooks are `data-*` attribute selectors), so that grep term will not match.
+
+## Round 1 fixes
+- R1: `assets/collection.js` attaches the keydown handler (Escape and Tab trap) to `document` in `open()` and removes it in `close()`; if focus is outside the panel on Tab it moves to the first (or last on Shift+Tab) item. Desktop (>=768px) still never opens the drawer, so no trap.
+- R2: contract S10, S21, S23 reworded to match the code; added a "Round 2 fixes" note.
+- R3: hero fallback h1 outputs `shop.name | escape`.
+- Extras: hero image alt is the image's own alt or empty (decorative), no longer the heading; `aria-labelledby` removed from the panel markup and set by JS only while it is a dialog.
