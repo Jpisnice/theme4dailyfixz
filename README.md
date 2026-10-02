@@ -185,6 +185,18 @@ The partial tag currently requires `shop.features.agentic_editor_enabled?`
 and StorefrontRenderer; otherwise the storefront raises
 `Unknown tag 'partial'`.
 
+## Development workflow
+
+Features are built with a planner → generator → evaluator agent harness, with
+static checks and browser tests as hard gates. See
+[`harness/README.md`](./harness/README.md).
+
+```bash
+npm install
+npm run check   # block-first dialect rules + Theme Check
+npm run smoke   # Playwright smoke test against a running `shopify theme dev`
+```
+
 ## Contributing
 
 We're excited for your contributions to the Skeleton Theme! This repository aims to remain as lean, lightweight, and fundamental as possible, and we kindly ask your contributions to align with this intention.
@@ -194,5 +206,6 @@ Visit our [CONTRIBUTING.md](./CONTRIBUTING.md) for a detailed overview of our pr
 ## License
 
 Skeleton Theme is open-sourced under the [MIT](./LICENSE.md) License.
-#   t h e m e 4 d a i l y f i x z  
+#   t h e m e 4 d a i l y f i x z 
+ 
  

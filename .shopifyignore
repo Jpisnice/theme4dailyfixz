@@ -11,3 +11,10 @@
 #
 # Ignore templates and sections with a regular expression:
 #   /(templates|sections)/.*\.json/
+
+# Development harness and tooling (not part of the theme)
+harness/
+scripts/
+node_modules/
+package.json
+package-lock.json
