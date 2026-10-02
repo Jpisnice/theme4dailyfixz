@@ -18,3 +18,6 @@ release
 
 ## Local listings
 listings/
+
+# Harness smoke-test output
+harness/**/screenshots/

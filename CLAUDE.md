@@ -4,6 +4,20 @@
 
 Use the [Shopify AI Toolkit](https://shopify.dev/docs/apps/build/ai-toolkit) for all Shopify API and platform work. If missing, install it in the agent host per that page (or `npx skills add Shopify/shopify-ai-toolkit --list` for skill-compatible hosts).
 
+## Development harness (read first)
+
+Feature work in this repo runs through a planner → generator → evaluator harness.
+See [`harness/README.md`](harness/README.md) for the full workflow.
+
+- Start every session by reading `harness/progress.md`, the handoff file.
+- Commands: `/harness-plan`, `/harness-sprint`, `/harness-evaluate`, `/harness-handoff`.
+- Before committing, `npm run check` must pass (block-first dialect check + Theme Check).
+- Builders don't grade their own work. The `evaluator` agent judges sprints against `harness/criteria.md`.
+- **Theme dialect:** this theme is block-first. The README "Non-negotiables" section
+  (no `sections/`, no JSON templates, no schema `presets`, no `{% stylesheet %}` /
+  `{% javascript %}`, with CSS/JS in `assets/`) takes precedence over the generic
+  guidance below wherever the two conflict.
+
 ## Theme Architecture
 
 **Key principles: focus on generating snippets, blocks, and sections; users may create templates using the theme editor**
