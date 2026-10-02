@@ -46,7 +46,9 @@ session (or a context reset) pick up where the last one stopped.
 | `/harness-evaluate [sprint]` | Runs the evaluator alone on the current state (e.g. after a manual change). |
 | `/harness-handoff` | Writes a clean handoff into `progress.md` before ending or resetting a session. |
 
-The agents live in `.claude/agents/` (`planner`, `generator`, `evaluator`).
+The agents live in `.claude/agents/` (`planner`, `generator`, `evaluator`). For any
+Liquid edit, the `liquid-theme-dev` skill (`.claude/skills/liquid-theme-dev/`) holds this
+theme's dialect and patterns; the generator should follow it.
 
 ## Files
 
