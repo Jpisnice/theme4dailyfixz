@@ -23,3 +23,10 @@ Run `/harness-sprint storefront 01`: Design system and global shell (tokens, set
 
 | Sprint | Rounds | Verdict | Weighted score | Commit |
 | --- | --- | --- | --- | --- |
+
+## Sprint 01 status (2026-10-02)
+
+- Built (75da2db), evaluated statically (report-r1: FAIL on a drawer keyboard trap), fixed (ff9cda9). Fix not yet re-evaluated.
+- **Static-pass, awaiting owner browser check.** No preview was available in the agent session. Browser criteria B1-B20 in `harness/sprints/01-design-system-shell/contract.md` are UNVERIFIED; start with B6, B8, B9, B20, B10, B12.
+- Owner to confirm both fonts (dm_serif_display_n4, Work Sans) appear in the theme editor.
+- Next: sprint 02 (home and collection). Remove the OrphanedSnippet ignore list in `.theme-check.yml` once sprint 02 uses price, badge, product-card and section-heading.
