@@ -1,0 +1,15 @@
+{% doc %}
+  Renders a small status badge.
+
+  @param {string} kind - 'sale' or 'sold_out'
+
+  @example
+  {% render 'badge', kind: 'sale' %}
+{% enddoc %}
+
+{%- case kind -%}
+  {%- when 'sale' -%}
+    <span class="badge badge--sale">{{ 'products.badge.sale' | t }}</span>
+  {%- when 'sold_out' -%}
+    <span class="badge badge--sold-out">{{ 'products.badge.sold_out' | t }}</span>
+{%- endcase -%}

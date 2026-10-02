@@ -8,5 +8,26 @@
  * ------------------------------------------------------------
  */
 {
-  "current": {}
+  "current": {
+    "background_color": "#FBF7F0",
+    "foreground_color": "#2A2420",
+    "muted_color": "#6B5E54",
+    "surface_color": "#F1E9DC",
+    "border_color": "#E2D8C8",
+    "accent_color": "#C8321A",
+    "accent_contrast_color": "#FFFFFF",
+    "sale_color": "#B0281A",
+    "type_header_font": "dm_serif_display_n4",
+    "type_body_font": "work_sans_n4",
+    "corner_radius": 10,
+    "button_radius": 24,
+    "card_image_ratio": "4 / 5",
+    "max_page_width": "90rem",
+    "min_page_margin": 20,
+    "logo_width": 120,
+    "announcement_text": "Everyday essentials, delivered fast",
+    "announcement_background": "#2A2420",
+    "announcement_text_color": "#FBF7F0",
+    "footer_blurb": "Everyday essentials, done well. Simple things you reach for every day."
+  }
 }

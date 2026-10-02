@@ -8,17 +8,41 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "t:general.colors",
+    "settings": [
+      { "type": "color", "id": "background_color", "default": "#FBF7F0", "label": "t:labels.background" },
+      { "type": "color", "id": "foreground_color", "default": "#2A2420", "label": "t:labels.foreground" },
+      { "type": "color", "id": "muted_color", "default": "#6B5E54", "label": "t:labels.muted" },
+      { "type": "color", "id": "surface_color", "default": "#F1E9DC", "label": "t:labels.surface" },
+      { "type": "color", "id": "border_color", "default": "#E2D8C8", "label": "t:labels.border" },
+      { "type": "color", "id": "accent_color", "default": "#C8321A", "label": "t:labels.accent" },
+      { "type": "color", "id": "accent_contrast_color", "default": "#FFFFFF", "label": "t:labels.accent_contrast" },
+      { "type": "color", "id": "sale_color", "default": "#B0281A", "label": "t:labels.sale" }
+    ]
+  },
+  {
     "name": "t:general.typography",
     "settings": [
+      { "type": "header", "content": "t:general.fonts" },
+      { "type": "font_picker", "id": "type_header_font", "default": "dm_serif_display_n4", "label": "t:labels.heading_font" },
+      { "type": "font_picker", "id": "type_body_font", "default": "work_sans_n4", "label": "t:labels.body_font" }
+    ]
+  },
+  {
+    "name": "t:general.shape",
+    "settings": [
+      { "type": "range", "id": "corner_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "t:labels.corner_radius", "default": 10 },
+      { "type": "range", "id": "button_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "t:labels.button_radius", "default": 24 },
       {
-        "type": "header",
-        "content": "t:general.fonts"
-      },
-      {
-        "type": "font_picker",
-        "id": "type_primary_font",
-        "default": "work_sans_n4",
-        "label": "t:general.primary"
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "t:labels.card_image_ratio",
+        "options": [
+          { "value": "1 / 1", "label": "t:options.card_ratio.square" },
+          { "value": "4 / 5", "label": "t:options.card_ratio.portrait" },
+          { "value": "3 / 4", "label": "t:options.card_ratio.tall" }
+        ],
+        "default": "4 / 5"
       }
     ]
   },
@@ -30,54 +54,45 @@
         "id": "max_page_width",
         "label": "t:labels.page_width",
         "options": [
-          {
-            "value": "90rem",
-            "label": "t:options.page_width.narrow"
-          },
-          {
-            "value": "110rem",
-            "label": "t:options.page_width.wide"
-          }
+          { "value": "90rem", "label": "t:options.page_width.narrow" },
+          { "value": "110rem", "label": "t:options.page_width.wide" }
         ],
         "default": "90rem"
       },
-      {
-        "type": "range",
-        "id": "min_page_margin",
-        "min": 10,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "label": "t:labels.page_margin",
-        "default": 20
-      }
+      { "type": "range", "id": "min_page_margin", "min": 10, "max": 100, "step": 1, "unit": "px", "label": "t:labels.page_margin", "default": 20 }
     ]
   },
   {
-    "name": "t:general.colors",
+    "name": "t:general.logo",
     "settings": [
-      {
-        "type": "color",
-        "id": "background_color",
-        "default": "#FFFFFF",
-        "label": "t:labels.background"
-      },
-      {
-        "type": "color",
-        "id": "foreground_color",
-        "default": "#333333",
-        "label": "t:labels.foreground"
-      },
-      {
-        "type": "range",
-        "id": "input_corner_radius",
-        "min": 0,
-        "max": 10,
-        "step": 1,
-        "unit": "px",
-        "label": "t:labels.input_corner_radius",
-        "default": 4
-      }
+      { "type": "image_picker", "id": "logo", "label": "t:labels.logo", "info": "t:info.logo" },
+      { "type": "range", "id": "logo_width", "min": 60, "max": 240, "step": 10, "unit": "px", "label": "t:labels.logo_width", "default": 120 }
+    ]
+  },
+  {
+    "name": "t:general.announcement_bar",
+    "settings": [
+      { "type": "text", "id": "announcement_text", "label": "t:labels.announcement_text", "info": "t:info.announcement_text", "default": "Everyday essentials, delivered fast" },
+      { "type": "url", "id": "announcement_link", "label": "t:labels.announcement_link" },
+      { "type": "color", "id": "announcement_background", "default": "#2A2420", "label": "t:labels.announcement_background" },
+      { "type": "color", "id": "announcement_text_color", "default": "#FBF7F0", "label": "t:labels.announcement_text_color" }
+    ]
+  },
+  {
+    "name": "t:general.footer",
+    "settings": [
+      { "type": "textarea", "id": "footer_blurb", "label": "t:labels.footer_blurb", "default": "Everyday essentials, done well. Simple things you reach for every day." }
+    ]
+  },
+  {
+    "name": "t:general.social_links",
+    "settings": [
+      { "type": "url", "id": "social_instagram", "label": "t:labels.social_instagram" },
+      { "type": "url", "id": "social_facebook", "label": "t:labels.social_facebook" },
+      { "type": "url", "id": "social_tiktok", "label": "t:labels.social_tiktok" },
+      { "type": "url", "id": "social_youtube", "label": "t:labels.social_youtube" },
+      { "type": "url", "id": "social_pinterest", "label": "t:labels.social_pinterest" },
+      { "type": "url", "id": "social_x", "label": "t:labels.social_x" }
     ]
   }
 ]

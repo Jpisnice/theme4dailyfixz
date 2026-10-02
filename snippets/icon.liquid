@@ -1,0 +1,49 @@
+{% doc %}
+  Renders an inline SVG icon. Icons are decorative (aria-hidden); put the
+  accessible name on the surrounding link or button.
+
+  @param {string} name - search, account, cart, menu, close, chevron, plus, minus, truck, return, lock, instagram, facebook, tiktok, youtube, pinterest, x
+  @param {string} [class] - Extra class on the svg
+
+  @example
+  {% render 'icon', name: 'search' %}
+{% enddoc %}
+
+<svg class="icon icon--{{ name }} {{ class }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- case name -%}
+    {%- when 'search' -%}
+      <circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>
+    {%- when 'account' -%}
+      <circle cx="12" cy="8" r="4"/><path d="M4.5 20c.9-3.6 3.9-5.5 7.5-5.5s6.6 1.9 7.5 5.5"/>
+    {%- when 'cart' -%}
+      <path d="M3 4h2.5l2.2 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L20 8H6.2"/><circle cx="9.5" cy="19.5" r="1.2"/><circle cx="17" cy="19.5" r="1.2"/>
+    {%- when 'menu' -%}
+      <path d="M4 7h16M4 12h16M4 17h16"/>
+    {%- when 'close' -%}
+      <path d="m6 6 12 12M18 6 6 18"/>
+    {%- when 'chevron' -%}
+      <path d="m6 9 6 6 6-6"/>
+    {%- when 'plus' -%}
+      <path d="M12 5v14M5 12h14"/>
+    {%- when 'minus' -%}
+      <path d="M5 12h14"/>
+    {%- when 'truck' -%}
+      <path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="17.5" cy="17.5" r="1.5"/>
+    {%- when 'return' -%}
+      <path d="M9 7 4 12l5 5"/><path d="M4 12h10a6 6 0 0 1 0 12"/>
+    {%- when 'lock' -%}
+      <rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+    {%- when 'instagram' -%}
+      <rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r=".6"/>
+    {%- when 'facebook' -%}
+      <path d="M14 8h2.5V4.5H14A3.5 3.5 0 0 0 10.5 8v2.5H8V14h2.5v6H14v-6h2.4l.6-3.5H14V8.6c0-.4.2-.6.6-.6z"/>
+    {%- when 'tiktok' -%}
+      <path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.3 2.4 1.9 4 4.5 4.2"/>
+    {%- when 'youtube' -%}
+      <rect x="3" y="6" width="18" height="12" rx="3.5"/><path d="m10.5 9.5 4 2.5-4 2.5z"/>
+    {%- when 'pinterest' -%}
+      <circle cx="12" cy="12" r="8.5"/><path d="M11 16.5 12.5 9.5M10 12.8c-.6-2 .8-3.8 2.6-3.8 1.6 0 2.4 1.2 2.4 2.4 0 1.8-1.1 3.1-2.5 3.1-.8 0-1.3-.5-1.5-1"/>
+    {%- when 'x' -%}
+      <path d="M5 5l14 14M19 5 5 19"/>
+  {%- endcase -%}
+</svg>

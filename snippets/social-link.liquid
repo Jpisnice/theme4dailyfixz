@@ -1,0 +1,20 @@
+{% doc %}
+  Renders one social network link as a list item. Outputs nothing when the
+  URL is blank.
+
+  @param {string} network - instagram, facebook, tiktok, youtube, pinterest or x
+  @param {string} [url] - Profile URL
+
+  @example
+  {% render 'social-link', network: 'instagram', url: settings.social_instagram %}
+{% enddoc %}
+
+{%- if url != blank -%}
+  {%- assign label_key = 'footer.social.' | append: network -%}
+  <li>
+    <a class="social-link" href="{{ url }}" rel="noopener">
+      {% render 'icon', name: network %}
+      <span class="visually-hidden">{{ label_key | t }}</span>
+    </a>
+  </li>
+{%- endif -%}
