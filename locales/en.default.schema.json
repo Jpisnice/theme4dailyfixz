@@ -17,9 +17,7 @@
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
-    "hello_world": "Hello world",
     "layout": "Layout",
-    "liquid_tips": "Liquid tips",
     "main": "Main",
     "page": "Page",
     "password": "Password",
@@ -34,7 +32,18 @@
     "announcement_bar": "Announcement bar",
     "logo": "Logo",
     "shape": "Shape",
-    "social_links": "Social links"
+    "social_links": "Social links",
+    "hero": "Hero",
+    "featured_collection": "Featured collection",
+    "collection_tiles": "Collection tiles",
+    "trust_strip": "Trust strip",
+    "brand_story": "Brand story",
+    "newsletter": "Newsletter",
+    "collection_banner": "Collection banner",
+    "collection_toolbar": "Collection toolbar",
+    "collection_filters": "Collection filters",
+    "collection_grid": "Collection grid",
+    "collection_pages": "Collection pages"
   },
   "labels": {
     "alignment": "Alignment",
@@ -74,7 +83,31 @@
     "social_tiktok": "TikTok URL",
     "social_youtube": "YouTube URL",
     "social_pinterest": "Pinterest URL",
-    "social_x": "X URL"
+    "social_x": "X URL",
+    "heading": "Heading",
+    "subheading": "Subheading",
+    "image": "Image",
+    "body_text": "Text",
+    "button_label": "Button label",
+    "button_link": "Button link",
+    "button_2_label": "Second button label",
+    "button_2_link": "Second button link",
+    "text_alignment": "Text alignment",
+    "overlay_strength": "Overlay strength",
+    "collection": "Collection",
+    "product_count": "Number of products",
+    "show_view_all": "Show view all link",
+    "collection_1": "Collection 1",
+    "collection_2": "Collection 2",
+    "collection_3": "Collection 3",
+    "collection_4": "Collection 4",
+    "delivery_text": "Delivery text",
+    "returns_text": "Returns text",
+    "checkout_text": "Secure checkout text",
+    "collection_products_per_page": "Products per page",
+    "collection_columns_desktop": "Columns on desktop",
+    "collection_show_filters": "Show filters",
+    "collection_show_count": "Show product count"
   },
   "options": {
     "alignment": {
@@ -98,10 +131,21 @@
       "square": "Square",
       "portrait": "Portrait (4:5)",
       "tall": "Tall (3:4)"
+    },
+    "columns": {
+      "three": "3 columns",
+      "four": "4 columns"
     }
   },
   "info": {
     "logo": "Falls back to the shop name when empty.",
-    "announcement_text": "Leave blank to hide the bar."
+    "announcement_text": "Leave blank to hide the bar.",
+    "overlay_strength": "Darkens the image so the text stays readable. The default of 40 gives light text a contrast of about 6 to 1 on a mid-grey photo; below 20 it can drop under 4.5 to 1.",
+    "hero_image": "Without an image a placeholder is shown.",
+    "button_link": "The button is hidden when the label is blank. Without a link it goes to all products.",
+    "collection_fallback": "Falls back to all products when empty or unset.",
+    "tiles_fallback": "Leave all four empty to show the first collections in the store.",
+    "item_blank": "Leave blank to hide this item.",
+    "collection_pages": "Applies to every collection page and the collection list."
   }
 }

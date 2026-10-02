@@ -70,6 +70,24 @@
     ]
   },
   {
+    "name": "t:general.collection_pages",
+    "settings": [
+      { "type": "range", "id": "collection_products_per_page", "min": 8, "max": 48, "step": 4, "label": "t:labels.collection_products_per_page", "info": "t:info.collection_pages", "default": 24 },
+      {
+        "type": "select",
+        "id": "collection_columns_desktop",
+        "label": "t:labels.collection_columns_desktop",
+        "options": [
+          { "value": "3", "label": "t:options.columns.three" },
+          { "value": "4", "label": "t:options.columns.four" }
+        ],
+        "default": "4"
+      },
+      { "type": "checkbox", "id": "collection_show_filters", "label": "t:labels.collection_show_filters", "default": true },
+      { "type": "checkbox", "id": "collection_show_count", "label": "t:labels.collection_show_count", "default": true }
+    ]
+  },
+  {
     "name": "t:general.announcement_bar",
     "settings": [
       { "type": "text", "id": "announcement_text", "label": "t:labels.announcement_text", "info": "t:info.announcement_text", "default": "Everyday essentials, delivered fast" },

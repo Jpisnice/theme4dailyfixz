@@ -30,3 +30,9 @@ Run `/harness-sprint storefront 01`: Design system and global shell (tokens, set
 - **Static-pass, awaiting owner browser check.** No preview was available in the agent session. Browser criteria B1-B20 in `harness/sprints/01-design-system-shell/contract.md` are UNVERIFIED; start with B6, B8, B9, B20, B10, B12.
 - Owner to confirm both fonts (dm_serif_display_n4, Work Sans) appear in the theme editor.
 - Next: sprint 02 (home and collection). Remove the OrphanedSnippet ignore list in `.theme-check.yml` once sprint 02 uses price, badge, product-card and section-heading.
+
+## Sprint 02 status (2026-10-02)
+
+- Built (4e82829), evaluated statically (report-r1: static-pass, 3 fixes required), fixed (314d058: drawer focus handling, contract wording, hero fallback escape). Fixes not re-evaluated.
+- **Static-pass, awaiting owner browser check.** Browser criteria B1-B26 in `harness/sprints/02-home-collections/contract.md` are UNVERIFIED. Watch items: B7 (footer and home newsletter share a form type, so a success message may show on both), B13 (click blank space in the open filter drawer, then Escape and Tab), B9/B10 (pagination inside a block), B12/B14/B15/B18 (needs Search and Discovery filters), B3, B16.
+- Next: sprint 03 (product page and cart). It must dispatch `cart:updated` so the header cart count updates. `product-card` and grid CSS currently load only on index and collection; sprints 03-04 need them on other pages.

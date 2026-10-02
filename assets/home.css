@@ -1,0 +1,183 @@
+/**
+ * Home page blocks: hero, featured collection spacing, brand story and the
+ * newsletter band. Loaded on the home page only (see layout/theme.liquid).
+ * Colour comes from the tokens in snippets/css-variables.liquid.
+ */
+
+.home-section {
+  margin-block: var(--space-7);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(24rem, 55svh, 36rem);
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--color-foreground);
+  color: var(--color-background);
+}
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero__placeholder {
+  fill: var(--color-muted);
+  opacity: 0.35;
+}
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-foreground);
+  opacity: calc(var(--hero-overlay, 40) / 100);
+}
+.hero__inner {
+  padding-block: var(--space-7);
+}
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  max-width: 40rem;
+}
+.hero__heading {
+  margin-bottom: 0;
+}
+.hero__heading .section-heading__sub,
+.hero__sub {
+  color: inherit;
+  font-size: 1.125rem;
+}
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.hero .button--secondary {
+  border-color: currentcolor;
+  color: inherit;
+}
+.hero .button--secondary:hover {
+  background-color: var(--color-foreground);
+}
+.hero .button:focus-visible {
+  outline-color: var(--color-background);
+}
+
+.hero--align-center .hero__content {
+  align-items: center;
+  margin-inline: auto;
+  text-align: center;
+}
+.hero--align-center .hero__actions {
+  justify-content: center;
+}
+.hero--align-center .accent-underline::after {
+  margin-inline: auto;
+}
+.hero--align-right .hero__content {
+  align-items: flex-end;
+  margin-inline-start: auto;
+  text-align: right;
+}
+.hero--align-right .hero__actions {
+  justify-content: flex-end;
+}
+.hero--align-right .accent-underline::after {
+  margin-inline-start: auto;
+}
+
+@media (min-width: 48em) {
+  .hero {
+    align-items: center;
+    max-height: 80vh;
+  }
+}
+
+/* ---------- Brand story ---------- */
+.brand-story {
+  margin-block: var(--space-7);
+}
+.brand-story__inner {
+  display: grid;
+  gap: var(--space-5);
+  align-items: center;
+}
+.brand-story__media {
+  overflow: hidden;
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  aspect-ratio: 4 / 3;
+}
+.brand-story__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.brand-story__placeholder {
+  padding: var(--space-6);
+  fill: var(--color-muted);
+}
+.brand-story__heading {
+  margin-bottom: var(--space-3);
+}
+.brand-story__body {
+  max-width: 60ch;
+  color: var(--color-muted);
+}
+.brand-story__body > * + * {
+  margin-top: var(--space-3);
+}
+@media (min-width: 48em) {
+  .brand-story__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+  }
+}
+
+/* ---------- Newsletter band ---------- */
+.promo-newsletter {
+  margin-block: var(--space-7);
+  border-block: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+.promo-newsletter__inner {
+  display: grid;
+  gap: var(--space-4);
+  padding-block: var(--space-6);
+}
+.promo-newsletter__heading {
+  margin-bottom: var(--space-2);
+}
+.promo-newsletter__sub {
+  color: var(--color-muted);
+}
+.promo-newsletter__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+@media (min-width: 48em) {
+  .promo-newsletter__inner {
+    grid-template-columns: 1fr minmax(0, 28rem);
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .promo-newsletter .newsletter__row {
+    flex-direction: row;
+  }
+  .promo-newsletter .newsletter__row .button {
+    flex: none;
+  }
+}

@@ -1,0 +1,24 @@
+{% doc %}
+  Outputs hidden inputs that carry every active storefront filter, so a
+  sibling GET form (for example the sort form) does not drop them.
+
+  @param {object} filters - `collection.filters`
+
+  @example
+  {% render 'filter-hidden-inputs', filters: collection.filters %}
+{% enddoc %}
+
+{%- for filter in filters -%}
+  {%- if filter.type == 'price_range' -%}
+    {%- if filter.min_value.value != blank -%}
+      <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}">
+    {%- endif -%}
+    {%- if filter.max_value.value != blank -%}
+      <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}">
+    {%- endif -%}
+  {%- else -%}
+    {%- for filter_value in filter.active_values -%}
+      <input type="hidden" name="{{ filter_value.param_name }}" value="{{ filter_value.value }}">
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}

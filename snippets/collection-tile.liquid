@@ -1,0 +1,49 @@
+{% doc %}
+  Renders a collection as one tile link: square image (or a placeholder),
+  title and an optional product count. The whole tile is a single link.
+
+  @param {collection} collection_item - The collection to render
+  @param {string} [sizes] - Image sizes attribute. Default suits a 2 to 4 column grid
+  @param {boolean} [show_count] - Show the product count
+  @param {number} [placeholder_index] - 1 to 6, picks which placeholder artwork to use. Default: 1
+  @param {boolean} [lazy] - Lazy-load the image. Default: true
+
+  @example
+  {% render 'collection-tile', collection_item: collection, show_count: true %}
+{% enddoc %}
+
+{%- liquid
+  assign tile_sizes = sizes | default: '(min-width: 48em) 22vw, 46vw'
+  assign loading = 'lazy'
+  if lazy == false
+    assign loading = 'eager'
+  endif
+  assign placeholder_number = placeholder_index | default: 1
+  assign placeholder_name = 'collection-' | append: placeholder_number
+  assign tile_title = collection_item.title | escape
+-%}
+
+<a class="collection-tile" href="{{ collection_item.url }}">
+  <span class="collection-tile__media">
+    {%- if collection_item.featured_image -%}
+      {{
+        collection_item.featured_image
+        | image_url: width: 600
+        | image_tag:
+          widths: '240, 360, 480, 600',
+          sizes: tile_sizes,
+          loading: loading,
+          alt: '',
+          class: 'collection-tile__image'
+      }}
+    {%- else -%}
+      {{ placeholder_name | placeholder_svg_tag: 'collection-tile__image collection-tile__placeholder' }}
+    {%- endif -%}
+  </span>
+  <span class="collection-tile__body">
+    <span class="collection-tile__title">{{ tile_title }}</span>
+    {%- if show_count -%}
+      <span class="collection-tile__count">{{ 'collections.product_count' | t: count: collection_item.products_count }}</span>
+    {%- endif -%}
+  </span>
+</a>

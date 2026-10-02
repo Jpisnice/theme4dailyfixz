@@ -1,0 +1,27 @@
+{% doc %}
+  Outputs the word "true" when at least one storefront filter is active on
+  the collection, and nothing otherwise. Capture the output to use it as a
+  flag.
+
+  @param {object} filters - `collection.filters`
+
+  @example
+  {%- capture filters_active -%}{% render 'filters-active', filters: collection.filters %}{%- endcapture -%}
+  {% if filters_active != blank %}...{% endif %}
+{% enddoc %}
+
+{%- liquid
+  assign any_active = false
+  for filter in filters
+    if filter.type == 'price_range'
+      if filter.min_value.value != blank or filter.max_value.value != blank
+        assign any_active = true
+      endif
+    elsif filter.active_values.size > 0
+      assign any_active = true
+    endif
+  endfor
+  if any_active
+    echo 'true'
+  endif
+-%}
