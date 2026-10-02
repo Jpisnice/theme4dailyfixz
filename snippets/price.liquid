@@ -1,0 +1,38 @@
+{% doc %}
+  Renders a price block: current price, compare-at price when on sale, and
+  unit price when the variant has a unit price measurement.
+
+  @param {number} price - Price in cents
+  @param {number} [compare_at_price] - Compare-at price in cents; shown only when greater than price
+  @param {boolean} [price_varies] - Prefix the price with "From"
+  @param {number} [unit_price] - Unit price in cents
+  @param {unit_price_measurement} [unit_price_measurement] - Unit price measurement object
+  @param {string} [class] - Extra classes
+
+  @example
+  {% render 'price', price: product.price, compare_at_price: product.compare_at_price, price_varies: product.price_varies %}
+{% enddoc %}
+
+{%- liquid
+  assign on_sale = false
+  if compare_at_price
+    if compare_at_price > price
+      assign on_sale = true
+    endif
+  endif
+  assign price_html = price | money
+-%}
+
+<div class="price{% if on_sale %} price--on-sale{% endif %} {{ class }}">
+  {%- if on_sale -%}
+    <s class="price__compare"><span class="visually-hidden">{{ 'products.price.regular' | t }}</span> {{ compare_at_price | money }}</s>
+    <span class="price__current price__current--sale"><span class="visually-hidden">{{ 'products.price.sale' | t }}</span> {{ price_html }}</span>
+  {%- elsif price_varies -%}
+    <span class="price__current">{{ 'products.price.from_html' | t: price: price_html }}</span>
+  {%- else -%}
+    <span class="price__current">{{ price_html }}</span>
+  {%- endif -%}
+  {%- if unit_price_measurement -%}
+    <span class="price__unit"><span class="visually-hidden">{{ 'products.price.unit' | t }}</span> {{ unit_price | unit_price_with_measurement: unit_price_measurement }}</span>
+  {%- endif -%}
+</div>

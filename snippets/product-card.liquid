@@ -1,0 +1,88 @@
+{% doc %}
+  Renders an image-led product card with a fixed image ratio, optional
+  second image on hover, title, price and sale or sold-out badges. The title
+  link covers the whole card. The image is decorative (empty alt) because the
+  adjacent title link already names the product.
+
+  @param {product} product - The product to render
+  @param {boolean} [lazy] - Lazy-load the image. Default: true; pass false for above-the-fold cards
+  @param {string} [sizes] - Image sizes attribute. Default suits a two-column mobile grid
+  @param {boolean} [show_second_image] - Show the second image on hover. Default: true
+  @param {string} [class] - Extra classes
+
+  @example
+  {% render 'product-card', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign loading = 'lazy'
+  if lazy == false
+    assign loading = 'eager'
+  endif
+  assign card_sizes = sizes | default: '(min-width: 90rem) 22vw, (min-width: 48em) 30vw, 46vw'
+  assign variant = product.selected_or_first_available_variant
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    if product.available
+      assign on_sale = true
+    endif
+  endif
+  assign second_image = nil
+  if show_second_image != false
+    if product.images.size > 1
+      assign second_image = product.images[1]
+    endif
+  endif
+-%}
+
+<article class="product-card {{ class }}">
+  <div class="product-card__media">
+    {%- if product.featured_image -%}
+      {{
+        product.featured_image
+        | image_url: width: 640
+        | image_tag:
+          widths: '240, 360, 480, 640',
+          sizes: card_sizes,
+          loading: loading,
+          alt: '',
+          class: 'product-card__image'
+      }}
+      {%- if second_image -%}
+        {{
+          second_image
+          | image_url: width: 640
+          | image_tag:
+            widths: '240, 360, 480, 640',
+            sizes: card_sizes,
+            loading: 'lazy',
+            alt: '',
+            class: 'product-card__image product-card__image--second'
+        }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__placeholder' }}
+    {%- endif -%}
+    {%- if on_sale or product.available == false -%}
+      <div class="product-card__badges">
+        {%- if product.available == false -%}
+          {% render 'badge', kind: 'sold_out' %}
+        {%- elsif on_sale -%}
+          {% render 'badge', kind: 'sale' %}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="product-card__body">
+    <h3 class="product-card__title">
+      <a class="product-card__link" href="{{ product.url }}">{{ product.title | escape }}</a>
+    </h3>
+    {% render 'price',
+      price: product.price,
+      compare_at_price: product.compare_at_price,
+      price_varies: product.price_varies,
+      unit_price: variant.unit_price,
+      unit_price_measurement: variant.unit_price_measurement
+    %}
+  </div>
+</article>

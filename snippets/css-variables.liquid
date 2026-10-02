@@ -1,18 +1,58 @@
+{% doc %}
+  Emits the design tokens as :root custom properties, fed by theme settings.
+  Rendered once in the <head> of layout/theme.liquid. No parameters.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
 {% style %}
-  {% # Loads all font variantions with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {% # Heading font: regular weight only. Body font: regular, bold and italics. %}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
   :root {
-    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --font-primary--style: {{ settings.type_primary_font.style }};
-    --font-primary--weight: {{ settings.type_primary_font.weight }};
+    --font-heading--family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    --font-heading--style: {{ settings.type_header_font.style }};
+    --font-heading--weight: {{ settings.type_header_font.weight }};
+    --font-body--family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body--style: {{ settings.type_body_font.style }};
+    --font-body--weight: {{ settings.type_body_font.weight }};
+
     --page-width: {{ settings.max_page_width }};
     --page-margin: {{ settings.min_page_margin }}px;
+
     --color-background: {{ settings.background_color }};
     --color-foreground: {{ settings.foreground_color }};
-    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --color-muted: {{ settings.muted_color }};
+    --color-surface: {{ settings.surface_color }};
+    --color-border: {{ settings.border_color }};
+    --color-accent: {{ settings.accent_color }};
+    --color-accent-contrast: {{ settings.accent_contrast_color }};
+    --color-accent-hover: {{ settings.accent_color | color_darken: 10 }};
+    --color-sale: {{ settings.sale_color }};
+    --color-announcement-bg: {{ settings.announcement_background }};
+    --color-announcement-text: {{ settings.announcement_text_color }};
+
+    --radius: {{ settings.corner_radius }}px;
+    --radius-button: {{ settings.button_radius }}px;
+    --style-border-radius-inputs: {{ settings.corner_radius }}px;
+    --card-ratio: {{ settings.card_image_ratio }};
+
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+    --space-8: 4rem;
+
+    --tap-size: 2.75rem;
+    --focus-ring: 0.1875rem solid var(--color-accent);
+    --focus-offset: 0.1875rem;
   }
 {% endstyle %}

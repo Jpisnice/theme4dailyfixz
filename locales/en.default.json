@@ -67,5 +67,54 @@
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "general": {
+    "skip_to_content": "Skip to content"
+  },
+  "header": {
+    "main_menu": "Main menu",
+    "menu_open": "Open menu",
+    "menu_close": "Close menu",
+    "submenu_toggle": "Show submenu for {{ title }}",
+    "search": "Search",
+    "account": "Account",
+    "cart_label": {
+      "one": "Cart, {{ count }} item",
+      "other": "Cart, {{ count }} items"
+    }
+  },
+  "footer": {
+    "newsletter_title": "Stay in the loop",
+    "newsletter_sub": "New arrivals and everyday offers, no clutter.",
+    "newsletter_label": "Email address",
+    "newsletter_submit": "Sign up",
+    "newsletter_success": "Thanks for signing up.",
+    "newsletter_error": "Enter a valid email address.",
+    "social_title": "Follow us",
+    "payment_title": "Payment methods",
+    "country": "Country or region",
+    "language": "Language",
+    "localization_submit": "Update",
+    "copyright": "© {{ year }} {{ shop }}",
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "pinterest": "Pinterest",
+      "x": "X"
+    }
+  },
+  "products": {
+    "badge": {
+      "sale": "Sale",
+      "sold_out": "Sold out"
+    },
+    "price": {
+      "regular": "Regular price",
+      "sale": "Sale price",
+      "unit": "Unit price",
+      "from_html": "From {{ price }}"
+    }
   }
 }

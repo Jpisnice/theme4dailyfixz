@@ -1,0 +1,32 @@
+{% doc %}
+  Renders a button-styled link or button element.
+
+  @param {string} text - Visible label (already translated)
+  @param {string} [url] - When set, renders an <a>; otherwise a <button>
+  @param {string} [variant] - primary (default), secondary or ghost
+  @param {string} [type] - Button type when no url. Default: button
+  @param {boolean} [full_width] - Stretch to the container width
+  @param {boolean} [disabled] - Disable the <button>
+  @param {string} [class] - Extra classes
+
+  @example
+  {% render 'button', text: 'Shop now', url: routes.all_products_collection_url %}
+  {% render 'button', text: 'Add to cart', type: 'submit', variant: 'primary', full_width: true %}
+{% enddoc %}
+
+{%- liquid
+  assign variant = variant | default: 'primary'
+  assign classes = 'button button--' | append: variant
+  if full_width
+    assign classes = classes | append: ' button--full'
+  endif
+  if class
+    assign classes = classes | append: ' ' | append: class
+  endif
+-%}
+
+{%- if url -%}
+  <a class="{{ classes }}" href="{{ url }}">{{ text }}</a>
+{%- else -%}
+  <button class="{{ classes }}" type="{{ type | default: 'button' }}"{% if disabled %} disabled{% endif %}>{{ text }}</button>
+{%- endif -%}

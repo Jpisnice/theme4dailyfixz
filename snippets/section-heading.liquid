@@ -1,0 +1,28 @@
+{% doc %}
+  Renders a section heading with the accent-underline motif, an optional
+  subheading and an optional "view all" link.
+
+  @param {string} heading - Heading text
+  @param {string} [subheading] - Supporting line
+  @param {string} [url] - Optional link destination
+  @param {string} [link_text] - Link label (required when url is set)
+  @param {number} [level] - Heading level 1 to 6. Default: 2
+  @param {string} [class] - Extra classes
+
+  @example
+  {% render 'section-heading', heading: 'Everyday picks', url: routes.all_products_collection_url, link_text: 'View all' %}
+{% enddoc %}
+
+{%- assign level = level | default: 2 -%}
+
+<div class="section-heading {{ class }}">
+  <div class="section-heading__text">
+    <h{{ level }} class="section-heading__title accent-underline">{{ heading }}</h{{ level }}>
+    {%- if subheading != blank -%}
+      <p class="section-heading__sub">{{ subheading }}</p>
+    {%- endif -%}
+  </div>
+  {%- if url != blank and link_text != blank -%}
+    <a class="section-heading__link" href="{{ url }}">{{ link_text }}</a>
+  {%- endif -%}
+</div>

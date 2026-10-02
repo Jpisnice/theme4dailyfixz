@@ -1,0 +1,27 @@
+{% doc %}
+  Renders the slim announcement bar above the header. Text, optional link and
+  colours come from theme settings (Announcement bar); renders nothing when
+  the text is blank. Invoked statically from layout/theme.liquid.
+
+  @example
+  {% block 'announcement-bar' %}{% endblock %}
+{% enddoc %}
+
+{%- if settings.announcement_text != blank -%}
+  <div class="announcement-bar" {{ block.shopify_attributes }}>
+    <p class="announcement-bar__text">
+      {%- if settings.announcement_link != blank -%}
+        <a class="announcement-bar__link" href="{{ settings.announcement_link }}">{{ settings.announcement_text | escape }}</a>
+      {%- else -%}
+        {{ settings.announcement_text | escape }}
+      {%- endif -%}
+    </p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:general.announcement_bar",
+  "settings": []
+}
+{% endschema %}

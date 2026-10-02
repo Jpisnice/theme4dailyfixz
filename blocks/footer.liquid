@@ -1,28 +1,171 @@
 {% doc %}
-  Renders the theme's storefront footer: copyright line, footer menu,
-  and optional payment icons. Composed directly in layout/theme.liquid
-  so it appears on every page.
+  Renders the storefront footer: newsletter signup, a brand column with blurb
+  and social links, up to three link-list columns, payment icons,
+  country and language selectors (only on multi-market stores) and the
+  copyright line. Invoked statically from layout/theme.liquid.
+
+  @example
+  {% block 'footer' %}{% endblock %}
 {% enddoc %}
 
-<footer {{ block.shopify_attributes }}>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
+{%- liquid
+  assign columns = 0
+  assign has_menu_1 = false
+  assign has_menu_2 = false
+  assign has_menu_3 = false
+  if block.settings.menu_1.links.size > 0
+    assign has_menu_1 = true
+    assign columns = columns | plus: 1
+  endif
+  if block.settings.menu_2.links.size > 0
+    assign has_menu_2 = true
+    assign columns = columns | plus: 1
+  endif
+  if block.settings.menu_3.links.size > 0
+    assign has_menu_3 = true
+    assign columns = columns | plus: 1
+  endif
+
+  assign social_urls = settings.social_instagram | append: settings.social_facebook | append: settings.social_tiktok | append: settings.social_youtube | append: settings.social_pinterest | append: settings.social_x
+  assign newsletter_submit = 'footer.newsletter_submit' | t
+  assign localization_submit = 'footer.localization_submit' | t
+  assign current_year = 'now' | date: '%Y'
+  assign show_country = false
+  if localization.available_countries.size > 1
+    assign show_country = true
+  endif
+  assign show_language = false
+  if localization.available_languages.size > 1
+    assign show_language = true
+  endif
+-%}
+
+<footer class="site-footer" {{ block.shopify_attributes }}>
+  <div class="site-footer__newsletter">
+    <div class="page-width newsletter">
+      <div class="newsletter__text">
+        <h2 class="newsletter__title accent-underline">{{ 'footer.newsletter_title' | t }}</h2>
+        <p class="newsletter__sub">{{ 'footer.newsletter_sub' | t }}</p>
+      </div>
+      {%- form 'customer', id: 'FooterNewsletter', class: 'newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p class="newsletter__message newsletter__message--success" role="status">{{ 'footer.newsletter_success' | t }}</p>
+        {%- else -%}
+          {%- if form.errors -%}
+            <p class="newsletter__message newsletter__message--error" id="FooterNewsletterError" role="alert">{{ 'footer.newsletter_error' | t }}</p>
+          {%- endif -%}
+          <label class="visually-hidden" for="FooterNewsletterEmail">{{ 'footer.newsletter_label' | t }}</label>
+          <div class="newsletter__row">
+            <input
+              class="input"
+              id="FooterNewsletterEmail"
+              type="email"
+              name="contact[email]"
+              autocomplete="email"
+              required
+              placeholder="{{ 'footer.newsletter_label' | t }}"
+              value="{{ form.email }}"
+              {% if form.errors %}aria-invalid="true" aria-describedby="FooterNewsletterError"{% endif %}
+            >
+            {% render 'button', text: newsletter_submit, type: 'submit' %}
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
   </div>
 
-  <div class="footer__links">
-    {% for link in block.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+  <div class="page-width site-footer__main">
+    <div class="footer-grid" style="--footer-cols: {{ columns }}">
+      <div class="footer-brand">
+        <p class="footer-brand__name">{{ shop.name }}</p>
+        {%- if settings.footer_blurb != blank -%}
+          <p class="footer-brand__blurb">{{ settings.footer_blurb | escape }}</p>
+        {%- endif -%}
+        {%- if social_urls != blank -%}
+          <ul class="social-list" aria-label="{{ 'footer.social_title' | t }}">
+            {% render 'social-link', network: 'instagram', url: settings.social_instagram %}
+            {% render 'social-link', network: 'facebook', url: settings.social_facebook %}
+            {% render 'social-link', network: 'tiktok', url: settings.social_tiktok %}
+            {% render 'social-link', network: 'youtube', url: settings.social_youtube %}
+            {% render 'social-link', network: 'pinterest', url: settings.social_pinterest %}
+            {% render 'social-link', network: 'x', url: settings.social_x %}
+          </ul>
+        {%- endif -%}
+      </div>
 
-  <div class="footer__payment">
-    {% if block.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+      {%- if has_menu_1 -%}
+        <nav class="footer-column" aria-labelledby="FooterMenu1">
+          <h2 class="footer-column__title" id="FooterMenu1">{{ block.settings.menu_1.title | escape }}</h2>
+          <ul>
+            {%- for link in block.settings.menu_1.links -%}
+              <li><a class="footer-link" href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+      {%- if has_menu_2 -%}
+        <nav class="footer-column" aria-labelledby="FooterMenu2">
+          <h2 class="footer-column__title" id="FooterMenu2">{{ block.settings.menu_2.title | escape }}</h2>
+          <ul>
+            {%- for link in block.settings.menu_2.links -%}
+              <li><a class="footer-link" href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+      {%- if has_menu_3 -%}
+        <nav class="footer-column" aria-labelledby="FooterMenu3">
+          <h2 class="footer-column__title" id="FooterMenu3">{{ block.settings.menu_3.title | escape }}</h2>
+          <ul>
+            {%- for link in block.settings.menu_3.links -%}
+              <li><a class="footer-link" href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+    </div>
+
+    {%- if show_country or show_language -%}
+      {%- form 'localization', id: 'FooterLocalization', class: 'footer-localization' -%}
+        {%- if show_country -%}
+          <div class="footer-localization__field">
+            <label for="FooterCountry">{{ 'footer.country' | t }}</label>
+            <select class="select" id="FooterCountry" name="country_code">
+              {%- for country in localization.available_countries -%}
+                <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>{{ country.name | escape }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})</option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+        {%- if show_language -%}
+          <div class="footer-localization__field">
+            <label for="FooterLanguage">{{ 'footer.language' | t }}</label>
+            <select class="select" id="FooterLanguage" name="language_code">
+              {%- for language in localization.available_languages -%}
+                <option value="{{ language.iso_code }}" lang="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>{{ language.endonym_name | capitalize }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+        {% render 'button', text: localization_submit, type: 'submit', variant: 'secondary' %}
+      {%- endform -%}
+    {%- endif -%}
+
+    <div class="footer-bottom">
+      <p class="footer-bottom__copyright">
+        {{ 'footer.copyright' | t: year: current_year, shop: shop.name }}
+      </p>
+      {%- if block.settings.show_payment_icons -%}
+        {%- if shop.enabled_payment_types.size > 0 -%}
+          <ul class="payment-icons" aria-label="{{ 'footer.payment_title' | t }}">
+            {%- for type in shop.enabled_payment_types -%}
+              <li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
   </div>
 </footer>
 
@@ -30,17 +173,10 @@
 {
   "name": "t:general.footer",
   "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
-      "default": true
-    }
+    { "type": "link_list", "id": "menu_1", "label": "t:labels.footer_menu_1", "default": "footer" },
+    { "type": "link_list", "id": "menu_2", "label": "t:labels.footer_menu_2" },
+    { "type": "link_list", "id": "menu_3", "label": "t:labels.footer_menu_3" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "t:labels.show_payment_icons", "default": true }
   ]
 }
 {% endschema %}

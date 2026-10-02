@@ -26,7 +26,7 @@ tester could check one by one. Leave the status as DRAFT.
 
 1. Build against the **agreed** contract only. If something in it turns out to be
    wrong, say so in your summary instead of quietly changing scope.
-2. Follow the theme dialect:
+2. Load the `liquid-theme-dev` skill and follow the theme dialect:
    - Templates are `templates/*.liquid` and compose pages with `{% block 'container' %}`.
      `{% block %}` calls appear only in `layout/` and `templates/`.
    - Blocks open with `{% doc %}`, end with `{% schema %}` (no `presets`), put

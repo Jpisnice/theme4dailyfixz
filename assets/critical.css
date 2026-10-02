@@ -35,13 +35,13 @@ select {
 }
 
 select {
-  background-color: var(--color-background);
+  background-color: var(--color-background, #FBF7F0);
   color: currentcolor;
 }
 
 dialog {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  background-color: var(--color-background, #FBF7F0);
+  color: var(--color-foreground, #2A2420);
 }
 
 p {
@@ -73,9 +73,40 @@ p:empty {
 
 /** Theme styles below */
 body {
-  font-family: var(--font-primary--family);
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  font-family: var(--font-body--family, system-ui, sans-serif);
+  background-color: var(--color-background, #FBF7F0);
+  color: var(--color-foreground, #2A2420);
+}
+
+/* Above-the-fold shell skeleton: avoids a jump before base.css applies. */
+.announcement-bar {
+  background-color: var(--color-announcement-bg, #2A2420);
+  color: var(--color-announcement-text, #FBF7F0);
+  text-align: center;
+  font-size: 0.8125rem;
+}
+.site-header {
+  background-color: var(--color-background, #FBF7F0);
+  border-bottom: 1px solid var(--color-border, #E2D8C8);
+}
+.skip-link:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+[hidden] {
+  display: none !important;
 }
 
 /** Block container layout utilities */

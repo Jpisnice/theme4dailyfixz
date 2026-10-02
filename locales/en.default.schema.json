@@ -23,7 +23,6 @@
     "main": "Main",
     "page": "Page",
     "password": "Password",
-    "primary": "Primary",
     "product": "Product",
     "row": "Row",
     "search": "Search",
@@ -31,7 +30,11 @@
     "settings": "Settings",
     "sidebar": "Sidebar",
     "theme": "Theme",
-    "typography": "Typography"
+    "typography": "Typography",
+    "announcement_bar": "Announcement bar",
+    "logo": "Logo",
+    "shape": "Shape",
+    "social_links": "Social links"
   },
   "labels": {
     "alignment": "Alignment",
@@ -39,14 +42,39 @@
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
-    "input_corner_radius": "Input corner radius",
     "layout_direction": "Layout direction",
     "menu": "Menu",
-    "customer_account_menu": "Customer account menu",
     "padding": "Padding",
     "page_margin": "Page margin",
     "page_width": "Page width",
-    "show_payment_icons": "Show payment icons"
+    "show_payment_icons": "Show payment icons",
+    "muted": "Muted text",
+    "surface": "Surface tint",
+    "border": "Border",
+    "accent": "Accent",
+    "accent_contrast": "Text on accent",
+    "sale": "Sale",
+    "heading_font": "Heading font",
+    "body_font": "Body font",
+    "corner_radius": "Corner radius",
+    "button_radius": "Button radius",
+    "card_image_ratio": "Product card image ratio",
+    "logo": "Logo image",
+    "logo_width": "Logo width",
+    "announcement_text": "Text",
+    "announcement_link": "Link",
+    "announcement_background": "Background",
+    "announcement_text_color": "Text colour",
+    "footer_blurb": "Brand blurb",
+    "footer_menu_1": "First menu",
+    "footer_menu_2": "Second menu",
+    "footer_menu_3": "Third menu",
+    "social_instagram": "Instagram URL",
+    "social_facebook": "Facebook URL",
+    "social_tiktok": "TikTok URL",
+    "social_youtube": "YouTube URL",
+    "social_pinterest": "Pinterest URL",
+    "social_x": "X URL"
   },
   "options": {
     "alignment": {
@@ -65,6 +93,15 @@
     "size": {
       "large": "Large",
       "small": "Small"
+    },
+    "card_ratio": {
+      "square": "Square",
+      "portrait": "Portrait (4:5)",
+      "tall": "Tall (3:4)"
     }
+  },
+  "info": {
+    "logo": "Falls back to the shop name when empty.",
+    "announcement_text": "Leave blank to hide the bar."
   }
 }
