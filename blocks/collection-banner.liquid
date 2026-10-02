@@ -1,0 +1,47 @@
+{% doc %}
+  Renders the collection page heading: the page's single h1 (the collection
+  title), the description when present and the collection image when
+  present. Used on the collection template.
+
+  @example
+  {% block 'collection-banner' %}{% endblock %}
+{% enddoc %}
+
+{%- liquid
+  assign banner_title = collection.title | escape
+  assign banner_image = collection.image
+  assign has_image = false
+  if banner_image
+    assign has_image = true
+  endif
+-%}
+
+<div class="collection-banner{% if has_image %} collection-banner--has-image{% endif %}" {{ block.shopify_attributes }}>
+  <div class="collection-banner__text">
+    {% render 'section-heading', heading: banner_title, level: 1 %}
+    {%- if collection.description != blank -%}
+      <div class="collection-banner__description">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+  {%- if has_image -%}
+    <div class="collection-banner__media">
+      {{
+        banner_image
+        | image_url: width: 1200
+        | image_tag:
+          widths: '480, 720, 960, 1200',
+          sizes: '(min-width: 48em) 45vw, 100vw',
+          loading: 'eager',
+          alt: banner_image.alt,
+          class: 'collection-banner__image'
+      }}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:general.collection_banner",
+  "settings": []
+}
+{% endschema %}

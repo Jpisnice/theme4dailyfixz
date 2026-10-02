@@ -28,6 +28,10 @@
     "announcement_text": "Everyday essentials, delivered fast",
     "announcement_background": "#2A2420",
     "announcement_text_color": "#FBF7F0",
+    "collection_products_per_page": 24,
+    "collection_columns_desktop": "4",
+    "collection_show_filters": true,
+    "collection_show_count": true,
     "footer_blurb": "Everyday essentials, done well. Simple things you reach for every day."
   }
 }

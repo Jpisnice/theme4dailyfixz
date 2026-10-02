@@ -28,7 +28,37 @@
     }
   },
   "collections": {
-    "title": "Collections"
+    "title": "Collections",
+    "empty": "There are no collections yet.",
+    "product_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
+    "empty_collection": "This collection has no products yet.",
+    "shop_all": "Shop all products",
+    "no_match": "No products match your filters.",
+    "no_match_hint": "Try removing a filter or widening the price range.",
+    "sort": {
+      "label": "Sort by",
+      "apply": "Apply sort"
+    },
+    "filters": {
+      "title": "Filters",
+      "open": "Filters",
+      "close": "Close filters",
+      "apply": "Apply filters",
+      "clear_all": "Clear all",
+      "active_label": "Active filters",
+      "remove_pill": "Remove filter {{ filter }}: {{ value }}",
+      "remove_price": "Remove price filter: {{ value }}",
+      "price_from": "From",
+      "price_to": "To",
+      "price_hint": "Highest price is {{ price }}",
+      "price_pill_range": "{{ min }} to {{ max }}",
+      "price_pill_min": "From {{ min }}",
+      "price_pill_max": "Up to {{ max }}",
+      "price_group": "Price"
+    }
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
@@ -36,25 +66,6 @@
     "expired": "This gift card has expired",
     "expires_on": "Expires on {{ expires_on }}",
     "use_at_checkout": "Use this gift card at checkout"
-  },
-  "hello_world": {
-    "title": "Hello, World!",
-    "intro": "The Skeleton theme is a minimal, carefully structured Shopify theme designed to help you quickly get started. Designed with modularity, maintainability, and Shopify's best practices in mind.",
-    "description": "Themes shape the online store experience for merchants and their customers. Build fast, flexible themes at scale using Liquid, Shopify's theme templating language, along with HTML, CSS, JavaScript, and JSON.",
-    "key_concepts_title": "Key Concepts",
-    "key_concepts_body": "Shopify themes are a package of template files, building blocks, and supporting assets. Use these building blocks to create modular, customizable themes.",
-    "key_concepts_link": "Learn more about key concepts",
-    "liquid_title": "Liquid",
-    "liquid_body": "The Liquid templating language is the backbone of Shopify themes, and is used to load dynamic content on storefronts. Extend Liquid objects to store and present custom data using metafields.",
-    "liquid_link": "View the Liquid reference",
-    "best_practices_title": "Best Practices",
-    "best_practices_body": "To optimize your theme development experience, Shopify has established a set of best practices that you can refer to when developing your theme and setting up your toolchains and processes.",
-    "best_practices_link": "Follow best practices",
-    "liquid_tips_title": "Liquid tips",
-    "liquid_tips_refresh": "Show another tip",
-    "liquid_tips_1": "Prefer whitespace control with {%- -%} to keep rendered markup clean",
-    "liquid_tips_2": "Reach for the render tag instead of include so each snippet gets its own scope",
-    "liquid_tips_3": "Assign expensive lookups to a variable once and reuse it across the template"
   },
   "password": {
     "title": "This shop is private",
@@ -69,7 +80,16 @@
     "results_for_html": "{{ count }} results found for {{ terms }}"
   },
   "general": {
-    "skip_to_content": "Skip to content"
+    "skip_to_content": "Skip to content",
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "previous_page": "Previous page",
+      "next_page": "Next page",
+      "page": "Page {{ page }}",
+      "current_page": "Page {{ page }}, current page"
+    }
   },
   "header": {
     "main_menu": "Main menu",
@@ -115,6 +135,15 @@
       "sale": "Sale price",
       "unit": "Unit price",
       "from_html": "From {{ price }}"
+    }
+  },
+  "home": {
+    "featured": {
+      "view_all": "View all"
+    },
+    "placeholder": {
+      "product_title": "Product name",
+      "collection_title": "Collection name"
     }
   }
 }

@@ -1,28 +1,19 @@
+{%- liquid
+  assign has_filters = false
+  if settings.collection_show_filters
+    if collection.filters.size > 0
+      assign has_filters = true
+    endif
+  endif
+-%}
+
 {% block 'container' %}
-  <h1>{{ collection.title }}</h1>
-
-  <div class="collection-products">
-    {% paginate collection.products by 20 %}
-      {% for product in collection.products %}
-        <div class="collection-product">
-          {% if product.featured_image %}
-            {% render 'image',
-              class: 'collection-product__image',
-              image: product.featured_image,
-              url: product.url,
-              width: 400,
-              height: 400,
-              crop: 'center'
-            %}
-          {% endif %}
-          <div class="collection-product__content">
-            <p>{{ product.title | escape | link_to: product.url }}</p>
-            <p>{{ product.price | money }}</p>
-          </div>
-        </div>
-      {% endfor %}
-
-      {{ paginate | default_pagination }}
-    {% endpaginate %}
+  {% block 'collection-banner' %}{% endblock %}
+  {% block 'collection-toolbar' %}{% endblock %}
+  <div class="collection-layout{% if has_filters %} collection-layout--filters{% endif %}">
+    {% block 'collection-filters' %}{% endblock %}
+    <div class="collection-layout__main">
+      {% block 'collection-grid' %}{% endblock %}
+    </div>
   </div>
 {% endblock %}

@@ -26,6 +26,13 @@
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {% case request.page_type %}
+      {% when 'index' %}
+        {{ 'collection.css' | asset_url | stylesheet_tag }}
+        {{ 'home.css' | asset_url | stylesheet_tag }}
+      {% when 'collection', 'list-collections' %}
+        {{ 'collection.css' | asset_url | stylesheet_tag }}
+    {% endcase %}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}

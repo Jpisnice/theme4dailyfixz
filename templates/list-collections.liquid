@@ -1,27 +1,23 @@
+{%- assign list_title = 'collections.title' | t -%}
+
 {% block 'container' %}
-  <h1>{{ 'collections.title' | t }}</h1>
+  <div class="home-section collection-list">
+    {% render 'section-heading', heading: list_title, level: 1 %}
 
-  <div class="collections collections--full" style="--grid-gap: 10px">
-    {% for collection in collections %}
-      <a class="collection-card" href="{{ collection.url }}">
-        {% if collection.featured_image %}
-          {% render 'image',
-            class: 'collection-card__image',
-            image: collection.featured_image,
-            width: 600,
-            height: 600,
-            crop: 'center'
-          %}
-        {% endif %}
-
-        <div class="collection-card__content">
-          <p>{{ collection.title }}</p>
-
-          {% if collection.description %}
-            <p>{{ collection.description | strip_html | truncatewords: 15 }}</p>
-          {% endif %}
-        </div>
-      </a>
-    {% endfor %}
+    {%- paginate collections by 24 -%}
+      {%- if collections.size > 0 -%}
+        <ul class="collection-tiles__grid collection-tiles__grid--list" role="list">
+          {%- for item in collections -%}
+            {%- assign placeholder_number = forloop.index | modulo: 6 | plus: 1 -%}
+            <li class="collection-tiles__item">
+              {% render 'collection-tile', collection_item: item, show_count: true, placeholder_index: placeholder_number %}
+            </li>
+          {%- endfor -%}
+        </ul>
+        {% render 'pagination', paginate: paginate %}
+      {%- else -%}
+        <p class="collection-empty__title">{{ 'collections.empty' | t }}</p>
+      {%- endif -%}
+    {%- endpaginate -%}
   </div>
 {% endblock %}
