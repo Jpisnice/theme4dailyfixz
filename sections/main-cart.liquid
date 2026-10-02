@@ -1,0 +1,101 @@
+{%- liquid
+  assign threshold_cents = section.settings.free_shipping_threshold | times: 100
+  assign show_bar = false
+  if section.settings.show_free_shipping_bar and threshold_cents > 0
+    assign show_bar = true
+  endif
+  assign remaining = threshold_cents | minus: cart.total_price
+  assign remaining_money = remaining | money
+  assign progress = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100
+  assign subtotal_money = cart.total_price | money
+  assign continue_label = 'cart.continue' | t
+-%}
+
+<section class="cart page-width" data-cart>
+  <h1 class="cart__title">{{ 'cart.title' | t }}</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty">
+      <p class="cart-empty__title">{{ 'cart.empty' | t }}</p>
+      {% render 'button', text: continue_label, url: routes.all_products_collection_url %}
+    </div>
+  {%- else -%}
+    {%- if show_bar -%}
+      <div class="cart-shipping" data-free-shipping data-threshold="{{ threshold_cents }}">
+        <p class="cart-shipping__text" data-free-shipping-text>
+          {%- if remaining > 0 -%}
+            {{ 'cart.free_shipping_progress_html' | t: amount: remaining_money }}
+          {%- else -%}
+            {{ 'cart.free_shipping_reached' | t }}
+          {%- endif -%}
+        </p>
+        <div class="cart-shipping__track">
+          <span class="cart-shipping__fill" data-free-shipping-fill style="--progress: {{ progress }}%"></span>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <form action="{{ routes.cart_url }}" method="post" id="CartForm" class="cart__form" data-cart-form>
+      <ul class="cart__items" role="list">
+        {%- for item in cart.items -%}
+          {%- assign qty_id = 'CartQty-' | append: forloop.index -%}
+          <li class="cart-item" data-cart-item data-line-key="{{ item.key }}">
+            <a class="cart-item__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+              {%- if item.image -%}
+                {{ item.image | image_url: width: 240 | image_tag: widths: '120, 240', sizes: '120px', loading: 'lazy', alt: item.product.title, class: 'cart-item__image' }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'cart-item__image cart-item__placeholder' }}
+              {%- endif -%}
+            </a>
+            <div class="cart-item__details">
+              <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                <p class="cart-item__variant">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <div class="cart-item__unit">{% render 'price', price: item.final_price %}</div>
+            </div>
+            <div class="cart-item__qty">
+              {% render 'quantity-input', value: item.quantity, name: 'updates[]', input_id: qty_id, min: 0, line_key: item.key %}
+            </div>
+            <div class="cart-item__line" data-line-total>{{ item.final_line_price | money }}</div>
+            <a class="cart-item__remove header-icon" href="{{ item.url_to_remove }}" data-cart-remove data-line-key="{{ item.key }}">
+              {% render 'icon', name: 'close' %}
+              <span class="visually-hidden">{{ 'cart.remove' | t }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <div class="cart__footer">
+        <div class="cart__note">
+          <label for="CartNote">{{ 'cart.note' | t }}</label>
+          <textarea id="CartNote" name="note" class="input cart__note-input" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
+        </div>
+
+        <div class="cart__summary">
+          <div class="cart__subtotal">
+            <span>{{ 'cart.subtotal' | t }}</span>
+            <span data-cart-subtotal>{{ subtotal_money }}</span>
+          </div>
+          <p class="cart__taxes">{{ 'cart.taxes_note' | t }}</p>
+          <noscript>
+            <button type="submit" name="update" class="button button--secondary button--full cart__update">{{ 'cart.update' | t }}</button>
+          </noscript>
+          <button type="submit" name="checkout" class="button button--primary button--full">{{ 'cart.checkout' | t }}</button>
+        </div>
+      </div>
+    </form>
+  {%- endif -%}
+
+  <script src="{{ 'cart.js' | asset_url }}" type="module"></script>
+</section>
+
+{% schema %}
+{
+  "name": "t:general.cart",
+  "settings": [
+    { "type": "checkbox", "id": "show_free_shipping_bar", "label": "t:labels.show_free_shipping_bar", "default": false },
+    { "type": "number", "id": "free_shipping_threshold", "label": "t:labels.free_shipping_threshold", "default": 0 }
+  ]
+}
+{% endschema %}

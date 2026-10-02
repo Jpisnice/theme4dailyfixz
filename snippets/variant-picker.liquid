@@ -1,0 +1,57 @@
+{% doc %}
+  Renders the variant picker. Without JavaScript a native variant <select>
+  (name="id") is the source of truth and submits a valid variant. With
+  JavaScript, product.js shows option buttons that drive that select and
+  hides it. Nothing is rendered beyond the select when the product has a
+  single default variant.
+
+  @param {product} product - The product to pick a variant for.
+
+  @example
+  {% render 'variant-picker', product: product %}
+{% enddoc %}
+
+{%- assign current = product.selected_or_first_available_variant -%}
+
+<div class="variant-picker" data-variant-picker>
+  {%- unless product.has_only_default_variant -%}
+    <div class="variant-picker__options" data-variant-options>
+      {%- for option in product.options_with_values -%}
+        <fieldset class="variant-option" data-option-position="{{ option.position }}">
+          <legend class="variant-option__label">{{ option.name | escape }}</legend>
+          <div class="variant-option__values">
+            {%- for value in option.values -%}
+              {%- assign input_id = 'Option-' | append: option.position | append: '-' | append: forloop.index -%}
+              <input
+                class="variant-option__input visually-hidden"
+                type="radio"
+                id="{{ input_id }}"
+                name="Option-{{ option.position }}"
+                value="{{ value | escape }}"
+                data-option-input
+                data-option-position="{{ option.position }}"
+                {% if option.selected_value == value %}checked{% endif %}
+              >
+              <label class="variant-option__value" for="{{ input_id }}">{{ value | escape }}</label>
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    </div>
+  {%- endunless -%}
+
+  <div class="variant-picker__select">
+    <label class="visually-hidden" for="VariantSelect">{{ 'products.quantity' | t }}</label>
+    <select class="select" id="VariantSelect" name="id" data-variant-select>
+      {%- for variant in product.variants -%}
+        <option
+          value="{{ variant.id }}"
+          {% if variant.id == current.id %}selected{% endif %}
+          {% unless variant.available %}disabled{% endunless %}
+        >
+          {{ variant.title }}{% unless variant.available %} - {{ 'products.sold_out' | t }}{% endunless %}
+        </option>
+      {%- endfor -%}
+    </select>
+  </div>
+</div>

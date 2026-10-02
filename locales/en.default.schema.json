@@ -107,7 +107,13 @@
     "collection_products_per_page": "Products per page",
     "collection_columns_desktop": "Columns on desktop",
     "collection_show_filters": "Show filters",
-    "collection_show_count": "Show product count"
+    "collection_show_count": "Show product count",
+    "show_vendor": "Show vendor",
+    "show_sku": "Show SKU",
+    "show_related": "Show related products",
+    "show_trust": "Show reassurance row",
+    "free_shipping_threshold": "Free shipping threshold",
+    "show_free_shipping_bar": "Show free shipping bar"
   },
   "options": {
     "alignment": {

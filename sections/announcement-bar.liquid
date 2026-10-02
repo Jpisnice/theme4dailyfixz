@@ -1,0 +1,21 @@
+{%- if settings.announcement_text != blank -%}
+  <div
+    class="announcement-bar"
+    style="--announcement-bg: {{ settings.announcement_background }}; --announcement-fg: {{ settings.announcement_text_color }};"
+  >
+    <p class="announcement-bar__text">
+      {%- if settings.announcement_link != blank -%}
+        <a class="announcement-bar__link" href="{{ settings.announcement_link }}">{{ settings.announcement_text | escape }}</a>
+      {%- else -%}
+        {{ settings.announcement_text | escape }}
+      {%- endif -%}
+    </p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:general.announcement_bar",
+  "settings": []
+}
+{% endschema %}

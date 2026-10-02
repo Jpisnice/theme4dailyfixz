@@ -19,11 +19,11 @@ Turn the Skeleton starter into a complete, polished, fast catalogue storefront. 
 
 ## Design direction
 
-Concept: "the everyday, done well". Practical and warm, not clinical, not luxury. A daily-essentials store should feel dependable, quick and a little friendly.
+Concept (updated 2026-10-02): **"Crisp Modern Retail"** — clean, premium and trustworthy. Replaced the earlier warm "everyday, done well" direction at the owner's request.
 
-- **Mood:** calm, confident, utilitarian with personality. Think a well-run neighbourhood shop with great packaging, not a generic template.
-- **Palette (defaults, merchant-editable):** warm off-white background, near-black ink with a slight warm cast, one saturated accent (a fresh "fix" colour, e.g. a vivid tomato or marigold) reserved for primary actions, sale and focus. A soft secondary surface tint for cards and banners. Prices and add-to-cart are always the highest-contrast elements. All text at least 4.5:1.
-- **Type:** one distinctive-but-neutral display face for headings plus a highly legible body face, both from the Shopify font picker (current `work_sans_n4` default can stay for body). Tight, confident heading scale with generous line height in body copy; tabular figures for prices where available.
+- **Mood:** calm and confident with generous whitespace, hairline borders and soft hover shadows instead of heavy chrome.
+- **Palette (defaults, merchant-editable):** paper-white background `#FFFFFF`, near-black ink `#141414`, a soft grey surface tint `#F4F4F1`, hairline border `#E4E4DF`, muted text `#6B6B66`, and one confident deep-green accent `#1F6F5C` (with white contrast) reserved for primary actions, sale and focus; sale `#C0392B`. Prices and add-to-cart are the highest-contrast elements. All text at least 4.5:1.
+- **Type:** **Archivo** (bold grotesk) for headings, **Inter** for body — both from the Shopify font picker. A real fluid type scale (`--text-xs`…`--text-3xl` tokens) drives every size; tabular figures for prices.
 - **Shape and rhythm:** a single radius token applied consistently (merchant-adjustable), an 4/8px spacing scale, hairline borders instead of heavy shadows, generous tap targets (at least 44px).
 - **Product card:** image-led with fixed aspect ratio (editable), title, price (with compare-at and a clear sale badge), a sold-out badge, optional quick add on hover/focus and always reachable on touch. Second image on hover where present, never required.
 - **Signature details (originality):** a slim announcement bar, a "trust strip" (delivery, returns, secure checkout) reused on home, product and cart, chunky pill-style filter chips on collections, and an accent underline motif on headings. Avoid generic centred-hero-plus-three-columns defaults.
@@ -44,7 +44,7 @@ Concept: "the everyday, done well". Practical and warm, not clinical, not luxury
 
 ## Out of scope
 
-- Any section-based or JSON-template architecture, presets, or `{% stylesheet %}`/`{% javascript %}` tags (README "Non-negotiables").
+- (Superseded 2026-10-02) The theme now uses section-based / JSON-template architecture with presets; this is no longer out of scope.
 - Third-party apps, subscriptions, reviews, wishlist, loyalty, multi-currency banners, mega-menus with imagery, product bundles, quick-view modals.
 - Non-English translations (English only; translators handle the rest).
 - Cart drawer (stretch only), size guides, back-in-stock forms.
@@ -52,7 +52,7 @@ Concept: "the everyday, done well". Practical and warm, not clinical, not luxury
 
 ## Constraints
 
-- Block-first dialect (README "Non-negotiables"): compose pages from blocks and inline markup in `templates/*.liquid` and `layout/`; blocks have `{% doc %}`, `{% schema %}` and `{{ block.shopify_attributes }}`; `{% block %}` calls only in layout/templates; render caller bodies with `{{ content }}`.
+- Online Store 2.0 dialect (updated 2026-10-02): pages are JSON templates (`templates/*.json`) composed of `sections/*.liquid` (each with `{% schema %}`, home sections have `presets`); the header/footer are section groups referenced from `layout/theme.liquid`; reusable logic lives in `snippets/` rendered with `{% render %}`. `scripts/dialect-check.mjs` enforces the conventions.
 - All CSS and JS in `assets/` (shared `base.css` plus per-feature files; modest, dependency-free ES modules, config via `data-*`). `critical.css` only for above-the-fold essentials.
 - All shopper strings via `| t` in `locales/en.default.json` (max 3 levels, sentence case); editor strings as `t:` keys in `locales/en.default.schema.json`.
 - Mobile first at 375px; verified also at 768 and 1280.

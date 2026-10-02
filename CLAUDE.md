@@ -11,12 +11,14 @@ See [`harness/README.md`](harness/README.md) for the full workflow.
 
 - Start every session by reading `harness/progress.md`, the handoff file.
 - Commands: `/harness-plan`, `/harness-sprint`, `/harness-evaluate`, `/harness-handoff`.
-- Before committing, `npm run check` must pass (block-first dialect check + Theme Check).
+- Before committing, `npm run check` must pass (dialect check + Theme Check).
 - Builders don't grade their own work. The `evaluator` agent judges sprints against `harness/criteria.md`.
-- **Theme dialect:** this theme is block-first. The README "Non-negotiables" section
-  (no `sections/`, no JSON templates, no schema `presets`, no `{% stylesheet %}` /
-  `{% javascript %}`, with CSS/JS in `assets/`) takes precedence over the generic
-  guidance below wherever the two conflict.
+- **Theme dialect (updated 2026-10-02):** this theme now uses the standard Online
+  Store 2.0 model — `sections/` with `{% schema %}` and `presets`, JSON templates
+  (`templates/*.json`), and section groups for the header/footer. It was migrated
+  off the earlier block-first dialect (which depended on the unreleased `{% block %}`
+  developer preview). CSS/JS still live in `assets/`. `scripts/dialect-check.mjs`
+  enforces the current conventions.
 
 ## Theme Architecture
 

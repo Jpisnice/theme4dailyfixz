@@ -1,0 +1,63 @@
+{%- assign article_date = article.published_at | time_tag: format: 'date' -%}
+
+<article class="page-width content-article">
+  <header class="content-article__header">
+    <p class="content-article__meta">{{ 'blog.article_metadata_html' | t: date: article_date, author: article.author }}</p>
+    <h1 class="content-article__title">{{ article.title }}</h1>
+  </header>
+
+  {%- if article.image -%}
+    <figure class="content-article__figure">
+      {{ article.image | image_url: width: 1400 | image_tag: widths: '480, 720, 960, 1200, 1400', sizes: '100vw', loading: 'eager', alt: article.title, class: 'content-article__image' }}
+    </figure>
+  {%- endif -%}
+
+  <div class="rte content-article__body">{{ article.content }}</div>
+
+  {%- if blog.comments_enabled? -%}
+    <section class="comments">
+      <h2 class="comments__title">{{ 'blog.article_comments' | t }}</h2>
+
+      <div id="comments">
+        {%- paginate article.comments by 10 -%}
+          {%- for comment in article.comments -%}
+            {%- assign comment_date = comment.created_at | time_tag: format: 'date' -%}
+            <div class="comment">
+              <p class="comment__meta">{{ comment.author }} · {{ comment_date }}</p>
+              <div class="comment__body">{{ comment.content }}</div>
+            </div>
+          {%- endfor -%}
+
+          {%- if paginate.pages > 1 -%}
+            {% render 'pagination', paginate: paginate %}
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+
+      {%- form 'new_comment', article, class: 'comment-form' -%}
+        <h3 class="comment-form__title">{{ 'blog.comment_form_title' | t }}</h3>
+        {{ form.errors | default_errors }}
+        <div class="comment-form__field">
+          <label for="CommentAuthor">{{ 'blog.comment_form_name' | t }}</label>
+          <input class="input" type="text" name="comment[author]" id="CommentAuthor" value="{{ form.author }}" required>
+        </div>
+        <div class="comment-form__field">
+          <label for="CommentEmail">{{ 'blog.comment_form_email' | t }}</label>
+          <input class="input" type="email" name="comment[email]" id="CommentEmail" value="{{ form.email }}" required>
+        </div>
+        <div class="comment-form__field">
+          <label for="CommentBody">{{ 'blog.comment_form_body' | t }}</label>
+          <textarea class="input comment-form__textarea" name="comment[body]" id="CommentBody" required>{{ form.body }}</textarea>
+        </div>
+        <button type="submit" class="button button--primary">{{ 'blog.comment_form_submit' | t }}</button>
+      {%- endform -%}
+    </section>
+  {%- endif -%}
+</article>
+
+{% schema %}
+{
+  "name": "t:general.article",
+  "settings": []
+}
+{% endschema %}

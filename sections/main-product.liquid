@@ -1,0 +1,124 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign show_trust = section.settings.show_trust
+  assign delivery_text = section.settings.delivery_text | escape
+  assign returns_text = section.settings.returns_text | escape
+  assign checkout_text = section.settings.checkout_text | escape
+  assign has_trust_items = false
+  if delivery_text != blank or returns_text != blank or checkout_text != blank
+    assign has_trust_items = true
+  endif
+  assign related_heading = 'products.related' | t
+-%}
+
+<section class="product page-width">
+  <div class="product__layout">
+    <div class="product__media">
+      {% render 'product-gallery', product: product %}
+    </div>
+
+    <div class="product__info">
+      {%- if section.settings.show_vendor and product.vendor != blank -%}
+        <p class="product__vendor">{{ 'products.vendor_html' | t: vendor: product.vendor }}</p>
+      {%- endif -%}
+
+      <h1 class="product__title">{{ product.title }}</h1>
+
+      <div class="product__price" data-price-target>
+        {% render 'price',
+          price: current.price,
+          compare_at_price: current.compare_at_price,
+          unit_price: current.unit_price,
+          unit_price_measurement: current.unit_price_measurement
+        %}
+      </div>
+
+      {%- form 'product', product, id: 'ProductForm', class: 'product-form' -%}
+        <script type="application/json" data-variant-json>{{ product.variants | json }}</script>
+
+        {% render 'variant-picker', product: product %}
+
+        <div class="product-form__actions">
+          {% render 'quantity-input', value: 1, input_id: 'ProductQuantity' %}
+          <button
+            type="submit"
+            name="add"
+            class="button button--primary button--full product-form__submit"
+            data-add-to-cart
+            {% unless current.available %}disabled{% endunless %}
+          >
+            <span data-add-label>
+              {%- if current.available -%}{{ 'products.add_to_cart' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
+            </span>
+          </button>
+        </div>
+
+        {{ form | payment_button }}
+        <p class="product-form__status visually-hidden" role="status" aria-live="polite" data-add-status></p>
+      {%- endform -%}
+
+      {%- if section.settings.show_sku and current.sku != blank -%}
+        <p class="product__sku" data-sku>{{ 'products.sku' | t: sku: current.sku }}</p>
+      {%- endif -%}
+
+      {%- if product.description != blank -%}
+        <details class="product__details" open>
+          <summary class="product__details-summary">{{ 'products.description' | t }}</summary>
+          <div class="rte">{{ product.description }}</div>
+        </details>
+      {%- endif -%}
+
+      {%- if show_trust and has_trust_items -%}
+        <ul class="product__trust" role="list">
+          {%- if delivery_text != blank -%}
+            <li class="product__trust-item">{% render 'icon', name: 'truck' %}<span>{{ delivery_text }}</span></li>
+          {%- endif -%}
+          {%- if returns_text != blank -%}
+            <li class="product__trust-item">{% render 'icon', name: 'return' %}<span>{{ returns_text }}</span></li>
+          {%- endif -%}
+          {%- if checkout_text != blank -%}
+            <li class="product__trust-item">{% render 'icon', name: 'lock' %}<span>{{ checkout_text }}</span></li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.show_related -%}
+    {%- assign rel_collection = product.collections.first -%}
+    {%- if rel_collection and rel_collection.products_count > 1 -%}
+      <div class="home-section product-related">
+        {% render 'section-heading', heading: related_heading %}
+        <ul class="product-grid" role="list">
+          {%- assign shown = 0 -%}
+          {%- for related in rel_collection.products -%}
+            {%- if related.id != product.id and shown < 4 -%}
+              <li class="product-grid__item">
+                {% render 'product-card', product: related, sizes: '(min-width: 64em) 22vw, (min-width: 48em) 30vw, 46vw' %}
+              </li>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  <script src="{{ 'product.js' | asset_url }}" type="module"></script>
+</section>
+
+{% schema %}
+{
+  "name": "t:general.product",
+  "settings": [
+    { "type": "checkbox", "id": "show_vendor", "label": "t:labels.show_vendor", "default": true },
+    { "type": "checkbox", "id": "show_sku", "label": "t:labels.show_sku", "default": false },
+    { "type": "checkbox", "id": "show_related", "label": "t:labels.show_related", "default": true },
+    { "type": "header", "content": "t:general.trust_strip" },
+    { "type": "checkbox", "id": "show_trust", "label": "t:labels.show_trust", "default": true },
+    { "type": "text", "id": "delivery_text", "label": "t:labels.delivery_text", "info": "t:info.item_blank", "default": "Fast delivery" },
+    { "type": "text", "id": "returns_text", "label": "t:labels.returns_text", "info": "t:info.item_blank", "default": "Easy returns" },
+    { "type": "text", "id": "checkout_text", "label": "t:labels.checkout_text", "info": "t:info.item_blank", "default": "Secure checkout" }
+  ]
+}
+{% endschema %}

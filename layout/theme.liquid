@@ -32,6 +32,13 @@
         {{ 'home.css' | asset_url | stylesheet_tag }}
       {% when 'collection', 'list-collections' %}
         {{ 'collection.css' | asset_url | stylesheet_tag }}
+      {% when 'product' %}
+        {{ 'collection.css' | asset_url | stylesheet_tag }}
+        {{ 'product.css' | asset_url | stylesheet_tag }}
+      {% when 'cart' %}
+        {{ 'cart.css' | asset_url | stylesheet_tag }}
+      {% when 'search', 'article', 'blog', 'page', '404' %}
+        {{ 'content.css' | asset_url | stylesheet_tag }}
     {% endcase %}
 
     {% # Social, title, etc. %}
@@ -43,14 +50,12 @@
   <body class="template-{{ request.page_type | replace: '_', '-' }}">
     <a class="skip-link" href="#MainContent">{{ 'general.skip_to_content' | t }}</a>
 
-    {% block 'announcement-bar' -%}{%- endblock %}
-
-    {% block 'header' -%}{%- endblock %}
+    {% sections 'header-group' %}
 
     <main id="MainContent" tabindex="-1">
       {{ content_for_layout }}
     </main>
 
-    {% block 'footer' -%}{%- endblock %}
+    {% sections 'footer-group' %}
   </body>
 </html>

@@ -60,8 +60,15 @@
   display: block;
   aspect-ratio: 1 / 1;
   overflow: hidden;
+  border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius);
   background-color: var(--color-surface);
+  transition: box-shadow var(--transition-base) var(--ease);
+}
+@media (hover: hover) {
+  a.collection-tile:hover .collection-tile__media {
+    box-shadow: var(--shadow-md);
+  }
 }
 .collection-tile__image {
   position: absolute;
@@ -86,7 +93,7 @@
 }
 .collection-tile__count {
   color: var(--color-muted);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
 }
 a.collection-tile:hover .collection-tile__title {
   text-decoration: underline;
@@ -160,7 +167,7 @@ a.collection-tile:hover .collection-tile__title {
 .collection-toolbar__count {
   flex: 1 1 auto;
   color: var(--color-muted);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
 }
 .collection-toolbar__sort {
   display: flex;
@@ -169,7 +176,7 @@ a.collection-tile:hover .collection-tile__title {
   margin-left: auto;
 }
 .collection-toolbar__sort-label {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -210,9 +217,9 @@ a.collection-tile:hover .collection-tile__title {
 }
 .collection-filters__title {
   font-family: var(--font-body--family);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
 }
 .collection-filters__close {
@@ -268,12 +275,13 @@ a.collection-tile:hover .collection-tile__title {
   min-height: var(--tap-size);
   padding: 0 var(--space-4);
   border: 1px solid var(--color-border);
-  border-radius: 9999px;
+  border-radius: var(--radius-pill);
   background-color: var(--color-background);
   color: var(--color-foreground);
   line-height: 1.2;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition: background-color var(--transition-fast) var(--ease),
+    border-color var(--transition-fast) var(--ease);
 }
 .filter-chip:hover {
   border-color: var(--color-foreground);
@@ -287,7 +295,7 @@ a.collection-tile:hover .collection-tile__title {
 }
 .filter-chip__count {
   color: var(--color-muted);
-  font-size: 0.8125rem;
+  font-size: var(--text-xs);
   font-variant-numeric: tabular-nums;
 }
 .filter-chip__input:checked + .filter-chip {
@@ -316,12 +324,12 @@ a.collection-tile:hover .collection-tile__title {
 .filter-price__field {
   display: grid;
   gap: var(--space-1);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
 }
 .filter-price__hint {
   margin-top: var(--space-2);
   color: var(--color-muted);
-  font-size: 0.8125rem;
+  font-size: var(--text-xs);
 }
 
 .filter-pills {
@@ -346,7 +354,7 @@ a.collection-tile:hover .collection-tile__title {
   min-height: var(--tap-size);
   padding: 0 var(--space-3) 0 var(--space-4);
   border: 1px solid var(--color-border);
-  border-radius: 9999px;
+  border-radius: var(--radius-pill);
   background-color: var(--color-surface);
   color: var(--color-foreground);
   text-decoration: none;
@@ -405,54 +413,6 @@ html.filters-open {
   overflow: hidden;
 }
 
-/* ---------- Pagination ---------- */
-.pagination {
-  margin-top: var(--space-6);
-}
-.pagination__list {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.pagination__link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: var(--tap-size);
-  min-height: var(--tap-size);
-  padding: 0 var(--space-3);
-  border: 1px solid transparent;
-  border-radius: var(--radius-button);
-  color: var(--color-foreground);
-  font-variant-numeric: tabular-nums;
-  text-decoration: none;
-}
-a.pagination__link:hover {
-  border-color: var(--color-foreground);
-}
-.pagination__link--step {
-  padding-inline: var(--space-4);
-  font-weight: 600;
-}
-.pagination__link--current {
-  border-color: var(--color-foreground);
-  background-color: var(--color-foreground);
-  color: var(--color-background);
-  font-weight: 700;
-}
-.pagination__gap {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: var(--tap-size);
-  color: var(--color-muted);
-}
-
 /* ---------- Empty states ---------- */
 .collection-empty {
   display: flex;
@@ -465,8 +425,8 @@ a.pagination__link:hover {
 }
 .collection-empty__title {
   font-family: var(--font-heading--family);
-  font-size: 1.375rem;
-  line-height: 1.2;
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
 }
 .collection-empty__hint {
   color: var(--color-muted);

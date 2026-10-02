@@ -1,0 +1,14 @@
+{%- assign back_label = '404.back_to_shopping' | t -%}
+
+<section class="page-width content-404">
+  <p class="content-404__code">404</p>
+  <h1 class="content-404__title">{{ '404.not_found' | t }}</h1>
+  {% render 'button', text: back_label, url: routes.all_products_collection_url %}
+</section>
+
+{% schema %}
+{
+  "name": "t:general.404",
+  "settings": []
+}
+{% endschema %}

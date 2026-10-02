@@ -1,23 +1,21 @@
 {%- assign list_title = 'collections.title' | t -%}
 
-{% block 'container' %}
-  <div class="home-section collection-list">
-    {% render 'section-heading', heading: list_title, level: 1 %}
+<div class="page-width template-content collection-list">
+  {% render 'section-heading', heading: list_title, level: 1 %}
 
-    {%- paginate collections by 24 -%}
-      {%- if collections.size > 0 -%}
-        <ul class="collection-tiles__grid collection-tiles__grid--list" role="list">
-          {%- for item in collections -%}
-            {%- assign placeholder_number = forloop.index | modulo: 6 | plus: 1 -%}
-            <li class="collection-tiles__item">
-              {% render 'collection-tile', collection_item: item, show_count: true, placeholder_index: placeholder_number %}
-            </li>
-          {%- endfor -%}
-        </ul>
-        {% render 'pagination', paginate: paginate %}
-      {%- else -%}
-        <p class="collection-empty__title">{{ 'collections.empty' | t }}</p>
-      {%- endif -%}
-    {%- endpaginate -%}
-  </div>
-{% endblock %}
+  {%- paginate collections by 24 -%}
+    {%- if collections.size > 0 -%}
+      <ul class="collection-tiles__grid collection-tiles__grid--list" role="list">
+        {%- for item in collections -%}
+          {%- assign placeholder_number = forloop.index | modulo: 6 | plus: 1 -%}
+          <li class="collection-tiles__item">
+            {% render 'collection-tile', collection_item: item, show_count: true, placeholder_index: placeholder_number %}
+          </li>
+        {%- endfor -%}
+      </ul>
+      {% render 'pagination', paginate: paginate %}
+    {%- else -%}
+      <p class="collection-empty__title">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>

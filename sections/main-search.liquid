@@ -1,0 +1,61 @@
+{%- liquid
+  assign submit_label = 'search.submit' | t
+  assign card_sizes = '(min-width: 64em) 22vw, (min-width: 48em) 30vw, 46vw'
+-%}
+
+<section class="page-width content-search">
+  <header class="content-header">
+    <h1 class="content-header__title">{{ 'search.title' | t }}</h1>
+    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="visually-hidden" for="SearchInput">{{ 'search.title' | t }}</label>
+      <input
+        class="input search-form__input"
+        id="SearchInput"
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'search.placeholder' | t }}"
+      >
+      {% render 'button', text: submit_label, type: 'submit' %}
+    </form>
+  </header>
+
+  {%- if search.performed -%}
+    {%- if search.results_count == 0 -%}
+      <p class="content-search__empty">{{ 'search.no_results_html' | t: terms: search.terms }}</p>
+    {%- else -%}
+      <p class="content-search__meta">{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+      {%- paginate search.results by 24 -%}
+        <ul class="search-grid" role="list">
+          {%- for result in search.results -%}
+            <li class="search-grid__item">
+              {%- if result.object_type == 'product' -%}
+                {% render 'product-card', product: result, sizes: card_sizes %}
+              {%- else -%}
+                <a class="search-card" href="{{ result.url }}">
+                  <span class="search-card__media">
+                    {%- assign result_image = result.featured_image | default: result.image -%}
+                    {%- if result_image -%}
+                      {{ result_image | image_url: width: 600 | image_tag: widths: '300, 600', sizes: card_sizes, loading: 'lazy', alt: result.title, class: 'search-card__image' }}
+                    {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'search-card__image search-card__placeholder' }}
+                    {%- endif -%}
+                  </span>
+                  <span class="search-card__title">{{ result.title }}</span>
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+        {% render 'pagination', paginate: paginate %}
+      {%- endpaginate -%}
+    {%- endif -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:general.search",
+  "settings": []
+}
+{% endschema %}

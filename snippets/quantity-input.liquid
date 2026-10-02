@@ -1,0 +1,43 @@
+{% doc %}
+  Renders an accessible quantity stepper: minus button, number input, plus
+  button. Works as a plain number input without JavaScript; the buttons are
+  enhanced by product.js / cart.js. Reused on the product and cart pages.
+
+  @param {number} [value] - Current quantity. Default 1.
+  @param {string} [input_id] - id for the input. Default 'Quantity'.
+  @param {string} [name] - Input name. Default 'quantity'.
+  @param {number} [min] - Minimum value. Default 1.
+  @param {string} [line_key] - Cart line key; when set, adds data-line-key for AJAX updates.
+  @param {string} [class] - Extra classes on the wrapper.
+
+  @example
+  {% render 'quantity-input', value: item.quantity, line_key: item.key %}
+{% enddoc %}
+
+{%- liquid
+  assign qty = value | default: 1
+  assign field_id = input_id | default: 'Quantity'
+  assign field_name = name | default: 'quantity'
+  assign min_value = min | default: 1
+-%}
+
+<div class="qty {{ class }}" data-qty{% if line_key %} data-line-key="{{ line_key }}"{% endif %}>
+  <button type="button" class="qty__button" data-qty-step="-1" aria-label="{{ 'products.decrease' | t }}">
+    {% render 'icon', name: 'minus' %}
+  </button>
+  <input
+    class="qty__input"
+    id="{{ field_id }}"
+    name="{{ field_name }}"
+    type="number"
+    inputmode="numeric"
+    min="{{ min_value }}"
+    step="1"
+    value="{{ qty }}"
+    data-qty-input
+    aria-label="{{ 'products.quantity' | t }}"
+  >
+  <button type="button" class="qty__button" data-qty-step="1" aria-label="{{ 'products.increase' | t }}">
+    {% render 'icon', name: 'plus' %}
+  </button>
+</div>

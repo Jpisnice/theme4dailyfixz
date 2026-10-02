@@ -17,7 +17,19 @@
     "checkout": "Checkout",
     "title": "Cart",
     "update": "Update",
-    "remove": "Remove"
+    "remove": "Remove",
+    "empty": "Your cart is empty.",
+    "continue": "Continue shopping",
+    "subtotal": "Subtotal",
+    "taxes_note": "Taxes and shipping calculated at checkout.",
+    "quantity": "Quantity",
+    "note": "Order note",
+    "note_placeholder": "Add a note for your order",
+    "product": "Product",
+    "price": "Price",
+    "total": "Total",
+    "free_shipping_progress_html": "You're {{ amount }} away from free shipping.",
+    "free_shipping_reached": "You've unlocked free shipping."
   },
   "customers": {
     "login": {
@@ -135,7 +147,18 @@
       "sale": "Sale price",
       "unit": "Unit price",
       "from_html": "From {{ price }}"
-    }
+    },
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "vendor_html": "By {{ vendor }}",
+    "sku": "SKU: {{ sku }}",
+    "description": "Description",
+    "related": "You may also like",
+    "view_details": "View full details"
   },
   "home": {
     "featured": {

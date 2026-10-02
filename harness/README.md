@@ -2,7 +2,9 @@
 
 How features get built in this theme. It follows Anthropic's
 [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps),
-adapted to a block-first Shopify theme.
+adapted to a standard Online Store 2.0 Shopify theme (sections, JSON templates
+and section groups). It was migrated off an earlier block-first dialect on
+2026-10-02; see `progress.md`.
 
 ## The idea in one paragraph
 
@@ -70,7 +72,7 @@ harness/
 
 | Command | Gate |
 | --- | --- |
-| `npm run check:dialect` | Block-first rules from the README "Non-negotiables" (no sections, no JSON templates, no presets, no `{% stylesheet %}`, blocks have `{% doc %}`/schema/`shopify_attributes`, `{% block %}` calls only in layout/templates). |
+| `npm run check:dialect` | OS 2.0 dialect conventions: sections and theme blocks include `{% schema %}`; theme blocks also have a `{% doc %}` header and output `{{ block.shopify_attributes }}`; snippets should open with `{% doc %}`. |
 | `npm run check:theme` | Shopify Theme Check (`.theme-check.yml`): missing translations, missing snippets, invalid schema, Liquid errors, … |
 | `npm run check` | Both of the above. Must be clean before any commit. CI runs it too. |
 | `npm run smoke` | Playwright visits home, collection, product, cart, search and 404 at 375px and 1280px against `BASE_URL`, and fails on console errors, HTTP errors, failed requests and horizontal overflow. |
@@ -119,9 +121,9 @@ cannot pass.
 
 ## Theme rules all agents follow
 
-- `README.md` → "Non-negotiables" defines this theme's dialect, and the existing
-  code follows it. Where the generic guidance in `CLAUDE.md`/`AGENTS.md` (sections,
-  `{% stylesheet %}`, presets) conflicts with it, the README wins.
+- **Architecture:** standard Online Store 2.0 — `sections/` with `{% schema %}`
+  and `presets`, JSON templates, and section groups for the header/footer.
+  `scripts/dialect-check.mjs` is the source of truth for the conventions.
 - Every shopper-facing string goes through `| t` with keys in `locales/en.default.json`.
 - Editor strings use `t:` keys in `locales/en.default.schema.json`.
 - CSS and JS live in `assets/`.

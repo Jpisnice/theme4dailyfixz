@@ -35,13 +35,13 @@ select {
 }
 
 select {
-  background-color: var(--color-background, #FBF7F0);
+  background-color: var(--color-background, #FFFFFF);
   color: currentcolor;
 }
 
 dialog {
-  background-color: var(--color-background, #FBF7F0);
-  color: var(--color-foreground, #2A2420);
+  background-color: var(--color-background, #FFFFFF);
+  color: var(--color-foreground, #141414);
 }
 
 p {
@@ -74,20 +74,20 @@ p:empty {
 /** Theme styles below */
 body {
   font-family: var(--font-body--family, system-ui, sans-serif);
-  background-color: var(--color-background, #FBF7F0);
-  color: var(--color-foreground, #2A2420);
+  background-color: var(--color-background, #FFFFFF);
+  color: var(--color-foreground, #141414);
 }
 
 /* Above-the-fold shell skeleton: avoids a jump before base.css applies. */
 .announcement-bar {
-  background-color: var(--color-announcement-bg, #2A2420);
-  color: var(--color-announcement-text, #FBF7F0);
+  background-color: var(--color-announcement-bg, #141414);
+  color: var(--color-announcement-text, #FFFFFF);
   text-align: center;
-  font-size: 0.8125rem;
+  font-size: var(--text-sm, 0.8125rem);
 }
 .site-header {
-  background-color: var(--color-background, #FBF7F0);
-  border-bottom: 1px solid var(--color-border, #E2D8C8);
+  background-color: var(--color-background, #FFFFFF);
+  border-bottom: 1px solid var(--color-border, #E4E4DF);
 }
 .skip-link:not(:focus) {
   position: absolute;

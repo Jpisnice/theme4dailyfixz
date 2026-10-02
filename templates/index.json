@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {}
+    },
+    "trust-strip": {
+      "type": "trust-strip",
+      "settings": {}
+    },
+    "collection-tiles": {
+      "type": "collection-tiles",
+      "settings": {}
+    },
+    "brand-story": {
+      "type": "brand-story",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "featured-collection",
+    "trust-strip",
+    "collection-tiles",
+    "brand-story",
+    "newsletter"
+  ]
+}
