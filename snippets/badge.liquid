@@ -2,14 +2,28 @@
   Renders a small status badge.
 
   @param {string} kind - 'sale' or 'sold_out'
+  @param {string} [text] - Optional label that replaces the default, e.g. "20% off"
 
   @example
   {% render 'badge', kind: 'sale' %}
+  {% render 'badge', kind: 'sale', text: '20% off' %}
 {% enddoc %}
+
+{%- liquid
+  assign badge_text = text
+  if badge_text == blank
+    case kind
+      when 'sale'
+        assign badge_text = 'products.badge.sale' | t
+      when 'sold_out'
+        assign badge_text = 'products.badge.sold_out' | t
+    endcase
+  endif
+-%}
 
 {%- case kind -%}
   {%- when 'sale' -%}
-    <span class="badge badge--sale">{{ 'products.badge.sale' | t }}</span>
+    <span class="badge badge--sale">{{ badge_text }}</span>
   {%- when 'sold_out' -%}
-    <span class="badge badge--sold-out">{{ 'products.badge.sold_out' | t }}</span>
+    <span class="badge badge--sold-out">{{ badge_text }}</span>
 {%- endcase -%}

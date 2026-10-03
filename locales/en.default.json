@@ -86,8 +86,17 @@
   },
   "search": {
     "title": "Search",
-    "placeholder": "Search articles, pages, or products",
-    "submit": "Search",
+    "start_hint": "Use the search bar at the top to find products, collections and articles.",
+    "results_title_html": "Results for “{{ terms }}”",
+    "results_count": {
+      "one": "{{ count }} result",
+      "other": "{{ count }} results"
+    },
+    "result_type": {
+      "collection": "Collection",
+      "article": "Article",
+      "page": "Page"
+    },
     "no_results_html": "No results found for {{ terms }}",
     "similar_title": "Similar items",
     "no_results_hint": "Check the spelling or try a more general word.",
@@ -107,8 +116,7 @@
       "price_desc": "Price, high to low",
       "apply": "Apply"
     },
-    "popular_title": "Popular right now",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "popular_title": "Popular right now"
   },
   "general": {
     "skip_to_content": "Skip to content",
@@ -316,8 +324,11 @@
       "reply": "Reply from {{ shop }}",
       "more": "Show more reviews"
     },
-    "ribbon": {
-      "sale": "Sale {{ percent }}% off"
+    "marquee": {
+      "label": "Offers on this product",
+      "sale": "{{ percent }}% off today, now {{ price }}",
+      "code_html": "Use code <strong>{{ code }}</strong> at checkout",
+      "code_with_title_html": "{{ title }}: use code <strong>{{ code }}</strong>"
     }
   },
   "home": {

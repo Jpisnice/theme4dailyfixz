@@ -1,15 +1,17 @@
 {% doc %}
-  Renders an app-style product card: tinted image, price first, title, a muted
-  unit line and a round "+" quick-add button. Optional second image on hover and
-  sale or sold-out badges. The title
-  link covers the whole card. The image is decorative (empty alt) because the
-  adjacent title link already names the product.
+  Renders an app-style product card with uniform dimensions: a fixed-ratio
+  tinted image (contained, never cropped), a two-line title, a large price with
+  the compare-at price, and a footer row with the rating, the option count and
+  a round cart-icon quick-add button. Sale cards show an "X% off" badge and sold-out
+  cards dim the image. The title link covers the whole card. The image is
+  decorative (empty alt) because the adjacent title link already names the
+  product.
 
   @param {product} product - The product to render
   @param {boolean} [lazy] - Lazy-load the image. Default: true; pass false for above-the-fold cards
   @param {string} [sizes] - Image sizes attribute. Default suits a two-column mobile grid
   @param {boolean} [show_second_image] - Show the second image on hover. Default: true
-  @param {boolean} [quick_add] - Show the "+" button. Single-variant products add straight to the cart; others link to the product page. Default: true
+  @param {boolean} [quick_add] - Show the cart-icon quick-add button. Single-variant products add straight to the cart; others link to the product page. Default: true
   @param {string} [class] - Extra classes
 
   @example
@@ -24,9 +26,14 @@
   assign card_sizes = sizes | default: '(min-width: 90rem) 22vw, (min-width: 48em) 30vw, 46vw'
   assign variant = product.selected_or_first_available_variant
   assign on_sale = false
+  assign discount_label = ''
   if product.compare_at_price > product.price
     if product.available
       assign on_sale = true
+      assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | floor
+      if discount_percent > 0
+        assign discount_label = 'products.discount_off' | t: percent: discount_percent
+      endif
     endif
   endif
   assign show_quick_add = true
@@ -39,6 +46,16 @@
   elsif product.has_only_default_variant == false
     assign unit_line = variant.title
   endif
+  assign rating_average = 0
+  assign rating_count = 0
+  if product.metafields.custom.reviews != blank or product.metafields.reviews.rating != blank
+    capture rating_stats
+      render 'review-stats', product: product
+    endcapture
+    assign rating_parts = rating_stats | strip | split: '|'
+    assign rating_average = rating_parts[0] | times: 1.0 | at_most: 5 | at_least: 0
+    assign rating_count = rating_parts[1] | plus: 0
+  endif
   assign added_message = 'products.card.added' | t: product: product.title
   assign failed_message = 'products.card.add_failed' | t: product: product.title
   assign second_image = nil
@@ -49,7 +66,7 @@
   endif
 -%}
 
-<article class="product-card {{ class }}">
+<article class="product-card{% if product.available == false %} product-card--sold-out{% endif %} {{ class }}">
   <div class="product-card__media">
     {%- if product.featured_image -%}
       {{
@@ -82,7 +99,7 @@
         {%- if product.available == false -%}
           {% render 'badge', kind: 'sold_out' %}
         {%- elsif on_sale -%}
-          {% render 'badge', kind: 'sale' %}
+          {% render 'badge', kind: 'sale', text: discount_label %}
         {%- endif -%}
       </div>
     {%- endif -%}
@@ -98,23 +115,34 @@
       unit_price: variant.unit_price,
       unit_price_measurement: variant.unit_price_measurement
     %}
-    {%- if unit_line != blank -%}
-      <p class="product-card__unit">{{ unit_line | escape }}</p>
-    {%- endif -%}
-    {%- if show_quick_add and product.available -%}
-      {%- if product.variants.size == 1 -%}
-        {%- form 'product', product, class: 'product-card__quick-add', data-quick-add: '', data-added-message: added_message, data-failed-message: failed_message -%}
-          <input type="hidden" name="id" value="{{ variant.id }}">
-          <input type="hidden" name="quantity" value="1">
-          <button type="submit" class="product-card__add" aria-label="{{ 'products.card.add_aria' | t: product: product.title }}">
-            {% render 'icon', name: 'plus' %}
-          </button>
-        {%- endform -%}
-      {%- else -%}
-        <a class="product-card__add" href="{{ product.url }}" aria-label="{{ 'products.card.options_aria' | t: product: product.title }}">
-          {% render 'icon', name: 'plus' %}
-        </a>
+    <div class="product-card__footer">
+      <div class="product-card__meta">
+        {%- if rating_count > 0 -%}
+          <p class="product-card__rating">
+            <span class="rating__stars" style="--rating: {{ rating_average }}" role="img" aria-label="{{ 'products.rating_label' | t: rating: rating_average, max: 5 }}"></span>
+            <span class="product-card__rating-value" aria-hidden="true">{{ rating_average }}</span>
+            <span class="product-card__rating-count"><span aria-hidden="true">({{ rating_count }})</span><span class="visually-hidden">{{ 'products.reviews' | t: count: rating_count }}</span></span>
+          </p>
+        {%- endif -%}
+        {%- if unit_line != blank -%}
+          <p class="product-card__unit">{{ unit_line | escape }}</p>
+        {%- endif -%}
+      </div>
+      {%- if show_quick_add and product.available -%}
+        {%- if product.variants.size == 1 -%}
+          {%- form 'product', product, class: 'product-card__quick-add', data-quick-add: '', data-added-message: added_message, data-failed-message: failed_message -%}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="product-card__add" aria-label="{{ 'products.card.add_aria' | t: product: product.title }}">
+              {% render 'icon', name: 'cart' %}{% render 'icon', name: 'check' %}
+            </button>
+          {%- endform -%}
+        {%- else -%}
+          <a class="product-card__add" href="{{ product.url }}" aria-label="{{ 'products.card.options_aria' | t: product: product.title }}">
+            {% render 'icon', name: 'cart' %}
+          </a>
+        {%- endif -%}
       {%- endif -%}
-    {%- endif -%}
+    </div>
   </div>
 </article>

@@ -24,20 +24,22 @@
   max-width: 65ch;
 }
 
-/* ---------- Search ---------- */
-.search-form {
-  display: flex;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-  max-width: 36rem;
+/* ---------- Search (the header search box is the only input) ---------- */
+.content-search {
+  margin-block: var(--space-5) var(--space-7);
 }
-.search-form__input {
-  flex: 1 1 auto;
+.content-search__header {
+  margin-bottom: var(--space-4);
+}
+.content-search__title {
+  font-size: var(--text-xl);
+  overflow-wrap: anywhere;
 }
 .content-search__meta,
 .content-search__empty {
-  margin-bottom: var(--space-5);
+  margin-top: var(--space-1);
   color: var(--color-muted);
+  font-size: var(--text-sm);
 }
 .search-grid {
   display: grid;
@@ -54,18 +56,33 @@
 .search-grid__item > * {
   width: 100%;
 }
+/* Collection, article and page results share the product card shell. */
 .search-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
   text-decoration: none;
+  transition: box-shadow var(--transition-base) var(--ease);
+}
+@media (hover: hover) {
+  a.search-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+.search-card:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
 }
 .search-card__media {
   display: block;
   overflow: hidden;
-  border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius);
-  background-color: var(--color-surface);
+  margin: var(--space-2) var(--space-2) 0;
+  border-radius: calc(var(--radius-lg) - var(--space-2));
+  background-color: var(--color-background);
   aspect-ratio: var(--card-ratio);
 }
 .search-card__image {
@@ -77,8 +94,32 @@
   padding: var(--space-6);
   fill: var(--color-muted);
 }
+.search-card__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+}
+.search-card__type {
+  align-self: flex-start;
+  padding: 0.125rem var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-background);
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
 .search-card__title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-weight: 600;
+  line-height: var(--leading-snug);
 }
 a.search-card:hover .search-card__title {
   text-decoration: underline;
@@ -274,7 +315,7 @@ a.search-card:hover .search-card__title {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3) var(--space-5);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 .search-tabs,
 .search-chips {
@@ -285,17 +326,41 @@ a.search-card:hover .search-card__title {
   padding: 0;
   list-style: none;
 }
+/* One swipeable row of type chips on small screens. */
+.search-tabs {
+  flex-wrap: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  margin-inline: calc(var(--page-margin) * -1);
+  padding: var(--space-1) var(--page-margin);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.search-tabs::-webkit-scrollbar {
+  display: none;
+}
+.search-tabs > li {
+  flex: none;
+}
+@media (min-width: 48em) {
+  .search-tabs {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
 .search-tabs__link,
 .search-chips__link {
   display: inline-flex;
   align-items: center;
-  min-height: var(--tap-size);
+  min-height: 2.5rem;
   padding: 0 var(--space-4);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface);
+  font-size: var(--text-sm);
   font-weight: 600;
   text-decoration: none;
+  white-space: nowrap;
 }
 .search-tabs__link:hover,
 .search-chips__link:hover {

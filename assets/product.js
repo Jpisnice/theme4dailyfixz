@@ -355,7 +355,16 @@ if (root) {
 
   const ratingLink = root.querySelector('[data-rating-link]');
   if (ratingLink) {
-    ratingLink.addEventListener('click', () => track('view_reviews', context()));
+    ratingLink.addEventListener('click', () => {
+      // Reviews live in a collapsed <details id="reviews">; open it so the jump lands on content.
+      const reviews = document.getElementById('reviews');
+      if (reviews && reviews.tagName === 'DETAILS') reviews.open = true;
+      track('view_reviews', context({ source: 'rating_link' }));
+    });
+  }
+  if (window.location.hash === '#reviews') {
+    const reviews = document.getElementById('reviews');
+    if (reviews && reviews.tagName === 'DETAILS') reviews.open = true;
   }
 
   // --- Sticky add to cart (mobile) --------------------------------------
