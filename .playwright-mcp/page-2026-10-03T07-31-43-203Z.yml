@@ -1,0 +1,155 @@
+- generic [active] [ref=f52e1]:
+  - link "Skip to content" [ref=f52e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f52e4]:
+    - generic [ref=f52e5]:
+      - link "devDailyFixz" [ref=f52e7] [cursor=pointer]:
+        - /url: /
+      - search [ref=f52e9]:
+        - generic [ref=f52e10]: Search
+        - combobox "Search" [ref=f52e11]
+      - generic [ref=f52e12]:
+        - link "Account" [ref=f52e13] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 1 item" [ref=f52e18] [cursor=pointer]:
+          - /url: /cart
+          - generic [aria-hidden] [ref=f52e24]: "1"
+  - main [ref=f52e25]:
+    - generic [ref=f52e27]:
+      - text: / /
+      - generic [ref=f52e28]:
+        - list [ref=f52e32]:
+          - listitem "Image 1 of 1" [ref=f52e33]:
+            - button "Open image full size" [ref=f52e34]:
+              - img "Top and bottom view of a snowboard. The top view shows pixelated clouds, with the top-most one being the shape of the Shopify bag logo. The bottom view has a pixelated cloudy sky with blue, pink and purple colours." [ref=f52e35]
+        - generic [ref=f52e36]:
+          - generic [ref=f52e37]:
+            - paragraph [ref=f52e38]: devDailyFixz
+            - heading "The Compare at Price Snowboard" [level=1] [ref=f52e39]
+          - generic [ref=f52e40]:
+            - generic [ref=f52e41]:
+              - generic [ref=f52e42]:
+                - generic [ref=f52e43]:
+                  - generic [ref=f52e44]: Sale price
+                  - text: Rs. 785.95
+                - generic [ref=f52e45]:
+                  - text: MRP
+                  - generic [ref=f52e46]:
+                    - generic [ref=f52e47]: Regular price
+                    - text: Rs. 885.95
+                - generic [ref=f52e48]: 11% off
+              - paragraph [ref=f52e49]: You save Rs. 100.00
+              - paragraph [ref=f52e50]: Inclusive of all taxes
+            - list [ref=f52e51]:
+              - listitem [ref=f52e52]:
+                - generic [ref=f52e57]: Fast delivery
+              - listitem [ref=f52e58]:
+                - generic [ref=f52e62]: Easy returns
+              - listitem [ref=f52e63]:
+                - generic [ref=f52e67]: Secure checkout
+          - generic [ref=f52e68]:
+            - heading "Offers for you" [level=2] [ref=f52e69]
+            - list [ref=f52e73]:
+              - listitem [ref=f52e74]:
+                - generic [ref=f52e75]:
+                  - paragraph [ref=f52e76]: Extra 10% off your first order
+                  - paragraph [ref=f52e77]: Min. order Rs. 499
+                  - paragraph [ref=f52e78]:
+                    - text: Get it for
+                    - strong [ref=f52e79]: Rs. 707.35
+                    - text: with this code
+                - generic [ref=f52e80]:
+                  - generic [ref=f52e81]: WELCOME10
+                  - button "Copy code WELCOME10" [ref=f52e82] [cursor=pointer]:
+                    - generic [ref=f52e86]: Copy
+                  - link "Apply" [ref=f52e87] [cursor=pointer]:
+                    - /url: /discount/WELCOME10?redirect=/products/the-compare-at-price-snowboard
+          - paragraph [ref=f52e89]: In stock
+          - generic [ref=f52e92]:
+            - generic [ref=f52e93]:
+              - generic [ref=f52e94]:
+                - button "Decrease quantity" [ref=f52e95] [cursor=pointer]
+                - spinbutton "Quantity" [ref=f52e97]: "1"
+                - button "Increase quantity" [ref=f52e98] [cursor=pointer]
+              - button "Add to cart" [ref=f52e101] [cursor=pointer]
+            - button "Buy it now" [ref=f52e111] [cursor=pointer]
+          - generic [ref=f52e112]:
+            - heading "Delivery" [level=2] [ref=f52e113]
+            - generic [ref=f52e118]:
+              - generic [ref=f52e119]: Check delivery to your PIN code
+              - generic [ref=f52e120]:
+                - textbox "Check delivery to your PIN code" [ref=f52e121]:
+                  - /placeholder: Enter PIN code
+                - button "Check" [ref=f52e122] [cursor=pointer]
+          - list [ref=f52e123]:
+            - listitem [ref=f52e124]:
+              - generic [ref=f52e128]: Secure payments
+          - group [ref=f52e129]:
+            - generic "Specifications" [ref=f52e130] [cursor=pointer]
+      - generic [ref=f52e131]:
+        - generic [ref=f52e135]:
+          - generic [ref=f52e136]:
+            - generic [ref=f52e137]: Regular price
+            - text: Rs. 885.95
+          - generic [ref=f52e138]:
+            - generic [ref=f52e139]: Sale price
+            - text: Rs. 785.95
+        - button "Add to cart" [ref=f52e140] [cursor=pointer]
+  - contentinfo [ref=f52e143]:
+    - generic [ref=f52e145]:
+      - generic [ref=f52e146]:
+        - heading "Stay in the loop" [level=2] [ref=f52e147]
+        - paragraph [ref=f52e148]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f52e149]:
+        - generic [ref=f52e150]: Email address
+        - generic [ref=f52e151]:
+          - textbox "Email address" [ref=f52e152]
+          - button "Sign up" [ref=f52e153] [cursor=pointer]
+    - generic [ref=f52e154]:
+      - generic [ref=f52e155]:
+        - generic [ref=f52e156]:
+          - paragraph [ref=f52e157]: devDailyFixz
+          - paragraph [ref=f52e158]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f52e159]:
+          - heading "Footer menu" [level=2] [ref=f52e160]
+          - list [ref=f52e161]:
+            - listitem [ref=f52e162]:
+              - link "Search" [ref=f52e163] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f52e164]:
+        - generic [ref=f52e165]:
+          - generic [ref=f52e166]: Country or region
+          - combobox "Country or region" [ref=f52e167]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f52e168] [cursor=pointer]
+      - generic [ref=f52e169]:
+        - paragraph [ref=f52e170]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f52e171]:
+          - listitem [ref=f52e172]:
+            - img "Visa" [ref=f52e173]
+          - listitem [ref=f52e178]:
+            - img "Mastercard" [ref=f52e179]
+          - listitem [ref=f52e186]:
+            - img "American Express" [ref=f52e187]
+          - listitem [ref=f52e192]:
+            - img "PayPal" [ref=f52e193]
+          - listitem [ref=f52e199]:
+            - img "Diners Club" [ref=f52e200]
+          - listitem [ref=f52e204]:
+            - img "Discover" [ref=f52e205]
+  - navigation "App navigation" [ref=f52e214]:
+    - list [ref=f52e215]:
+      - listitem [ref=f52e216]:
+        - link "Home" [ref=f52e217] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=f52e222]:
+        - link "Explore" [ref=f52e223] [cursor=pointer]:
+          - /url: /collections/all
+      - listitem [ref=f52e228]:
+        - link "Orders" [ref=f52e229] [cursor=pointer]:
+          - /url: /account
+      - listitem [ref=f52e234]:
+        - link "Profile" [ref=f52e235] [cursor=pointer]:
+          - /url: /account
+  - status [ref=f52e240]

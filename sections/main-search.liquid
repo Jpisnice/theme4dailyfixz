@@ -1,12 +1,17 @@
 {%- liquid
   assign submit_label = 'search.submit' | t
   assign card_sizes = '(min-width: 64em) 22vw, (min-width: 48em) 30vw, 46vw'
+  assign suggested_terms = section.settings.suggested_terms | split: ','
+  assign active_type = search.types | first | default: 'all'
+  assign active_sort = search.sort_by | default: 'relevance'
+  assign terms_param = search.terms | url_encode
+  assign type_list = 'all,product,collection,article,page' | split: ','
 -%}
 
-<section class="page-width content-search">
+<section class="page-width content-search" data-live-search data-search-url="{{ routes.search_url }}" data-section-id="{{ section.id }}">
   <header class="content-header">
     <h1 class="content-header__title">{{ 'search.title' | t }}</h1>
-    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search" data-live-search-form>
       <label class="visually-hidden" for="SearchInput">{{ 'search.title' | t }}</label>
       <input
         class="input search-form__input"
@@ -15,47 +20,168 @@
         name="q"
         value="{{ search.terms | escape }}"
         placeholder="{{ 'search.placeholder' | t }}"
+        autocomplete="off"
+        data-live-search-input
       >
+      {%- if active_type != 'all' -%}
+        <input type="hidden" name="type" value="{{ active_type }}">
+      {%- endif -%}
+      {%- if active_sort != 'relevance' -%}
+        <input type="hidden" name="sort_by" value="{{ active_sort }}">
+      {%- endif -%}
       {% render 'button', text: submit_label, type: 'submit' %}
     </form>
+    <p class="visually-hidden" role="status" aria-live="polite" data-live-search-status></p>
   </header>
 
-  {%- if search.performed -%}
-    {%- if search.results_count == 0 -%}
-      <p class="content-search__empty">{{ 'search.no_results_html' | t: terms: search.terms }}</p>
-    {%- else -%}
-      <p class="content-search__meta">{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
-      {%- paginate search.results by 24 -%}
-        <ul class="search-grid" role="list">
-          {%- for result in search.results -%}
-            <li class="search-grid__item">
-              {%- if result.object_type == 'product' -%}
-                {% render 'product-card', product: result, sizes: card_sizes %}
+  <div class="content-search__live" data-live-search-region>
+    {%- if search.performed -%}
+      <div class="content-search__bar">
+        <ul class="search-tabs" role="list" aria-label="{{ 'search.filter_label' | t }}">
+          {%- for type in type_list -%}
+            {%- assign type_key = 'search.types.' | append: type -%}
+            <li>
+              {%- if type == 'all' -%}
+                <a class="search-tabs__link" href="{{ routes.search_url }}?q={{ terms_param }}"{% if active_type == 'all' %} aria-current="true"{% endif %}>{{ type_key | t }}</a>
               {%- else -%}
-                <a class="search-card" href="{{ result.url }}">
-                  <span class="search-card__media">
-                    {%- assign result_image = result.featured_image | default: result.image -%}
-                    {%- if result_image -%}
-                      {{ result_image | image_url: width: 600 | image_tag: widths: '300, 600', sizes: card_sizes, loading: 'lazy', alt: result.title, class: 'search-card__image' }}
-                    {%- else -%}
-                      {{ 'image' | placeholder_svg_tag: 'search-card__image search-card__placeholder' }}
-                    {%- endif -%}
-                  </span>
-                  <span class="search-card__title">{{ result.title }}</span>
-                </a>
+                <a class="search-tabs__link" href="{{ routes.search_url }}?q={{ terms_param }}&type={{ type }}"{% if active_type == type %} aria-current="true"{% endif %}>{{ type_key | t }}</a>
               {%- endif -%}
             </li>
           {%- endfor -%}
         </ul>
-        {% render 'pagination', paginate: paginate %}
-      {%- endpaginate -%}
+
+        {%- if active_type == 'product' and search.results_count > 1 -%}
+          <form class="search-sort" action="{{ routes.search_url }}" method="get">
+            <input type="hidden" name="q" value="{{ search.terms | escape }}">
+            <input type="hidden" name="type" value="product">
+            <label class="search-sort__label" for="SearchSort">{{ 'search.sort.label' | t }}</label>
+            <select class="select search-sort__select" id="SearchSort" name="sort_by" data-live-search-sort>
+              <option value="relevance"{% if active_sort == 'relevance' %} selected{% endif %}>{{ 'search.sort.relevance' | t }}</option>
+              <option value="price-ascending"{% if active_sort == 'price-ascending' %} selected{% endif %}>{{ 'search.sort.price_asc' | t }}</option>
+              <option value="price-descending"{% if active_sort == 'price-descending' %} selected{% endif %}>{{ 'search.sort.price_desc' | t }}</option>
+            </select>
+            <button type="submit" class="button button--secondary search-sort__apply">{{ 'search.sort.apply' | t }}</button>
+          </form>
+        {%- endif -%}
+      </div>
+
+      {%- if search.results_count == 0 -%}
+        <div class="content-search__empty-state">
+          <h2 class="content-search__empty-title">{{ 'search.no_results_html' | t: terms: search.terms }}</h2>
+          <p class="content-search__hint">{{ 'search.no_results_hint' | t }}</p>
+          {%- if suggested_terms.size > 0 -%}
+            <ul class="search-chips" role="list" aria-label="{{ 'search.suggested_title' | t }}">
+              {%- for term in suggested_terms -%}
+                {%- assign term_text = term | strip -%}
+                {%- if term_text != blank -%}
+                  <li><a class="search-chips__link" href="{{ routes.search_url }}?q={{ term_text | url_encode }}">{{ term_text | escape }}</a></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <p class="content-search__meta">{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+        {%- paginate search.results by 24 -%}
+          {%- liquid
+            assign shown_ids = '|'
+            assign seed_product = nil
+            for result in search.results
+              if result.object_type == 'product'
+                assign shown_ids = shown_ids | append: result.id | append: '|'
+                if seed_product == nil
+                  assign seed_product = result
+                endif
+              endif
+            endfor
+          -%}
+          <ul class="search-grid" role="list">
+            {%- for result in search.results -%}
+              <li class="search-grid__item">
+                {%- if result.object_type == 'product' -%}
+                  {% render 'product-card', product: result, sizes: card_sizes %}
+                {%- else -%}
+                  <a class="search-card" href="{{ result.url }}">
+                    <span class="search-card__media">
+                      {%- assign result_image = result.featured_image | default: result.image -%}
+                      {%- if result_image -%}
+                        {{ result_image | image_url: width: 600 | image_tag: widths: '300, 600', sizes: card_sizes, loading: 'lazy', alt: result.title, class: 'search-card__image' }}
+                      {%- else -%}
+                        {{ 'image' | placeholder_svg_tag: 'search-card__image search-card__placeholder' }}
+                      {%- endif -%}
+                    </span>
+                    <span class="search-card__title">{{ result.title }}</span>
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+          {% render 'pagination', paginate: paginate %}
+        {%- endpaginate -%}
+      {%- endif -%}
+    {%- else -%}
+      {%- if suggested_terms.size > 0 -%}
+        <div class="content-search__start">
+          <h2 class="content-search__start-title">{{ 'search.suggested_title' | t }}</h2>
+          <ul class="search-chips" role="list">
+            {%- for term in suggested_terms -%}
+              {%- assign term_text = term | strip -%}
+              {%- if term_text != blank -%}
+                <li><a class="search-chips__link" href="{{ routes.search_url }}?q={{ term_text | url_encode }}">{{ term_text | escape }}</a></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
     {%- endif -%}
-  {%- endif -%}
+
+    {%- liquid
+      assign similar_source = collections.all
+      assign similar_title = 'search.popular_title' | t
+      if search.performed and search.results_count > 0 and seed_product
+        assign seed_collection = seed_product.collections | first
+        if seed_collection and seed_collection.products_count > 1
+          assign similar_source = seed_collection
+          assign similar_title = 'search.similar_title' | t
+        endif
+      endif
+      assign similar_count = 0
+    -%}
+    {%- capture similar_html -%}
+      {%- for candidate in similar_source.products limit: 12 -%}
+        {%- assign candidate_key = '|' | append: candidate.id | append: '|' -%}
+        {%- unless shown_ids contains candidate_key -%}
+          {%- if similar_count < 4 -%}
+            {%- assign similar_count = similar_count | plus: 1 -%}
+            <li class="search-grid__item">{% render 'product-card', product: candidate, sizes: card_sizes %}</li>
+          {%- endif -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- if similar_count > 0 -%}
+      <div class="content-search__similar">
+        {% render 'section-heading', heading: similar_title, level: 2 %}
+        <ul class="search-grid" role="list">
+          {{ similar_html }}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <script src="{{ 'search-page.js' | asset_url }}" type="module" defer></script>
 </section>
 
 {% schema %}
 {
   "name": "t:general.search",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "suggested_terms",
+      "label": "t:labels.suggested_terms",
+      "info": "t:info.search_page_terms",
+      "default": "Cleaning, Kitchen, Storage, Bath"
+    }
+  ]
 }
 {% endschema %}

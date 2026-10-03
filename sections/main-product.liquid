@@ -1,124 +1,653 @@
 {%- liquid
   assign current = product.selected_or_first_available_variant
-  assign show_trust = section.settings.show_trust
-  assign delivery_text = section.settings.delivery_text | escape
-  assign returns_text = section.settings.returns_text | escape
-  assign checkout_text = section.settings.checkout_text | escape
-  assign has_trust_items = false
-  if delivery_text != blank or returns_text != blank or checkout_text != blank
-    assign has_trust_items = true
+
+  assign badge_text = ''
+  assign fact_tags = ''
+  for tag in product.tags
+    if tag contains ':'
+      assign tag_prefix = tag | split: ':' | first | strip | downcase
+      assign tag_value = tag | split: ':' | slice: 1, 99 | join: ':' | strip
+      if tag_prefix == 'badge' and badge_text == blank
+        assign badge_text = tag_value
+      elsif tag_prefix == 'fact'
+        assign fact_tags = fact_tags | append: tag_value | append: '||'
+      endif
+    endif
+  endfor
+  assign facts = fact_tags | split: '||'
+
+  capture stats
+    render 'review-stats', product: product
+  endcapture
+  assign stat_parts = stats | strip | split: '|'
+  assign rating_average = stat_parts[0]
+  assign rating_total = stat_parts[1] | plus: 0
+
+  assign offers_rendered = false
+  assign offer_count = 0
+  for block in section.blocks
+    if block.type == 'offer' and block.settings.code != blank
+      if block.settings.product_tag == blank or product.tags contains block.settings.product_tag
+        assign offer_count = offer_count | plus: 1
+      endif
+    endif
+  endfor
+
+  assign ribbon_sale_percent = 0
+  if section.settings.auto_sale_ribbon and current.compare_at_price > current.price
+    assign ribbon_saving = current.compare_at_price | minus: current.price
+    assign ribbon_sale_percent = ribbon_saving | times: 100 | divided_by: current.compare_at_price
   endif
-  assign related_heading = 'products.related' | t
+  capture ribbons_html
+    if ribbon_sale_percent > 0
+      echo '<span class="ribbon ribbon--sale">'
+      echo 'products.ribbon.sale' | t: percent: ribbon_sale_percent
+      echo '</span>'
+    endif
+    for ribbon in product.metafields.custom.ribbons.value limit: 3
+      if ribbon != blank
+        echo '<span class="ribbon ribbon--offer">'
+        echo ribbon | escape
+        echo '</span>'
+      endif
+    endfor
+    if badge_text != blank
+      echo '<span class="ribbon ribbon--badge">'
+      echo badge_text | escape
+      echo '</span>'
+    endif
+  endcapture
+
+  assign analytics_json = '{"product_id":"' | append: product.id | append: '","handle":"' | append: product.handle | append: '","currency":"' | append: cart.currency.iso_code | append: '"}'
 -%}
 
-<section class="product page-width">
-  <div class="product__layout">
+<section
+  class="product"
+  data-product
+  data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-product-url="{{ product.url }}"
+  data-recs-url="{{ routes.product_recommendations_url }}"
+  data-analytics="{{ analytics_json | escape }}"
+  data-label-added="{{ 'products.added' | t }}"
+  data-label-add-error="{{ 'products.add_error' | t }}"
+  data-label-add="{{ 'products.add_to_cart' | t }}"
+  data-label-copied="{{ 'products.offers.copied' | t }}"
+  data-label-applied="{{ 'products.offers.applied' | t }}"
+  data-label-apply-error="{{ 'products.offers.apply_error' | t }}"
+>
+  <div class="page-width product__crumbs">
+    {% render 'breadcrumbs', product: product %}
+  </div>
+
+  <div class="product__layout page-width">
     <div class="product__media">
-      {% render 'product-gallery', product: product %}
+      {% render 'product-gallery', product: product, ribbons: ribbons_html %}
     </div>
 
     <div class="product__info">
-      {%- if section.settings.show_vendor and product.vendor != blank -%}
-        <p class="product__vendor">{{ 'products.vendor_html' | t: vendor: product.vendor }}</p>
-      {%- endif -%}
+      <script type="application/json" data-variant-json>{{ product.variants | json }}</script>
 
-      <h1 class="product__title">{{ product.title }}</h1>
-
-      <div class="product__price" data-price-target>
-        {% render 'price',
-          price: current.price,
-          compare_at_price: current.compare_at_price,
-          unit_price: current.unit_price,
-          unit_price_measurement: current.unit_price_measurement
-        %}
+      <div class="product__heading">
+        {%- if section.settings.show_vendor and product.vendor != blank -%}
+          <p class="product__vendor">{{ product.vendor | escape }}</p>
+        {%- endif -%}
+        <h1 class="product__title">{{ product.title }}</h1>
+        {%- if facts.size > 0 -%}
+          <ul class="product__facts" role="list">
+            {%- for fact in facts -%}
+              <li class="product__fact">{{ fact | escape }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
       </div>
 
-      {%- form 'product', product, id: 'ProductForm', class: 'product-form' -%}
-        <script type="application/json" data-variant-json>{{ product.variants | json }}</script>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'rating' -%}
+            {%- if rating_total > 0 -%}
+              <div class="product__block product__rating" {{ block.shopify_attributes }}>
+                {% render 'rating-stars', rating: rating_average, count: rating_total, href: '#reviews' %}
+              </div>
+            {%- endif -%}
 
-        {% render 'variant-picker', product: product %}
+          {%- when 'value_prop' -%}
+            {%- liquid
+              assign value_prop = product.metafields.custom.value_prop.value
+              if value_prop == blank and block.settings.use_description
+                assign value_prop = product.description | strip_html | truncatewords: 26
+              endif
+            -%}
+            {%- if value_prop != blank -%}
+              <p class="product__block product__value-prop" {{ block.shopify_attributes }}>{{ value_prop | escape }}</p>
+            {%- endif -%}
 
-        <div class="product-form__actions">
-          {% render 'quantity-input', value: 1, input_id: 'ProductQuantity' %}
-          <button
-            type="submit"
-            name="add"
-            class="button button--primary button--full product-form__submit"
-            data-add-to-cart
-            {% unless current.available %}disabled{% endunless %}
-          >
-            <span data-add-label>
-              {%- if current.available -%}{{ 'products.add_to_cart' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
-            </span>
-          </button>
-        </div>
+          {%- when 'price' -%}
+            <div class="product__block pdp-price-block" {{ block.shopify_attributes }}>
+              <div class="pdp-price" data-variant-region="price">
+                {%- liquid
+                  assign on_sale = false
+                  if current.compare_at_price > current.price
+                    assign on_sale = true
+                    assign saving = current.compare_at_price | minus: current.price
+                    assign saving_percent = saving | times: 100 | divided_by: current.compare_at_price
+                    assign saving_money = saving | money
+                  endif
+                -%}
+                <div class="pdp-price__row">
+                  <span class="pdp-price__current">
+                    {%- if on_sale -%}<span class="visually-hidden">{{ 'products.price.sale' | t }}</span>{%- endif -%}
+                    {{ current.price | money }}
+                  </span>
+                  {%- if on_sale -%}
+                    <span class="pdp-price__mrp">
+                      {{ 'products.price.mrp' | t }} <s><span class="visually-hidden">{{ 'products.price.regular' | t }}</span>{{ current.compare_at_price | money }}</s>
+                    </span>
+                    <span class="pdp-price__off">{{ 'products.discount_off' | t: percent: saving_percent }}</span>
+                  {%- endif -%}
+                </div>
+                {%- if on_sale -%}
+                  <p class="pdp-price__saving">{{ 'products.price.you_save' | t: amount: saving_money }}</p>
+                {%- endif -%}
+                {%- if current.unit_price_measurement -%}
+                  <p class="pdp-price__unit"><span class="visually-hidden">{{ 'products.price.unit' | t }}</span> {{ current.unit_price | unit_price_with_measurement: current.unit_price_measurement }}</p>
+                {%- endif -%}
+                {%- if cart.taxes_included -%}
+                  <p class="pdp-price__tax">{{ 'products.price.taxes_included' | t }}</p>
+                {%- endif -%}
+              </div>
 
-        {{ form | payment_button }}
-        <p class="product-form__status visually-hidden" role="status" aria-live="polite" data-add-status></p>
-      {%- endform -%}
+              {%- assign highlight_count = 0 -%}
+              {%- for hl in section.blocks -%}
+                {%- if hl.type == 'highlight' -%}{%- assign highlight_count = highlight_count | plus: 1 -%}{%- endif -%}
+              {%- endfor -%}
+              {%- if highlight_count > 0 -%}
+                <ul class="pdp-chips" role="list">
+                  {%- for hl in section.blocks -%}
+                    {%- if hl.type == 'highlight' -%}
+                      <li class="pdp-chip" {{ hl.shopify_attributes }}>
+                        {% render 'icon', name: hl.settings.icon %}
+                        <span>{{ hl.settings.label | escape }}</span>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </div>
 
-      {%- if section.settings.show_sku and current.sku != blank -%}
-        <p class="product__sku" data-sku>{{ 'products.sku' | t: sku: current.sku }}</p>
-      {%- endif -%}
+          {%- when 'offer' -%}
+            {%- if offers_rendered == false and offer_count > 0 -%}
+              {%- assign offers_rendered = true -%}
+              <div class="product__block offers" data-offers {{ block.shopify_attributes }}>
+                <h2 class="offers__title">{% render 'icon', name: 'tag' %}{{ 'products.offers.title' | t }}</h2>
+                <ul class="offers__list" role="list">
+                  {%- for offer in section.blocks -%}
+                    {%- if offer.type == 'offer' and offer.settings.code != blank -%}
+                      {%- if offer.settings.product_tag == blank or product.tags contains offer.settings.product_tag -%}
+                        {%- liquid
+                          assign code = offer.settings.code | strip | upcase
+                          assign code_param = code | url_encode
+                          assign apply_url = '/discount/' | append: code_param | append: '?redirect=' | append: product.url
+                        -%}
+                        <li class="offer" data-offer data-code="{{ code | escape }}" {{ offer.shopify_attributes }}>
+                          <div class="offer__text">
+                            {%- if offer.settings.title != blank -%}
+                              <p class="offer__headline">{{ offer.settings.title | escape }}</p>
+                            {%- endif -%}
+                            {%- if offer.settings.details != blank -%}
+                              <p class="offer__details">{{ offer.settings.details | escape }}</p>
+                            {%- endif -%}
+                            {%- if offer.settings.percent_off != blank and offer.settings.percent_off > 0 -%}
+                              <p class="offer__best" data-variant-region="offer-{{ offer.id }}">
+                                {%- assign pct_left = 100 | minus: offer.settings.percent_off -%}
+                                {%- assign best_price = current.price | times: pct_left | divided_by: 100 | money -%}
+                                {{ 'products.offers.best_price_html' | t: price: best_price }}
+                              </p>
+                            {%- endif -%}
+                          </div>
+                          <div class="offer__actions">
+                            <span class="offer__code">{{ code | escape }}</span>
+                            <button type="button" class="offer__button offer__copy" data-offer-copy aria-label="{{ 'products.offers.copy_aria' | t: code: code }}">
+                              {% render 'icon', name: 'copy' %}<span>{{ 'products.offers.copy' | t }}</span>
+                            </button>
+                            <a class="offer__button offer__apply" href="{{ apply_url }}" data-offer-apply>{{ 'products.offers.apply' | t }}</a>
+                          </div>
+                          <p class="offer__status" role="status" aria-live="polite" data-offer-status></p>
+                        </li>
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
 
-      {%- if product.description != blank -%}
-        <details class="product__details" open>
-          <summary class="product__details-summary">{{ 'products.description' | t }}</summary>
-          <div class="rte">{{ product.description }}</div>
-        </details>
-      {%- endif -%}
+          {%- when 'variant_picker' -%}
+            <div class="product__block" {{ block.shopify_attributes }}>
+              {% render 'variant-picker', product: product %}
+            </div>
 
-      {%- if show_trust and has_trust_items -%}
-        <ul class="product__trust" role="list">
-          {%- if delivery_text != blank -%}
-            <li class="product__trust-item">{% render 'icon', name: 'truck' %}<span>{{ delivery_text }}</span></li>
-          {%- endif -%}
-          {%- if returns_text != blank -%}
-            <li class="product__trust-item">{% render 'icon', name: 'return' %}<span>{{ returns_text }}</span></li>
-          {%- endif -%}
-          {%- if checkout_text != blank -%}
-            <li class="product__trust-item">{% render 'icon', name: 'lock' %}<span>{{ checkout_text }}</span></li>
-          {%- endif -%}
-        </ul>
-      {%- endif -%}
+          {%- when 'availability' -%}
+            {%- liquid
+              assign threshold = block.settings.low_stock_threshold | default: 0
+              assign stock_state = 'in_stock'
+              assign tracked = false
+              if current.inventory_management != blank
+                assign tracked = true
+              endif
+              if current.available == false
+                assign stock_state = 'out_of_stock'
+              elsif tracked and current.inventory_quantity <= 0 and current.inventory_policy == 'continue'
+                assign stock_state = 'backorder'
+              elsif tracked and threshold > 0 and current.inventory_quantity > 0 and current.inventory_quantity <= threshold
+                assign stock_state = 'low_stock'
+              endif
+            -%}
+            <div class="product__block product__availability" data-variant-region="availability" {{ block.shopify_attributes }}>
+              <p class="availability availability--{{ stock_state | replace: '_', '-' }}">
+                <span class="availability__dot" aria-hidden="true"></span>
+                {%- case stock_state -%}
+                  {%- when 'low_stock' -%}
+                    {{ 'products.availability.low_stock' | t: count: current.inventory_quantity }}
+                  {%- when 'out_of_stock' -%}
+                    {{ 'products.availability.out_of_stock' | t }}
+                  {%- when 'backorder' -%}
+                    {{ 'products.availability.backorder' | t }}
+                  {%- else -%}
+                    {{ 'products.availability.in_stock' | t }}
+                {%- endcase -%}
+              </p>
+              {%- if block.settings.show_sku and current.sku != blank -%}
+                <p class="product__sku">{{ 'products.sku' | t: sku: current.sku }}</p>
+              {%- endif -%}
+            </div>
+
+          {%- when 'buy_buttons' -%}
+            <div class="product__block product__buy" data-buy-block {{ block.shopify_attributes }}>
+              {%- form 'product', product, id: 'ProductForm', class: 'product-form' -%}
+                <div class="product-form__row">
+                  {% render 'quantity-input',
+                    value: current.quantity_rule.min,
+                    min: current.quantity_rule.min,
+                    max: current.quantity_rule.max,
+                    step: current.quantity_rule.increment,
+                    input_id: 'ProductQuantity'
+                  %}
+                  <button
+                    type="submit"
+                    name="add"
+                    class="button button--primary product-form__submit"
+                    data-add-to-cart
+                    {% unless current.available %}disabled{% endunless %}
+                  >
+                    {% render 'icon', name: 'cart' %}
+                    <span data-add-label data-variant-region="add-label">
+                      {%- if current.available -%}{{ 'products.add_to_cart' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
+                    </span>
+                  </button>
+                </div>
+
+                {%- if block.settings.show_buy_now -%}
+                  <div class="product-form__buy-now" data-buy-now>
+                    {{ form | payment_button }}
+                  </div>
+                {%- endif -%}
+
+                <p class="product-form__status" role="status" aria-live="polite" data-add-status></p>
+              {%- endform -%}
+            </div>
+
+          {%- when 'feature_gallery' -%}
+            {% render 'product-features', product: product, heading: block.settings.heading, attributes: block.shopify_attributes %}
+
+          {%- when 'delivery' -%}
+            {%- liquid
+              assign cod_enabled = block.settings.cod_enabled
+              assign cod_meta = product.metafields.custom.cod_available.value
+              if cod_meta == true
+                assign cod_enabled = true
+              elsif cod_meta == false
+                assign cod_enabled = false
+              endif
+              assign threshold_cents = settings.free_shipping_threshold | times: 100
+              assign threshold_money = threshold_cents | money
+              assign dispatch_min = block.settings.dispatch_days_min
+              assign dispatch_max = block.settings.dispatch_days_max
+            -%}
+            <div
+              class="product__block delivery"
+              data-delivery
+              data-serviceable="{{ block.settings.serviceable_prefixes | remove: ' ' | escape }}"
+              data-fast="{{ block.settings.fast_prefixes | remove: ' ' | escape }}"
+              data-dispatch-min="{{ dispatch_min | default: dispatch_max }}"
+              data-dispatch-max="{{ dispatch_max }}"
+              data-transit-min="{{ block.settings.transit_days_min | default: block.settings.transit_days_max }}"
+              data-transit-max="{{ block.settings.transit_days_max }}"
+              data-fast-min="{{ block.settings.fast_transit_days_min | default: block.settings.fast_transit_days_max }}"
+              data-fast-max="{{ block.settings.fast_transit_days_max }}"
+              data-off-day="{{ block.settings.off_day }}"
+              data-cod="{{ cod_enabled }}"
+              data-label-invalid="{{ 'products.delivery.invalid' | t }}"
+              data-label-available="{{ 'products.delivery.available' | t: pin: '__PIN__' }}"
+              data-label-unavailable="{{ 'products.delivery.unavailable' | t: pin: '__PIN__' }}"
+              data-label-estimate="{{ 'products.delivery.estimate' | t: dates: '__DATES__' }}"
+              data-label-cod="{{ 'products.delivery.cod' | t }}"
+              {{ block.shopify_attributes }}
+            >
+              <h2 class="delivery__title">{% render 'icon', name: 'truck' %}{{ 'products.delivery.title' | t }}</h2>
+
+              {%- if block.settings.show_checker -%}
+                <form class="delivery__form" data-delivery-form novalidate>
+                  <label class="visually-hidden" for="DeliveryPin">{{ 'products.delivery.pin_label' | t }}</label>
+                  <div class="delivery__field">
+                    <input
+                      class="input delivery__input"
+                      id="DeliveryPin"
+                      type="text"
+                      inputmode="numeric"
+                      autocomplete="postal-code"
+                      maxlength="6"
+                      pattern="[1-9][0-9]{5}"
+                      placeholder="{{ 'products.delivery.pin_placeholder' | t }}"
+                      data-delivery-input
+                    >
+                    <button type="submit" class="delivery__button">{{ 'products.delivery.check' | t }}</button>
+                  </div>
+                  <p class="delivery__result" role="status" aria-live="polite" data-delivery-result></p>
+                </form>
+              {%- endif -%}
+
+              <ul class="delivery__facts" role="list">
+                {%- if dispatch_max != blank -%}
+                  <li class="delivery__fact">
+                    {% render 'icon', name: 'box' %}
+                    {%- if dispatch_min != blank and dispatch_min != dispatch_max -%}
+                      <span>{{ 'products.delivery.dispatch_range' | t: min: dispatch_min, max: dispatch_max }}</span>
+                    {%- else -%}
+                      <span>{{ 'products.delivery.dispatch' | t: days: dispatch_max }}</span>
+                    {%- endif -%}
+                  </li>
+                {%- endif -%}
+                {%- if block.settings.shipping_text != blank -%}
+                  <li class="delivery__fact">{% render 'icon', name: 'truck' %}<span>{{ block.settings.shipping_text | escape }}</span></li>
+                {%- endif -%}
+                {%- if threshold_cents > 0 -%}
+                  <li class="delivery__fact">{% render 'icon', name: 'truck' %}<span>{{ 'products.delivery.free_shipping' | t: amount: threshold_money }}</span></li>
+                {%- endif -%}
+                {%- if cod_enabled -%}
+                  <li class="delivery__fact">{% render 'icon', name: 'check-circle' %}<span>{{ 'products.delivery.cod' | t }}</span></li>
+                {%- endif -%}
+                {%- if block.settings.returns_text != blank -%}
+                  <li class="delivery__fact">{% render 'icon', name: 'return' %}<span>{{ block.settings.returns_text | escape }}</span></li>
+                {%- endif -%}
+              </ul>
+            </div>
+
+          {%- when 'trust_signals' -%}
+            {%- liquid
+              assign trust_icons = 'lock,shield,return,truck' | split: ','
+              assign trust_list = block.settings.text_1 | strip | append: '||' | append: block.settings.text_2 | strip | append: '||' | append: block.settings.text_3 | strip | append: '||' | append: block.settings.text_4 | strip | split: '||'
+            -%}
+            <ul class="product__block trust" role="list" {{ block.shopify_attributes }}>
+              {%- for item in trust_list -%}
+                {%- assign trimmed = item | strip -%}
+                {%- if trimmed != blank -%}
+                  <li class="trust__item">{% render 'icon', name: trust_icons[forloop.index0] %}<span>{{ trimmed | escape }}</span></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              <details class="pdp-accordion" name="pdp-info" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+                <summary class="pdp-accordion__summary">{{ 'products.description' | t }}</summary>
+                <div class="pdp-accordion__body rte">{{ product.description }}</div>
+              </details>
+            {%- endif -%}
+
+          {%- when 'specs' -%}
+            {%- liquid
+              assign spec_rows = product.metafields.custom.specs.value
+              assign spec_weight = ''
+              if current.weight > 0
+                assign spec_weight = current.weight | weight_with_unit: current.weight_unit
+              endif
+              assign has_specs = false
+              if spec_rows.size > 0 or product.type != blank or spec_weight != blank
+                assign has_specs = true
+              endif
+              if block.settings.show_vendor and product.vendor != blank
+                assign has_specs = true
+              endif
+            -%}
+            {%- if has_specs -%}
+              <details class="pdp-accordion" name="pdp-info" {{ block.shopify_attributes }}>
+                <summary class="pdp-accordion__summary">{{ 'products.specs.title' | t }}</summary>
+                <div class="pdp-accordion__body">
+                  <table class="specs" data-variant-region="specs">
+                    <tbody>
+                      {%- for row in spec_rows -%}
+                        {%- if row contains ':' -%}
+                          {%- assign spec_label = row | split: ':' | first | strip -%}
+                          {%- assign spec_value = row | split: ':' | slice: 1, 99 | join: ':' | strip -%}
+                          <tr><th scope="row">{{ spec_label | escape }}</th><td>{{ spec_value | escape }}</td></tr>
+                        {%- elsif row != blank -%}
+                          <tr><td colspan="2">{{ row | escape }}</td></tr>
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- if block.settings.show_vendor and product.vendor != blank -%}
+                        <tr><th scope="row">{{ 'products.specs.brand' | t }}</th><td>{{ product.vendor | escape }}</td></tr>
+                      {%- endif -%}
+                      {%- if product.type != blank -%}
+                        <tr><th scope="row">{{ 'products.specs.type' | t }}</th><td>{{ product.type | escape }}</td></tr>
+                      {%- endif -%}
+                      {%- if spec_weight != blank -%}
+                        <tr><th scope="row">{{ 'products.specs.weight' | t }}</th><td>{{ spec_weight }}</td></tr>
+                      {%- endif -%}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            {%- endif -%}
+
+          {%- when 'collapsible_tab' -%}
+            {%- liquid
+              assign tab_body = block.settings.content
+              if tab_body == blank and block.settings.page != blank
+                assign tab_body = block.settings.page.content
+              endif
+            -%}
+            {%- if block.settings.heading != blank and tab_body != blank -%}
+              <details class="pdp-accordion" name="pdp-info" {{ block.shopify_attributes }}>
+                <summary class="pdp-accordion__summary">{{ block.settings.heading | escape }}</summary>
+                <div class="pdp-accordion__body rte">{{ tab_body }}</div>
+              </details>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
     </div>
   </div>
 
-  {%- if section.settings.show_related -%}
-    {%- assign rel_collection = product.collections.first -%}
-    {%- if rel_collection and rel_collection.products_count > 1 -%}
-      <div class="home-section product-related">
-        {% render 'section-heading', heading: related_heading %}
-        <ul class="product-grid" role="list">
-          {%- assign shown = 0 -%}
-          {%- for related in rel_collection.products -%}
-            {%- if related.id != product.id and shown < 4 -%}
-              <li class="product-grid__item">
-                {% render 'product-card', product: related, sizes: '(min-width: 64em) 22vw, (min-width: 48em) 30vw, 46vw' %}
-              </li>
-              {%- assign shown = shown | plus: 1 -%}
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      </div>
-    {%- endif -%}
-  {%- endif -%}
+  {% render 'product-sticky-bar', product: product, variant: current %}
+  {% render 'cart-added-sheet' %}
 
-  <script src="{{ 'product.js' | asset_url }}" type="module"></script>
+  <script src="{{ 'product-gallery.js' | asset_url }}" type="module" defer></script>
+  <script src="{{ 'product.js' | asset_url }}" type="module" defer></script>
+  <script src="{{ 'delivery.js' | asset_url }}" type="module" defer></script>
 </section>
+
+{% render 'product-structured-data', product: product %}
 
 {% schema %}
 {
   "name": "t:general.product",
   "settings": [
     { "type": "checkbox", "id": "show_vendor", "label": "t:labels.show_vendor", "default": true },
-    { "type": "checkbox", "id": "show_sku", "label": "t:labels.show_sku", "default": false },
-    { "type": "checkbox", "id": "show_related", "label": "t:labels.show_related", "default": true },
-    { "type": "header", "content": "t:general.trust_strip" },
-    { "type": "checkbox", "id": "show_trust", "label": "t:labels.show_trust", "default": true },
-    { "type": "text", "id": "delivery_text", "label": "t:labels.delivery_text", "info": "t:info.item_blank", "default": "Fast delivery" },
-    { "type": "text", "id": "returns_text", "label": "t:labels.returns_text", "info": "t:info.item_blank", "default": "Easy returns" },
-    { "type": "text", "id": "checkout_text", "label": "t:labels.checkout_text", "info": "t:info.item_blank", "default": "Secure checkout" }
+    { "type": "header", "content": "t:general.ribbons" },
+    { "type": "paragraph", "content": "t:info.ribbons" },
+    { "type": "checkbox", "id": "auto_sale_ribbon", "label": "t:labels.auto_sale_ribbon", "info": "t:info.auto_sale_ribbon", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "rating",
+      "name": "t:general.rating",
+      "limit": 1,
+      "settings": [{ "type": "paragraph", "content": "t:info.rating_block" }]
+    },
+    {
+      "type": "value_prop",
+      "name": "t:general.value_prop",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "use_description", "label": "t:labels.use_description", "default": false, "info": "t:info.value_prop" }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "t:general.price",
+      "limit": 1,
+      "settings": [{ "type": "paragraph", "content": "t:info.price_block" }]
+    },
+    {
+      "type": "offer",
+      "name": "t:general.offer",
+      "limit": 4,
+      "settings": [
+        { "type": "paragraph", "content": "t:info.offer_block" },
+        { "type": "text", "id": "code", "label": "t:labels.offer_code" },
+        { "type": "text", "id": "title", "label": "t:labels.offer_title", "info": "t:info.offer_title" },
+        { "type": "text", "id": "details", "label": "t:labels.offer_details", "info": "t:info.offer_details" },
+        { "type": "number", "id": "percent_off", "label": "t:labels.offer_percent", "info": "t:info.offer_percent" },
+        { "type": "text", "id": "product_tag", "label": "t:labels.offer_tag", "info": "t:info.offer_tag" }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "t:general.variant_picker",
+      "limit": 1,
+      "settings": [{ "type": "paragraph", "content": "t:info.variant_block" }]
+    },
+    {
+      "type": "availability",
+      "name": "t:general.availability",
+      "limit": 1,
+      "settings": [
+        { "type": "range", "id": "low_stock_threshold", "label": "t:labels.low_stock_threshold", "info": "t:info.low_stock", "min": 0, "max": 20, "step": 1, "default": 0 },
+        { "type": "checkbox", "id": "show_sku", "label": "t:labels.show_sku", "default": false }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "t:general.buy_buttons",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_buy_now", "label": "t:labels.show_buy_now", "info": "t:info.buy_now", "default": true }
+      ]
+    },
+    {
+      "type": "feature_gallery",
+      "name": "t:general.feature_gallery",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "t:info.feature_gallery" },
+        { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Key features" }
+      ]
+    },
+    {
+      "type": "delivery",
+      "name": "t:general.delivery",
+      "limit": 1,
+      "settings": [
+        { "type": "header", "content": "t:general.delivery_facts" },
+        { "type": "number", "id": "dispatch_days_min", "label": "t:labels.dispatch_days_min" },
+        { "type": "number", "id": "dispatch_days_max", "label": "t:labels.dispatch_days_max", "info": "t:info.delivery_blank" },
+        { "type": "text", "id": "shipping_text", "label": "t:labels.shipping_text", "info": "t:info.delivery_blank" },
+        { "type": "checkbox", "id": "cod_enabled", "label": "t:labels.cod_enabled", "info": "t:info.cod", "default": false },
+        { "type": "text", "id": "returns_text", "label": "t:labels.returns_text", "info": "t:info.delivery_blank" },
+        { "type": "header", "content": "t:general.delivery_checker" },
+        { "type": "checkbox", "id": "show_checker", "label": "t:labels.show_checker", "default": true },
+        { "type": "textarea", "id": "serviceable_prefixes", "label": "t:labels.serviceable_prefixes", "info": "t:info.serviceable_prefixes" },
+        { "type": "textarea", "id": "fast_prefixes", "label": "t:labels.fast_prefixes", "info": "t:info.fast_prefixes" },
+        { "type": "number", "id": "transit_days_min", "label": "t:labels.transit_days_min" },
+        { "type": "number", "id": "transit_days_max", "label": "t:labels.transit_days_max", "info": "t:info.transit_days" },
+        { "type": "number", "id": "fast_transit_days_min", "label": "t:labels.fast_transit_days_min" },
+        { "type": "number", "id": "fast_transit_days_max", "label": "t:labels.fast_transit_days_max" },
+        {
+          "type": "select",
+          "id": "off_day",
+          "label": "t:labels.off_day",
+          "options": [
+            { "value": "", "label": "t:options.off_day.none" },
+            { "value": "0", "label": "t:options.off_day.sunday" },
+            { "value": "1", "label": "t:options.off_day.monday" },
+            { "value": "6", "label": "t:options.off_day.saturday" }
+          ],
+          "default": ""
+        }
+      ]
+    },
+    {
+      "type": "trust_signals",
+      "name": "t:general.trust_signals",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "t:info.trust_signals" },
+        { "type": "text", "id": "text_1", "label": "t:labels.trust_item_1", "default": "Secure payments" },
+        { "type": "text", "id": "text_2", "label": "t:labels.trust_item_2" },
+        { "type": "text", "id": "text_3", "label": "t:labels.trust_item_3" },
+        { "type": "text", "id": "text_4", "label": "t:labels.trust_item_4" }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "t:general.description",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "t:info.description_block" },
+        { "type": "checkbox", "id": "open", "label": "t:labels.open_by_default", "default": false }
+      ]
+    },
+    {
+      "type": "specs",
+      "name": "t:general.specs",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "t:info.specs_block" },
+        { "type": "checkbox", "id": "show_vendor", "label": "t:labels.show_vendor", "default": true }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "t:general.collapsible_tab",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "t:labels.heading" },
+        { "type": "richtext", "id": "content", "label": "t:labels.body_text" },
+        { "type": "page", "id": "page", "label": "t:labels.tab_page", "info": "t:info.tab_page" }
+      ]
+    },
+    {
+      "type": "highlight",
+      "name": "t:general.highlight",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:labels.highlight_icon",
+          "options": [
+            { "value": "truck", "label": "t:options.icon.truck" },
+            { "value": "return", "label": "t:options.icon.return" },
+            { "value": "lock", "label": "t:options.icon.lock" },
+            { "value": "shield", "label": "t:options.icon.shield" },
+            { "value": "leaf", "label": "t:options.icon.leaf" },
+            { "value": "box", "label": "t:options.icon.box" },
+            { "value": "sparkle", "label": "t:options.icon.sparkle" },
+            { "value": "heart", "label": "t:options.icon.heart" },
+            { "value": "star", "label": "t:options.icon.star" }
+          ],
+          "default": "truck"
+        },
+        { "type": "text", "id": "label", "label": "t:labels.highlight_label", "default": "Fast delivery" }
+      ]
+    }
   ]
 }
 {% endschema %}

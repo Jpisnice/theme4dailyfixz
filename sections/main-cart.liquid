@@ -1,12 +1,15 @@
 {%- liquid
-  assign threshold_cents = section.settings.free_shipping_threshold | times: 100
+  assign threshold_cents = settings.free_shipping_threshold | times: 100
   assign show_bar = false
   if section.settings.show_free_shipping_bar and threshold_cents > 0
     assign show_bar = true
   endif
   assign remaining = threshold_cents | minus: cart.total_price
   assign remaining_money = remaining | money
-  assign progress = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100
+  assign progress = 0
+  if threshold_cents > 0
+    assign progress = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100
+  endif
   assign subtotal_money = cart.total_price | money
   assign continue_label = 'cart.continue' | t
 -%}
@@ -94,8 +97,7 @@
 {
   "name": "t:general.cart",
   "settings": [
-    { "type": "checkbox", "id": "show_free_shipping_bar", "label": "t:labels.show_free_shipping_bar", "default": false },
-    { "type": "number", "id": "free_shipping_threshold", "label": "t:labels.free_shipping_threshold", "default": 0 }
+    { "type": "checkbox", "id": "show_free_shipping_bar", "label": "t:labels.show_free_shipping_bar", "default": false }
   ]
 }
 {% endschema %}

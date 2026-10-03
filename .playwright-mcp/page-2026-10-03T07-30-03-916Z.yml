@@ -1,0 +1,164 @@
+- generic [active] [ref=f49e1]:
+  - link "Skip to content" [ref=f49e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f49e4]:
+    - generic [ref=f49e5]:
+      - link "devDailyFixz" [ref=f49e7] [cursor=pointer]:
+        - /url: /
+      - search [ref=f49e9]:
+        - generic [ref=f49e10]: Search
+        - combobox "Search" [ref=f49e11]
+      - generic [ref=f49e12]:
+        - link "Account" [ref=f49e13] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 0 items" [ref=f49e18] [cursor=pointer]:
+          - /url: /cart
+  - main [ref=f49e24]:
+    - generic [ref=f49e26]:
+      - text: / /
+      - generic [ref=f49e27]:
+        - list [ref=f49e31]:
+          - listitem "Image 1 of 1" [ref=f49e32]:
+            - button "Open image full size" [ref=f49e33]:
+              - img "Top and bottom view of a snowboard. The top view shows abstract circles and lines in shades of teal. The bottom view shows abstract circles and lines in shades of purple and blue with the text “SHOPIFY” in a sans serif typeface on top." [ref=f49e34]
+        - generic [ref=f49e35]:
+          - generic [ref=f49e36]:
+            - paragraph [ref=f49e37]: Snowboard Vendor
+            - heading "The Complete Snowboard" [level=1] [ref=f49e38]
+          - generic [ref=f49e39]:
+            - generic [ref=f49e40]:
+              - generic [ref=f49e41]: Rs. 699.95
+              - paragraph [ref=f49e43]: Inclusive of all taxes
+            - list [ref=f49e44]:
+              - listitem [ref=f49e45]:
+                - generic [ref=f49e50]: Fast delivery
+              - listitem [ref=f49e51]:
+                - generic [ref=f49e55]: Easy returns
+              - listitem [ref=f49e56]:
+                - generic [ref=f49e60]: Secure checkout
+          - generic [ref=f49e61]:
+            - heading "Offers for you" [level=2] [ref=f49e62]
+            - list [ref=f49e66]:
+              - listitem [ref=f49e67]:
+                - generic [ref=f49e68]:
+                  - paragraph [ref=f49e69]: Extra 10% off your first order
+                  - paragraph [ref=f49e70]: Min. order Rs. 499
+                  - paragraph [ref=f49e71]:
+                    - text: Get it for
+                    - strong [ref=f49e72]: Rs. 629.95
+                    - text: with this code
+                - generic [ref=f49e73]:
+                  - generic [ref=f49e74]: WELCOME10
+                  - button "Copy code WELCOME10" [ref=f49e75] [cursor=pointer]:
+                    - generic [ref=f49e79]: Copy
+                  - link "Apply" [ref=f49e80] [cursor=pointer]:
+                    - /url: /discount/WELCOME10?redirect=/products/the-complete-snowboard
+          - group "ColorIce" [ref=f49e84]:
+            - generic [ref=f49e86]:
+              - radio "Ice Rs. 699.95" [checked] [ref=f49e87]
+              - generic [ref=f49e88] [cursor=pointer]:
+                - generic [ref=f49e89]: Ice
+                - generic [ref=f49e90]: Rs. 699.95
+              - radio "Dawn Rs. 699.95" [ref=f49e91]
+              - generic [ref=f49e92] [cursor=pointer]:
+                - generic [ref=f49e93]: Dawn
+                - generic [ref=f49e94]: Rs. 699.95
+              - radio "Powder Rs. 699.95" [ref=f49e95]
+              - generic [ref=f49e96] [cursor=pointer]:
+                - generic [ref=f49e97]: Powder
+                - generic [ref=f49e98]: Rs. 699.95
+              - radio "Electric Rs. 699.95" [ref=f49e99]
+              - generic [ref=f49e100] [cursor=pointer]:
+                - generic [ref=f49e101]: Electric
+                - generic [ref=f49e102]: Rs. 699.95
+              - radio "Sunset Rs. 699.95" [ref=f49e103]
+              - generic [ref=f49e104] [cursor=pointer]:
+                - generic [ref=f49e105]: Sunset
+                - generic [ref=f49e106]: Rs. 699.95
+          - paragraph [ref=f49e108]: In stock
+          - generic [ref=f49e111]:
+            - generic [ref=f49e112]:
+              - generic [ref=f49e113]:
+                - button "Decrease quantity" [ref=f49e114] [cursor=pointer]
+                - spinbutton "Quantity" [ref=f49e116]: "1"
+                - button "Increase quantity" [ref=f49e117] [cursor=pointer]
+              - button "Add to cart" [ref=f49e120] [cursor=pointer]
+            - button "Buy it now" [ref=f49e130] [cursor=pointer]
+          - generic [ref=f49e131]:
+            - heading "Delivery" [level=2] [ref=f49e132]
+            - generic [ref=f49e137]:
+              - generic [ref=f49e138]: Check delivery to your PIN code
+              - generic [ref=f49e139]:
+                - textbox "Check delivery to your PIN code" [ref=f49e140]:
+                  - /placeholder: Enter PIN code
+                - button "Check" [ref=f49e141] [cursor=pointer]
+          - list [ref=f49e142]:
+            - listitem [ref=f49e143]:
+              - generic [ref=f49e147]: Secure payments
+          - group [ref=f49e148]:
+            - generic "Description" [ref=f49e149] [cursor=pointer]
+          - group [ref=f49e150]:
+            - generic "Specifications" [ref=f49e151] [cursor=pointer]
+      - generic [ref=f49e152]:
+        - generic [ref=f49e154]:
+          - generic [ref=f49e155]: Rs. 699.95
+          - button "Ice" [ref=f49e158] [cursor=pointer]
+        - button "Add to cart" [ref=f49e162] [cursor=pointer]
+  - contentinfo [ref=f49e165]:
+    - generic [ref=f49e167]:
+      - generic [ref=f49e168]:
+        - heading "Stay in the loop" [level=2] [ref=f49e169]
+        - paragraph [ref=f49e170]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f49e171]:
+        - generic [ref=f49e172]: Email address
+        - generic [ref=f49e173]:
+          - textbox "Email address" [ref=f49e174]
+          - button "Sign up" [ref=f49e175] [cursor=pointer]
+    - generic [ref=f49e176]:
+      - generic [ref=f49e177]:
+        - generic [ref=f49e178]:
+          - paragraph [ref=f49e179]: devDailyFixz
+          - paragraph [ref=f49e180]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f49e181]:
+          - heading "Footer menu" [level=2] [ref=f49e182]
+          - list [ref=f49e183]:
+            - listitem [ref=f49e184]:
+              - link "Search" [ref=f49e185] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f49e186]:
+        - generic [ref=f49e187]:
+          - generic [ref=f49e188]: Country or region
+          - combobox "Country or region" [ref=f49e189]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f49e190] [cursor=pointer]
+      - generic [ref=f49e191]:
+        - paragraph [ref=f49e192]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f49e193]:
+          - listitem [ref=f49e194]:
+            - img "Visa" [ref=f49e195]
+          - listitem [ref=f49e200]:
+            - img "Mastercard" [ref=f49e201]
+          - listitem [ref=f49e208]:
+            - img "American Express" [ref=f49e209]
+          - listitem [ref=f49e214]:
+            - img "PayPal" [ref=f49e215]
+          - listitem [ref=f49e221]:
+            - img "Diners Club" [ref=f49e222]
+          - listitem [ref=f49e226]:
+            - img "Discover" [ref=f49e227]
+  - navigation "App navigation" [ref=f49e236]:
+    - list [ref=f49e237]:
+      - listitem [ref=f49e238]:
+        - link "Home" [ref=f49e239] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=f49e244]:
+        - link "Explore" [ref=f49e245] [cursor=pointer]:
+          - /url: /collections/all
+      - listitem [ref=f49e250]:
+        - link "Orders" [ref=f49e251] [cursor=pointer]:
+          - /url: /account
+      - listitem [ref=f49e256]:
+        - link "Profile" [ref=f49e257] [cursor=pointer]:
+          - /url: /account
+  - status [ref=f49e262]

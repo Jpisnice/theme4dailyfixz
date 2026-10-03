@@ -1,0 +1,46 @@
+{% doc %}
+  Renders one row of the "Frequently bought together" list: checkbox, image,
+  title, variant and price. bundle.js reads data-variant-id and data-price to
+  build the running total and the /cart/add.js items array.
+
+  @param {product} product - The product for this row
+  @param {variant} variant - The variant that will be added
+  @param {boolean} [current] - True for the product being viewed
+
+  @example
+  {% render 'bundle-item', product: pick, variant: pick.selected_or_first_available_variant %}
+{% enddoc %}
+
+{%- assign row_id = 'Bundle-' | append: variant.id -%}
+
+<li
+  class="bundle-item{% if current %} bundle-item--current{% endif %}"
+  data-bundle-item
+  data-variant-id="{{ variant.id }}"
+  data-price="{{ variant.price }}"
+  data-product-id="{{ product.id }}"
+  {% if current %}data-bundle-current{% endif %}
+>
+  <input class="bundle-item__check" type="checkbox" id="{{ row_id }}" checked data-bundle-check>
+  <label class="bundle-item__label" for="{{ row_id }}">
+    <span class="bundle-item__media">
+      {%- assign row_image = variant.featured_image | default: product.featured_image -%}
+      {%- if row_image -%}
+        {{ row_image | image_url: width: 160 | image_tag: widths: '80, 160', sizes: '64px', loading: 'lazy', alt: '', class: 'bundle-item__image' }}
+      {%- endif -%}
+    </span>
+    <span class="bundle-item__info">
+      <span class="bundle-item__title">
+        {%- if current -%}<span class="bundle-item__this">{{ 'products.bundle.this_item' | t }}</span> {% endif -%}
+        {{ product.title | escape }}
+      </span>
+      {%- unless product.has_only_default_variant -%}
+        <span class="bundle-item__variant" data-bundle-variant>{{ variant.title | escape }}</span>
+      {%- endunless -%}
+      <span class="bundle-item__price" data-bundle-price>{% render 'price', price: variant.price, compare_at_price: variant.compare_at_price %}</span>
+    </span>
+  </label>
+  {%- unless current -%}
+    <a class="bundle-item__link" href="{{ product.url }}">{{ 'products.bundle.view' | t }}<span class="visually-hidden"> {{ product.title | escape }}</span></a>
+  {%- endunless -%}
+</li>

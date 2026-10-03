@@ -1,0 +1,26 @@
+{% doc %}
+  Renders a star rating with fractional fill, the numeric average and an
+  optional review count that links to the reviews section.
+
+  @param {number} rating - Average rating, 0 to 5
+  @param {number} [count] - Number of reviews
+  @param {string} [href] - Link target for the count, e.g. "#reviews"
+  @param {string} [class] - Extra classes
+
+  @example
+  {% render 'rating-stars', rating: 4.8, count: 2431, href: '#reviews' %}
+{% enddoc %}
+
+{%- assign rating_value = rating | times: 1.0 | at_most: 5 | at_least: 0 -%}
+
+<p class="rating {{ class }}">
+  <span class="rating__stars" style="--rating: {{ rating_value }}" role="img" aria-label="{{ 'products.rating_label' | t: rating: rating_value, max: 5 }}"></span>
+  <span class="rating__value" aria-hidden="true">{{ rating_value }}</span>
+  {%- if count != blank -%}
+    {%- if href != blank -%}
+      <a class="rating__count" href="{{ href }}" data-rating-link>{{ 'products.reviews' | t: count: count }}</a>
+    {%- else -%}
+      <span class="rating__count">{{ 'products.reviews' | t: count: count }}</span>
+    {%- endif -%}
+  {%- endif -%}
+</p>

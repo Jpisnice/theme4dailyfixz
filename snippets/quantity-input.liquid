@@ -7,11 +7,14 @@
   @param {string} [input_id] - id for the input. Default 'Quantity'.
   @param {string} [name] - Input name. Default 'quantity'.
   @param {number} [min] - Minimum value. Default 1.
+  @param {number} [max] - Maximum value. No maximum when blank.
+  @param {number} [step] - Step (order increment). Default 1.
   @param {string} [line_key] - Cart line key; when set, adds data-line-key for AJAX updates.
   @param {string} [class] - Extra classes on the wrapper.
 
   @example
   {% render 'quantity-input', value: item.quantity, line_key: item.key %}
+  {% render 'quantity-input', min: variant.quantity_rule.min, max: variant.quantity_rule.max, step: variant.quantity_rule.increment %}
 {% enddoc %}
 
 {%- liquid
@@ -19,6 +22,7 @@
   assign field_id = input_id | default: 'Quantity'
   assign field_name = name | default: 'quantity'
   assign min_value = min | default: 1
+  assign step_value = step | default: 1
 -%}
 
 <div class="qty {{ class }}" data-qty{% if line_key %} data-line-key="{{ line_key }}"{% endif %}>
@@ -32,7 +36,8 @@
     type="number"
     inputmode="numeric"
     min="{{ min_value }}"
-    step="1"
+    {% if max != blank %}max="{{ max }}"{% endif %}
+    step="{{ step_value }}"
     value="{{ qty }}"
     data-qty-input
     aria-label="{{ 'products.quantity' | t }}"

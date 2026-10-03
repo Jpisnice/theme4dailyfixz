@@ -1,0 +1,4 @@
+[     972ms] [INFO] [HotReload] Connected @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:299
+[   50025ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://127.0.0.1:9292/discount/WELCOME10?redirect=/cart.js:0
+[   53302ms] [INFO] Clear-Site-Data header on 'http://127.0.0.1:9292/cart/add.js': Cleared data types: "prefetchCache", "prerenderCache". @ http://127.0.0.1:9292/products/the-complete-snowboard?variant=67275999707385:0
+[   92187ms] [INFO] [HotReload] Updated theme CSS: assets/product.css @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:162

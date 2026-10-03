@@ -19,7 +19,7 @@ Turn the Skeleton starter into a complete, polished, fast catalogue storefront. 
 
 ## Design direction
 
-Concept (updated 2026-10-02): **"Crisp Modern Retail"** — clean, premium and trustworthy. Replaced the earlier warm "everyday, done well" direction at the owner's request.
+Concept (updated 2026-10-03): **"Everyday App"** — a light, rounded, friendly mobile-app feel for general household products (see `MOBILE-APP-REDESIGN-PLAN.md`). Sticky header with pill search, bottom tab bar on mobile, promo carousel, circular top brands and white rounded product cards with a "+" quick-add. Supersedes "Crisp Modern Retail" (2026-10-02); the palette, type and shape bullets below are the older values, the current defaults live in `config/settings_schema.json`: canvas `#F6F7F9`, white surface, ink `#1A1D1F`, cyan accent `#16B6CE`, DM Sans, 16px card radius, pill buttons.
 
 - **Mood:** calm and confident with generous whitespace, hairline borders and soft hover shadows instead of heavy chrome.
 - **Palette (defaults, merchant-editable):** paper-white background `#FFFFFF`, near-black ink `#141414`, a soft grey surface tint `#F4F4F1`, hairline border `#E4E4DF`, muted text `#6B6B66`, and one confident deep-green accent `#1F6F5C` (with white contrast) reserved for primary actions, sale and focus; sale `#C0392B`. Prices and add-to-cart are the highest-contrast elements. All text at least 4.5:1.

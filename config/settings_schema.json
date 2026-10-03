@@ -10,29 +10,31 @@
   {
     "name": "t:general.colors",
     "settings": [
-      { "type": "color", "id": "background_color", "default": "#FFFFFF", "label": "t:labels.background" },
-      { "type": "color", "id": "foreground_color", "default": "#141414", "label": "t:labels.foreground" },
-      { "type": "color", "id": "muted_color", "default": "#6B6B66", "label": "t:labels.muted" },
-      { "type": "color", "id": "surface_color", "default": "#F4F4F1", "label": "t:labels.surface" },
-      { "type": "color", "id": "border_color", "default": "#E4E4DF", "label": "t:labels.border" },
-      { "type": "color", "id": "accent_color", "default": "#1F6F5C", "label": "t:labels.accent" },
-      { "type": "color", "id": "accent_contrast_color", "default": "#FFFFFF", "label": "t:labels.accent_contrast" },
-      { "type": "color", "id": "sale_color", "default": "#C0392B", "label": "t:labels.sale" }
+      { "type": "color", "id": "background_color", "default": "#F6F7F9", "label": "t:labels.background" },
+      { "type": "color", "id": "foreground_color", "default": "#1A1D1F", "label": "t:labels.foreground" },
+      { "type": "color", "id": "muted_color", "default": "#6C7278", "label": "t:labels.muted" },
+      { "type": "color", "id": "surface_color", "default": "#FFFFFF", "label": "t:labels.surface" },
+      { "type": "color", "id": "border_color", "default": "#EDEFF2", "label": "t:labels.border" },
+      { "type": "color", "id": "accent_color", "default": "#16B6CE", "label": "t:labels.accent" },
+      { "type": "color", "id": "accent_contrast_color", "default": "#0B2B33", "label": "t:labels.accent_contrast" },
+      { "type": "color", "id": "sale_color", "default": "#C0392B", "label": "t:labels.sale" },
+      { "type": "color", "id": "promo_from_color", "default": "#1E8294", "label": "t:labels.promo_from" },
+      { "type": "color", "id": "promo_to_color", "default": "#0E4C5A", "label": "t:labels.promo_to" }
     ]
   },
   {
     "name": "t:general.typography",
     "settings": [
       { "type": "header", "content": "t:general.fonts" },
-      { "type": "font_picker", "id": "type_header_font", "default": "archivo_n7", "label": "t:labels.heading_font" },
-      { "type": "font_picker", "id": "type_body_font", "default": "inter_n4", "label": "t:labels.body_font" }
+      { "type": "font_picker", "id": "type_header_font", "default": "dm_sans_n7", "label": "t:labels.heading_font" },
+      { "type": "font_picker", "id": "type_body_font", "default": "dm_sans_n4", "label": "t:labels.body_font" }
     ]
   },
   {
     "name": "t:general.shape",
     "settings": [
-      { "type": "range", "id": "corner_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "t:labels.corner_radius", "default": 8 },
-      { "type": "range", "id": "button_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "t:labels.button_radius", "default": 8 },
+      { "type": "range", "id": "corner_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "t:labels.corner_radius", "default": 16 },
+      { "type": "range", "id": "button_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "t:labels.button_radius", "default": 40 },
       {
         "type": "select",
         "id": "card_image_ratio",
@@ -42,7 +44,7 @@
           { "value": "4 / 5", "label": "t:options.card_ratio.portrait" },
           { "value": "3 / 4", "label": "t:options.card_ratio.tall" }
         ],
-        "default": "4 / 5"
+        "default": "1 / 1"
       }
     ]
   },
@@ -90,10 +92,16 @@
   {
     "name": "t:general.announcement_bar",
     "settings": [
-      { "type": "text", "id": "announcement_text", "label": "t:labels.announcement_text", "info": "t:info.announcement_text", "default": "Everyday essentials, delivered fast" },
+      { "type": "text", "id": "announcement_text", "label": "t:labels.announcement_text", "info": "t:info.announcement_text" },
       { "type": "url", "id": "announcement_link", "label": "t:labels.announcement_link" },
-      { "type": "color", "id": "announcement_background", "default": "#2A2420", "label": "t:labels.announcement_background" },
-      { "type": "color", "id": "announcement_text_color", "default": "#FBF7F0", "label": "t:labels.announcement_text_color" }
+      { "type": "color", "id": "announcement_background", "default": "#1A1D1F", "label": "t:labels.announcement_background" },
+      { "type": "color", "id": "announcement_text_color", "default": "#FFFFFF", "label": "t:labels.announcement_text_color" }
+    ]
+  },
+  {
+    "name": "t:general.shipping",
+    "settings": [
+      { "type": "number", "id": "free_shipping_threshold", "label": "t:labels.free_shipping_threshold", "info": "t:info.free_shipping_global" }
     ]
   },
   {

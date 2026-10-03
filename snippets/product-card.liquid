@@ -1,6 +1,7 @@
 {% doc %}
-  Renders an image-led product card with a fixed image ratio, optional
-  second image on hover, title, price and sale or sold-out badges. The title
+  Renders an app-style product card: tinted image, price first, title, a muted
+  unit line and a round "+" quick-add button. Optional second image on hover and
+  sale or sold-out badges. The title
   link covers the whole card. The image is decorative (empty alt) because the
   adjacent title link already names the product.
 
@@ -8,6 +9,7 @@
   @param {boolean} [lazy] - Lazy-load the image. Default: true; pass false for above-the-fold cards
   @param {string} [sizes] - Image sizes attribute. Default suits a two-column mobile grid
   @param {boolean} [show_second_image] - Show the second image on hover. Default: true
+  @param {boolean} [quick_add] - Show the "+" button. Single-variant products add straight to the cart; others link to the product page. Default: true
   @param {string} [class] - Extra classes
 
   @example
@@ -27,6 +29,18 @@
       assign on_sale = true
     endif
   endif
+  assign show_quick_add = true
+  if quick_add == false
+    assign show_quick_add = false
+  endif
+  assign unit_line = ''
+  if product.variants.size > 1
+    assign unit_line = 'products.card.options' | t: count: product.variants.size
+  elsif product.has_only_default_variant == false
+    assign unit_line = variant.title
+  endif
+  assign added_message = 'products.card.added' | t: product: product.title
+  assign failed_message = 'products.card.add_failed' | t: product: product.title
   assign second_image = nil
   if show_second_image != false
     if product.images.size > 1
@@ -84,5 +98,23 @@
       unit_price: variant.unit_price,
       unit_price_measurement: variant.unit_price_measurement
     %}
+    {%- if unit_line != blank -%}
+      <p class="product-card__unit">{{ unit_line | escape }}</p>
+    {%- endif -%}
+    {%- if show_quick_add and product.available -%}
+      {%- if product.variants.size == 1 -%}
+        {%- form 'product', product, class: 'product-card__quick-add', data-quick-add: '', data-added-message: added_message, data-failed-message: failed_message -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="product-card__add" aria-label="{{ 'products.card.add_aria' | t: product: product.title }}">
+            {% render 'icon', name: 'plus' %}
+          </button>
+        {%- endform -%}
+      {%- else -%}
+        <a class="product-card__add" href="{{ product.url }}" aria-label="{{ 'products.card.options_aria' | t: product: product.title }}">
+          {% render 'icon', name: 'plus' %}
+        </a>
+      {%- endif -%}
+    {%- endif -%}
   </div>
 </article>

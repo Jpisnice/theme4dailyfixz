@@ -1,0 +1,9 @@
+[     977ms] [INFO] [HotReload] Connected @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:299
+[   15433ms] [INFO] Clear-Site-Data header on 'http://127.0.0.1:9292/cart/add.js': Cleared data types: "prefetchCache", "prerenderCache". @ http://127.0.0.1:9292/products/the-complete-snowboard?variant=67275999740153:0
+[   34395ms] [INFO] [HotReload] Updated theme CSS: assets/product-content.css @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:162
+[   34631ms] [INFO] [HotReload] Full reload: templates/product.json @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:55
+[   34964ms] [INFO] [HotReload] Updated sections for "sections/product-bundle.liquid": [bundle] @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:145
+[   36149ms] [INFO] [HotReload] Connected @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:299
+[   36543ms] [ERROR] Framing 'https://shop.app/' violates the following Content Security Policy directive: "frame-ancestors 'self' https://shop.app https://admin.shopify.com". The request has been blocked.
+ @ :0
+[   36547ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ chrome-error://chromewebdata/:0

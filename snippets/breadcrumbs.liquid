@@ -1,0 +1,61 @@
+{% doc %}
+  Renders breadcrumbs for a product (Home, collection, product) and the
+  matching BreadcrumbList JSON-LD. The collection is the one the visitor came
+  from when known, otherwise the product's first collection.
+
+  @param {product} product - The current product
+
+  @example
+  {% render 'breadcrumbs', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign crumb_collection = collection
+  if crumb_collection == blank
+    assign crumb_collection = product.collections | first
+  endif
+-%}
+
+<nav class="breadcrumbs" aria-label="{{ 'general.breadcrumbs.label' | t }}">
+  <ol class="breadcrumbs__list">
+    <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></li>
+    {%- if crumb_collection != blank -%}
+      <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{{ crumb_collection.url }}">{{ crumb_collection.title | escape }}</a></li>
+    {%- endif -%}
+    <li class="breadcrumbs__item" aria-current="page">{{ product.title | escape }}</li>
+  </ol>
+</nav>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": {{ 'general.breadcrumbs.home' | t | json }},
+        "item": {{ request.origin | append: routes.root_url | json }}
+      }
+      {%- if crumb_collection != blank -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ crumb_collection.title | json }},
+          "item": {{ request.origin | append: crumb_collection.url | json }}
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ product.title | json }}
+        }
+      {%- else -%}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ product.title | json }}
+        }
+      {%- endif -%}
+    ]
+  }
+</script>

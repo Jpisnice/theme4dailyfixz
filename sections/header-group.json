@@ -9,7 +9,8 @@
     "header": {
       "type": "header",
       "settings": {
-        "menu": "main-menu"
+        "menu": "main-menu",
+        "suggested_terms": "Cleaning, Kitchen, Storage, Bath"
       }
     }
   },

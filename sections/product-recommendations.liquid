@@ -1,0 +1,47 @@
+{%- liquid
+  assign recs_heading = section.settings.heading | escape
+  assign recs_url = ''
+  if product
+    assign recs_url = routes.product_recommendations_url | append: '?section_id=' | append: section.id | append: '&product_id=' | append: product.id | append: '&limit=' | append: section.settings.limit | append: '&intent=' | append: section.settings.intent
+  endif
+-%}
+
+<div class="product-recs page-width" data-product-recs data-url="{{ recs_url }}">
+  {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+    {%- if recs_heading != blank -%}
+      {% render 'section-heading', heading: recs_heading, class: 'product-recs__heading' %}
+    {%- endif -%}
+    <ul class="product-recs__list" role="list">
+      {%- for rec in recommendations.products -%}
+        <li class="product-recs__item" data-rec-id="{{ rec.id }}">
+          {% render 'product-card', product: rec, sizes: '(min-width: 64em) 22vw, (min-width: 48em) 30vw, 44vw' %}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>
+
+<script src="{{ 'product-recommendations.js' | asset_url }}" type="module" defer></script>
+
+{% schema %}
+{
+  "name": "t:general.product_recommendations",
+  "settings": [
+    { "type": "paragraph", "content": "t:info.product_recommendations" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "You may also like" },
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "t:labels.recommendation_intent",
+      "options": [
+        { "value": "related", "label": "t:options.intent.related" },
+        { "value": "complementary", "label": "t:options.intent.complementary" }
+      ],
+      "default": "related"
+    },
+    { "type": "range", "id": "limit", "label": "t:labels.products_to_show", "min": 2, "max": 10, "step": 1, "default": 8 }
+  ],
+  "enabled_on": { "templates": ["product"] },
+  "presets": [{ "name": "t:general.product_recommendations" }]
+}
+{% endschema %}

@@ -1,0 +1,131 @@
+- generic [active] [ref=f130e1]:
+  - link "Skip to content" [ref=f130e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f130e4]:
+    - generic [ref=f130e5]:
+      - link "devDailyFixz" [ref=f130e7] [cursor=pointer]:
+        - /url: /
+      - search [ref=f130e9]:
+        - generic [ref=f130e10]: Search
+        - combobox "Search" [ref=f130e11]
+      - generic [ref=f130e12]:
+        - link "Account" [ref=f130e13] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 3 items" [ref=f130e18] [cursor=pointer]:
+          - /url: /cart
+          - generic [aria-hidden] [ref=f130e24]: "3"
+  - main [ref=f130e25]:
+    - generic [ref=f130e27]:
+      - text: / /
+      - generic [ref=f130e28]:
+        - generic [ref=f130e31]:
+          - generic: Sale 11% off
+          - list [ref=f130e32]:
+            - listitem "Image 1 of 1" [ref=f130e33]:
+              - button "Open image full size" [ref=f130e34]:
+                - img "Top and bottom view of a snowboard. The top view shows pixelated clouds, with the top-most one being the shape of the Shopify bag logo. The bottom view has a pixelated cloudy sky with blue, pink and purple colours." [ref=f130e35]
+        - generic [ref=f130e36]:
+          - generic [ref=f130e37]:
+            - paragraph [ref=f130e38]: devDailyFixz
+            - heading "The Compare at Price Snowboard" [level=1] [ref=f130e39]
+          - generic [ref=f130e40]:
+            - generic [ref=f130e41]:
+              - generic [ref=f130e42]:
+                - generic [ref=f130e43]:
+                  - generic [ref=f130e44]: Sale price
+                  - text: Rs. 785.95
+                - generic [ref=f130e45]:
+                  - text: MRP
+                  - generic [ref=f130e46]:
+                    - generic [ref=f130e47]: Regular price
+                    - text: Rs. 885.95
+                - generic [ref=f130e48]: 11% off
+              - paragraph [ref=f130e49]: You save Rs. 100.00
+              - paragraph [ref=f130e50]: Inclusive of all taxes
+            - list [ref=f130e51]:
+              - listitem [ref=f130e52]:
+                - generic [ref=f130e57]: Fast delivery
+              - listitem [ref=f130e58]:
+                - generic [ref=f130e62]: Easy returns
+              - listitem [ref=f130e63]:
+                - generic [ref=f130e67]: Secure checkout
+          - paragraph [ref=f130e69]: In stock
+          - generic [ref=f130e72]:
+            - generic [ref=f130e73]:
+              - generic [ref=f130e74]:
+                - button "Decrease quantity" [ref=f130e75] [cursor=pointer]
+                - spinbutton "Quantity" [ref=f130e77]: "1"
+                - button "Increase quantity" [ref=f130e78] [cursor=pointer]
+              - button "Add to cart" [ref=f130e81] [cursor=pointer]
+            - button "Buy it now" [ref=f130e91] [cursor=pointer]
+          - generic [ref=f130e92]:
+            - heading "Delivery" [level=2] [ref=f130e93]
+            - generic [ref=f130e98]:
+              - generic [ref=f130e99]: Check delivery to your PIN code
+              - generic [ref=f130e100]:
+                - textbox "Check delivery to your PIN code" [ref=f130e101]:
+                  - /placeholder: Enter PIN code
+                - button "Check" [ref=f130e102] [cursor=pointer]
+          - list [ref=f130e103]:
+            - listitem [ref=f130e104]:
+              - generic [ref=f130e108]: Secure payments
+          - group [ref=f130e109]:
+            - generic "Specifications" [ref=f130e110] [cursor=pointer]
+  - contentinfo [ref=f130e112]:
+    - generic [ref=f130e114]:
+      - generic [ref=f130e115]:
+        - heading "Stay in the loop" [level=2] [ref=f130e116]
+        - paragraph [ref=f130e117]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f130e118]:
+        - generic [ref=f130e119]: Email address
+        - generic [ref=f130e120]:
+          - textbox "Email address" [ref=f130e121]
+          - button "Sign up" [ref=f130e122] [cursor=pointer]
+    - generic [ref=f130e123]:
+      - generic [ref=f130e124]:
+        - generic [ref=f130e125]:
+          - paragraph [ref=f130e126]: devDailyFixz
+          - paragraph [ref=f130e127]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f130e128]:
+          - heading "Footer menu" [level=2] [ref=f130e129]
+          - list [ref=f130e130]:
+            - listitem [ref=f130e131]:
+              - link "Search" [ref=f130e132] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f130e133]:
+        - generic [ref=f130e134]:
+          - generic [ref=f130e135]: Country or region
+          - combobox "Country or region" [ref=f130e136]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f130e137] [cursor=pointer]
+      - generic [ref=f130e138]:
+        - paragraph [ref=f130e139]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f130e140]:
+          - listitem [ref=f130e141]:
+            - img "Visa" [ref=f130e142]
+          - listitem [ref=f130e147]:
+            - img "Mastercard" [ref=f130e148]
+          - listitem [ref=f130e155]:
+            - img "American Express" [ref=f130e156]
+          - listitem [ref=f130e161]:
+            - img "PayPal" [ref=f130e162]
+          - listitem [ref=f130e168]:
+            - img "Diners Club" [ref=f130e169]
+          - listitem [ref=f130e173]:
+            - img "Discover" [ref=f130e174]
+  - navigation "App navigation" [ref=f130e183]:
+    - list [ref=f130e184]:
+      - listitem [ref=f130e185]:
+        - link "Home" [ref=f130e186] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=f130e191]:
+        - link "Explore" [ref=f130e192] [cursor=pointer]:
+          - /url: /collections/all
+      - listitem [ref=f130e197]:
+        - link "Orders" [ref=f130e198] [cursor=pointer]:
+          - /url: /account
+      - listitem [ref=f130e203]:
+        - link "Profile" [ref=f130e204] [cursor=pointer]:
+          - /url: /account
+  - status [ref=f130e209]

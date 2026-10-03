@@ -1,0 +1,170 @@
+- generic [active] [ref=f58e1]:
+  - link "Skip to content" [ref=f58e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f58e4]:
+    - generic [ref=f58e5]:
+      - link "devDailyFixz" [ref=f58e7] [cursor=pointer]:
+        - /url: /
+      - navigation "Main menu" [ref=f58e9]:
+        - list [ref=f58e10]:
+          - listitem [ref=f58e11]:
+            - link "Home" [ref=f58e12] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f58e13]:
+            - link "Catalog" [ref=f58e14] [cursor=pointer]:
+              - /url: /collections/all
+          - listitem [ref=f58e15]:
+            - link "Contact" [ref=f58e16] [cursor=pointer]:
+              - /url: /pages/contact
+      - search [ref=f58e17]:
+        - generic [ref=f58e18]: Search
+        - combobox "Search" [ref=f58e19]
+      - generic [ref=f58e20]:
+        - link "Account" [ref=f58e21] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 1 item" [ref=f58e26] [cursor=pointer]:
+          - /url: /cart
+          - generic [aria-hidden] [ref=f58e32]: "1"
+  - main [ref=f58e33]:
+    - generic [ref=f58e35]:
+      - navigation "Breadcrumb" [ref=f58e37]:
+        - list [ref=f58e38]:
+          - listitem [ref=f58e39]:
+            - link "Home" [ref=f58e40] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f58e41]: /Selling Plans Ski Wax
+      - generic [ref=f58e42]:
+        - generic [ref=f58e44]:
+          - generic [ref=f58e45]:
+            - list [ref=f58e46]:
+              - listitem "Image 1 of 3" [ref=f58e47]:
+                - button "Open image full size" [ref=f58e48]:
+                  - img "A bar of golden yellow wax" [ref=f58e49]
+              - listitem "Image 2 of 3" [ref=f58e50]:
+                - button "Open image full size" [ref=f58e51]:
+                  - img "A bar of purple wax" [ref=f58e52]
+              - listitem "Image 3 of 3" [ref=f58e53]:
+                - button "Open image full size" [ref=f58e54]:
+                  - img "a small cube of wax" [ref=f58e55]
+            - paragraph [aria-hidden]: 1 / 3
+            - button "Previous image" [disabled] [ref=f58e56] [cursor=pointer]
+            - button "Next image" [ref=f58e59] [cursor=pointer]
+          - list [ref=f58e62]:
+            - listitem [ref=f58e63]:
+              - button "Show image 1 of 3" [ref=f58e64] [cursor=pointer]
+            - listitem [ref=f58e65]:
+              - button "Show image 2 of 3" [ref=f58e66] [cursor=pointer]
+            - listitem [ref=f58e67]:
+              - button "Show image 3 of 3" [ref=f58e68] [cursor=pointer]
+        - generic [ref=f58e69]:
+          - generic [ref=f58e70]:
+            - paragraph [ref=f58e71]: devDailyFixz
+            - heading "Selling Plans Ski Wax" [level=1] [ref=f58e72]
+          - generic [ref=f58e73]:
+            - generic [ref=f58e74]:
+              - generic [ref=f58e75]: Rs. 24.95
+              - paragraph [ref=f58e77]: Inclusive of all taxes
+            - list [ref=f58e78]:
+              - listitem [ref=f58e79]:
+                - generic [ref=f58e84]: Fast delivery
+              - listitem [ref=f58e85]:
+                - generic [ref=f58e89]: Easy returns
+              - listitem [ref=f58e90]:
+                - generic [ref=f58e94]: Secure checkout
+          - generic [ref=f58e95]:
+            - heading "Offers for you" [level=2] [ref=f58e96]
+            - list [ref=f58e100]:
+              - listitem [ref=f58e101]:
+                - generic [ref=f58e102]:
+                  - paragraph [ref=f58e103]: Extra 10% off your first order
+                  - paragraph [ref=f58e104]: Min. order Rs. 499
+                  - paragraph [ref=f58e105]:
+                    - text: Get it for
+                    - strong [ref=f58e106]: Rs. 22.45
+                    - text: with this code
+                - generic [ref=f58e107]:
+                  - generic [ref=f58e108]: WELCOME10
+                  - button "Copy code WELCOME10" [ref=f58e109] [cursor=pointer]:
+                    - generic [ref=f58e113]: Copy
+                  - link "Apply" [ref=f58e114] [cursor=pointer]:
+                    - /url: /discount/WELCOME10?redirect=/products/selling-plans-ski-wax
+          - group "TitleSelling Plans Ski Wax" [ref=f58e118]:
+            - generic [ref=f58e120]:
+              - radio "Selling Plans Ski Wax Rs. 24.95" [checked] [ref=f58e121]
+              - generic [ref=f58e122] [cursor=pointer]:
+                - generic [ref=f58e123]: Selling Plans Ski Wax
+                - generic [ref=f58e124]: Rs. 24.95
+              - radio "Special Selling Plans Ski Wax Rs. 49.95" [ref=f58e125]
+              - generic [ref=f58e126] [cursor=pointer]:
+                - generic [ref=f58e127]: Special Selling Plans Ski Wax
+                - generic [ref=f58e128]: Rs. 49.95
+              - radio "Sample Selling Plans Ski Wax Rs. 9.95" [ref=f58e129]
+              - generic [ref=f58e130] [cursor=pointer]:
+                - generic [ref=f58e131]: Sample Selling Plans Ski Wax
+                - generic [ref=f58e132]: Rs. 9.95
+          - paragraph [ref=f58e134]: In stock
+          - generic [ref=f58e137]:
+            - generic [ref=f58e138]:
+              - generic [ref=f58e139]:
+                - button "Decrease quantity" [ref=f58e140] [cursor=pointer]
+                - spinbutton "Quantity" [ref=f58e142]: "1"
+                - button "Increase quantity" [ref=f58e143] [cursor=pointer]
+              - button "Add to cart" [ref=f58e146] [cursor=pointer]
+            - button "Buy it now" [ref=f58e156] [cursor=pointer]
+          - generic [ref=f58e157]:
+            - heading "Delivery" [level=2] [ref=f58e158]
+            - generic [ref=f58e163]:
+              - generic [ref=f58e164]: Check delivery to your PIN code
+              - generic [ref=f58e165]:
+                - textbox "Check delivery to your PIN code" [ref=f58e166]:
+                  - /placeholder: Enter PIN code
+                - button "Check" [ref=f58e167] [cursor=pointer]
+          - list [ref=f58e168]:
+            - listitem [ref=f58e169]:
+              - generic [ref=f58e173]: Secure payments
+          - group [ref=f58e174]:
+            - generic "Specifications" [ref=f58e175] [cursor=pointer]
+  - contentinfo [ref=f58e177]:
+    - generic [ref=f58e179]:
+      - generic [ref=f58e180]:
+        - heading "Stay in the loop" [level=2] [ref=f58e181]
+        - paragraph [ref=f58e182]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f58e183]:
+        - generic [ref=f58e184]: Email address
+        - generic [ref=f58e185]:
+          - textbox "Email address" [ref=f58e186]
+          - button "Sign up" [ref=f58e187] [cursor=pointer]
+    - generic [ref=f58e188]:
+      - generic [ref=f58e189]:
+        - generic [ref=f58e190]:
+          - paragraph [ref=f58e191]: devDailyFixz
+          - paragraph [ref=f58e192]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f58e193]:
+          - heading "Footer menu" [level=2] [ref=f58e194]
+          - list [ref=f58e195]:
+            - listitem [ref=f58e196]:
+              - link "Search" [ref=f58e197] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f58e198]:
+        - generic [ref=f58e199]:
+          - generic [ref=f58e200]: Country or region
+          - combobox "Country or region" [ref=f58e201]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f58e202] [cursor=pointer]
+      - generic [ref=f58e203]:
+        - paragraph [ref=f58e204]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f58e205]:
+          - listitem [ref=f58e206]:
+            - img "Visa" [ref=f58e207]
+          - listitem [ref=f58e212]:
+            - img "Mastercard" [ref=f58e213]
+          - listitem [ref=f58e220]:
+            - img "American Express" [ref=f58e221]
+          - listitem [ref=f58e226]:
+            - img "PayPal" [ref=f58e227]
+          - listitem [ref=f58e233]:
+            - img "Diners Club" [ref=f58e234]
+          - listitem [ref=f58e238]:
+            - img "Discover" [ref=f58e239]
+  - status [ref=f58e248]

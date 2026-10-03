@@ -1,0 +1,25 @@
+{% doc %}
+  Renders the empty "Added to cart" dialog shell. product.js fills
+  [data-cart-sheet-body] with the cart-added section (returned by the Cart AJAX
+  API `sections` parameter) and [data-cart-sheet-recs] with the
+  product-recommendations section, then opens it. A bottom sheet on mobile and
+  a centred modal on desktop.
+
+  @example
+  {% render 'cart-added-sheet' %}
+{% enddoc %}
+
+<dialog class="cart-sheet" data-cart-sheet aria-labelledby="CartSheetTitle">
+  <div class="cart-sheet__panel">
+    <div class="cart-sheet__header">
+      <p class="cart-sheet__title" id="CartSheetTitle">{% render 'icon', name: 'check-circle' %}{{ 'products.added' | t }}</p>
+      <button type="button" class="cart-sheet__close" data-cart-sheet-close aria-label="{{ 'products.sheet.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div class="cart-sheet__body" data-cart-sheet-body></div>
+    <div class="cart-sheet__recs" data-cart-sheet-recs hidden></div>
+    <div class="cart-sheet__actions">
+      <a class="button button--secondary" href="{{ routes.cart_url }}">{{ 'products.view_cart' | t }}</a>
+      <a class="button button--primary" href="{{ routes.cart_url }}/checkout" data-checkout-link>{{ 'products.checkout' | t }}</a>
+    </div>
+  </div>
+</dialog>

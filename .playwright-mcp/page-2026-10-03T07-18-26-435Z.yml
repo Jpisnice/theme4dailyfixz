@@ -1,0 +1,7 @@
+- alert [ref=e4]:
+  - generic [ref=e6]:
+    - heading "Upload Errors" [level=2] [ref=e16]
+    - generic [ref=e19]:
+      - text: config/settings_schema.json
+      - list [ref=e20]:
+        - listitem [ref=e21]: "Section 8: setting with id=\"announcement_text\" default can't be blank"

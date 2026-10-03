@@ -1,0 +1,59 @@
+{% doc %}
+  Outputs review statistics for a product as one pipe-separated string:
+  average|count|five|four|three|two|one. Capture it and split on "|".
+
+  The average and count prefer the standard review-app metafields
+  (reviews.rating, reviews.rating_count) and otherwise come from the native
+  custom.reviews metaobject list. The per-star counts always come from the
+  native list, so they describe the loaded reviews only.
+
+  @param {product} product - The product to summarise
+
+  @example
+  {% capture stats %}{% render 'review-stats', product: product %}{% endcapture %}
+  {% assign parts = stats | strip | split: '|' %}
+{% enddoc %}
+
+{%- liquid
+  assign native_reviews = product.metafields.custom.reviews.value
+  assign meta_rating = product.metafields.reviews.rating.value
+  assign meta_count = product.metafields.reviews.rating_count.value
+  assign star_1 = 0
+  assign star_2 = 0
+  assign star_3 = 0
+  assign star_4 = 0
+  assign star_5 = 0
+  assign native_sum = 0
+  assign native_count = 0
+
+  for review in native_reviews
+    assign review_rating = review.rating.value | plus: 0
+    if review_rating >= 1 and review_rating <= 5
+      assign native_count = native_count | plus: 1
+      assign native_sum = native_sum | plus: review_rating
+      case review_rating
+        when 1
+          assign star_1 = star_1 | plus: 1
+        when 2
+          assign star_2 = star_2 | plus: 1
+        when 3
+          assign star_3 = star_3 | plus: 1
+        when 4
+          assign star_4 = star_4 | plus: 1
+        when 5
+          assign star_5 = star_5 | plus: 1
+      endcase
+    endif
+  endfor
+
+  assign average = 0
+  assign total = 0
+  if meta_rating != blank and meta_count != blank
+    assign average = meta_rating.rating
+    assign total = meta_count | plus: 0
+  elsif native_count > 0
+    assign average = native_sum | times: 1.0 | divided_by: native_count | round: 1
+    assign total = native_count
+  endif
+-%}
+{{ average }}|{{ total }}|{{ star_5 }}|{{ star_4 }}|{{ star_3 }}|{{ star_2 }}|{{ star_1 }}

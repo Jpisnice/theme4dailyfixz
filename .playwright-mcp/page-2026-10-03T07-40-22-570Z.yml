@@ -1,0 +1,148 @@
+- generic [active] [ref=f91e1]:
+  - link "Skip to content" [ref=f91e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f91e4]:
+    - generic [ref=f91e5]:
+      - link "devDailyFixz" [ref=f91e7] [cursor=pointer]:
+        - /url: /
+      - search [ref=f91e9]:
+        - generic [ref=f91e10]: Search
+        - combobox "Search" [ref=f91e11]
+      - generic [ref=f91e12]:
+        - link "Account" [ref=f91e13] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 1 item" [ref=f91e18] [cursor=pointer]:
+          - /url: /cart
+          - generic [aria-hidden] [ref=f91e24]: "1"
+  - main [ref=f91e25]:
+    - generic [ref=f91e27]:
+      - text: / /
+      - generic [ref=f91e28]:
+        - list [ref=f91e32]:
+          - listitem "Image 1 of 1" [ref=f91e33]:
+            - button "Open image full size" [ref=f91e34]:
+              - img "Top and bottom view of a snowboard. The top view shows abstract circles and lines in shades of teal. The bottom view shows abstract circles and lines in shades of purple and blue with the text “SHOPIFY” in a sans serif typeface on top." [ref=f91e35]
+        - generic [ref=f91e36]:
+          - generic [ref=f91e37]:
+            - paragraph [ref=f91e38]: Snowboard Vendor
+            - heading "The Complete Snowboard" [level=1] [ref=f91e39]
+          - generic [ref=f91e40]:
+            - generic [ref=f91e41]:
+              - generic [ref=f91e42]: Rs. 699.95
+              - paragraph [ref=f91e44]: Inclusive of all taxes
+            - list [ref=f91e45]:
+              - listitem [ref=f91e46]:
+                - generic [ref=f91e51]: Fast delivery
+              - listitem [ref=f91e52]:
+                - generic [ref=f91e56]: Easy returns
+              - listitem [ref=f91e57]:
+                - generic [ref=f91e61]: Secure checkout
+          - group "ColorIce" [ref=f91e65]:
+            - generic [ref=f91e67]:
+              - radio "Ice Rs. 699.95" [checked] [ref=f91e68]
+              - generic [ref=f91e69] [cursor=pointer]:
+                - generic [ref=f91e70]: Ice
+                - generic [ref=f91e71]: Rs. 699.95
+              - radio "Dawn Rs. 699.95" [ref=f91e72]
+              - generic [ref=f91e73] [cursor=pointer]:
+                - generic [ref=f91e74]: Dawn
+                - generic [ref=f91e75]: Rs. 699.95
+              - radio "Powder Rs. 699.95" [ref=f91e76]
+              - generic [ref=f91e77] [cursor=pointer]:
+                - generic [ref=f91e78]: Powder
+                - generic [ref=f91e79]: Rs. 699.95
+              - radio "Electric Rs. 699.95" [ref=f91e80]
+              - generic [ref=f91e81] [cursor=pointer]:
+                - generic [ref=f91e82]: Electric
+                - generic [ref=f91e83]: Rs. 699.95
+              - radio "Sunset Rs. 699.95" [ref=f91e84]
+              - generic [ref=f91e85] [cursor=pointer]:
+                - generic [ref=f91e86]: Sunset
+                - generic [ref=f91e87]: Rs. 699.95
+          - paragraph [ref=f91e89]: In stock
+          - generic [ref=f91e92]:
+            - generic [ref=f91e93]:
+              - generic [ref=f91e94]:
+                - button "Decrease quantity" [ref=f91e95] [cursor=pointer]
+                - spinbutton "Quantity" [ref=f91e97]: "1"
+                - button "Increase quantity" [ref=f91e98] [cursor=pointer]
+              - button "Add to cart" [ref=f91e101] [cursor=pointer]
+            - button "Buy it now" [ref=f91e111] [cursor=pointer]
+          - generic [ref=f91e112]:
+            - heading "Delivery" [level=2] [ref=f91e113]
+            - generic [ref=f91e118]:
+              - generic [ref=f91e119]: Check delivery to your PIN code
+              - generic [ref=f91e120]:
+                - textbox "Check delivery to your PIN code" [ref=f91e121]:
+                  - /placeholder: Enter PIN code
+                - button "Check" [ref=f91e122] [cursor=pointer]
+          - list [ref=f91e123]:
+            - listitem [ref=f91e124]:
+              - generic [ref=f91e128]: Secure payments
+          - group [ref=f91e129]:
+            - generic "Description" [ref=f91e130] [cursor=pointer]
+          - group [ref=f91e131]:
+            - generic "Specifications" [ref=f91e132] [cursor=pointer]
+      - generic [ref=f91e133]:
+        - generic [ref=f91e135]:
+          - generic [ref=f91e136]: Rs. 699.95
+          - button "Ice" [ref=f91e139] [cursor=pointer]
+        - button "Add to cart" [ref=f91e143] [cursor=pointer]
+  - contentinfo [ref=f91e146]:
+    - generic [ref=f91e148]:
+      - generic [ref=f91e149]:
+        - heading "Stay in the loop" [level=2] [ref=f91e150]
+        - paragraph [ref=f91e151]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f91e152]:
+        - generic [ref=f91e153]: Email address
+        - generic [ref=f91e154]:
+          - textbox "Email address" [ref=f91e155]
+          - button "Sign up" [ref=f91e156] [cursor=pointer]
+    - generic [ref=f91e157]:
+      - generic [ref=f91e158]:
+        - generic [ref=f91e159]:
+          - paragraph [ref=f91e160]: devDailyFixz
+          - paragraph [ref=f91e161]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f91e162]:
+          - heading "Footer menu" [level=2] [ref=f91e163]
+          - list [ref=f91e164]:
+            - listitem [ref=f91e165]:
+              - link "Search" [ref=f91e166] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f91e167]:
+        - generic [ref=f91e168]:
+          - generic [ref=f91e169]: Country or region
+          - combobox "Country or region" [ref=f91e170]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f91e171] [cursor=pointer]
+      - generic [ref=f91e172]:
+        - paragraph [ref=f91e173]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f91e174]:
+          - listitem [ref=f91e175]:
+            - img "Visa" [ref=f91e176]
+          - listitem [ref=f91e181]:
+            - img "Mastercard" [ref=f91e182]
+          - listitem [ref=f91e189]:
+            - img "American Express" [ref=f91e190]
+          - listitem [ref=f91e195]:
+            - img "PayPal" [ref=f91e196]
+          - listitem [ref=f91e202]:
+            - img "Diners Club" [ref=f91e203]
+          - listitem [ref=f91e207]:
+            - img "Discover" [ref=f91e208]
+  - navigation "App navigation" [ref=f91e217]:
+    - list [ref=f91e218]:
+      - listitem [ref=f91e219]:
+        - link "Home" [ref=f91e220] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=f91e225]:
+        - link "Explore" [ref=f91e226] [cursor=pointer]:
+          - /url: /collections/all
+      - listitem [ref=f91e231]:
+        - link "Orders" [ref=f91e232] [cursor=pointer]:
+          - /url: /account
+      - listitem [ref=f91e237]:
+        - link "Profile" [ref=f91e238] [cursor=pointer]:
+          - /url: /account
+  - status [ref=f91e243]

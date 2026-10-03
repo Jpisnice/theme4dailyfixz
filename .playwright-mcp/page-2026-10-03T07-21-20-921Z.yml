@@ -1,0 +1,185 @@
+- generic [active] [ref=f7e1]:
+  - link "Skip to content" [ref=f7e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f7e4]:
+    - generic [ref=f7e5]:
+      - link "devDailyFixz" [ref=f7e7] [cursor=pointer]:
+        - /url: /
+      - search [ref=f7e9]:
+        - generic [ref=f7e10]: Search
+        - combobox "Search" [ref=f7e11]
+      - generic [ref=f7e12]:
+        - link "Account" [ref=f7e13] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 0 items" [ref=f7e18] [cursor=pointer]:
+          - /url: /cart
+  - main [ref=f7e24]:
+    - generic [ref=f7e26]:
+      - navigation "Breadcrumb" [ref=f7e27]:
+        - list [ref=f7e28]:
+          - listitem [ref=f7e29]:
+            - link "Home" [ref=f7e30] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f7e31]:
+            - text: /
+            - link "Automated Collection" [ref=f7e32] [cursor=pointer]:
+              - /url: /collections/automated-collection
+          - listitem [ref=f7e33]: /The Complete Snowboard
+      - generic [ref=f7e34]:
+        - generic [ref=f7e35]:
+          - list [ref=f7e38]:
+            - listitem "Image 1 of 1" [ref=f7e39]:
+              - button "Open image full size" [ref=f7e40]:
+                - img "Top and bottom view of a snowboard. The top view shows abstract circles and lines in shades of teal. The bottom view shows abstract circles and lines in shades of purple and blue with the text “SHOPIFY” in a sans serif typeface on top." [ref=f7e41]
+          - list [ref=f7e42]:
+            - listitem [ref=f7e43]:
+              - generic [ref=f7e48]: Fast delivery
+            - listitem [ref=f7e49]:
+              - generic [ref=f7e53]: Easy returns
+            - listitem [ref=f7e54]:
+              - generic [ref=f7e58]: Secure checkout
+        - generic [ref=f7e59]:
+          - generic [ref=f7e60]:
+            - paragraph [ref=f7e61]: By Snowboard Vendor
+            - heading "The Complete Snowboard" [level=1] [ref=f7e62]
+          - paragraph [ref=f7e63]: This PREMIUM snowboard is so SUPERDUPER awesome!
+          - generic [ref=f7e64]: Rs. 699.95
+          - group "ColorIce" [ref=f7e71]:
+            - generic [ref=f7e73]:
+              - radio "Ice Rs. 699.95" [checked] [ref=f7e74]
+              - generic [ref=f7e75] [cursor=pointer]:
+                - generic [ref=f7e76]: Ice
+                - generic [ref=f7e77]: Rs. 699.95
+              - radio "Dawn Rs. 699.95" [ref=f7e78]
+              - generic [ref=f7e79] [cursor=pointer]:
+                - generic [ref=f7e80]: Dawn
+                - generic [ref=f7e81]: Rs. 699.95
+              - radio "Powder Rs. 699.95" [ref=f7e82]
+              - generic [ref=f7e83] [cursor=pointer]:
+                - generic [ref=f7e84]: Powder
+                - generic [ref=f7e85]: Rs. 699.95
+              - radio "Electric Rs. 699.95" [ref=f7e86]
+              - generic [ref=f7e87] [cursor=pointer]:
+                - generic [ref=f7e88]: Electric
+                - generic [ref=f7e89]: Rs. 699.95
+              - radio "Sunset Rs. 699.95" [ref=f7e90]
+              - generic [ref=f7e91] [cursor=pointer]:
+                - generic [ref=f7e92]: Sunset
+                - generic [ref=f7e93]: Rs. 699.95
+          - paragraph [ref=f7e95]: In stock
+          - generic [ref=f7e98]:
+            - generic [ref=f7e99]:
+              - generic [ref=f7e100]:
+                - button "Decrease quantity" [ref=f7e101] [cursor=pointer]
+                - spinbutton "Quantity" [ref=f7e103]: "1"
+                - button "Increase quantity" [ref=f7e104] [cursor=pointer]
+              - button "Add to cart" [ref=f7e107] [cursor=pointer]
+            - button "Buy it now" [ref=f7e113] [cursor=pointer]
+          - generic [ref=f7e114]:
+            - heading "Delivery" [level=2] [ref=f7e115]
+            - list
+            - generic [ref=f7e116]:
+              - generic [ref=f7e117]: Check delivery to your PIN code
+              - generic [ref=f7e118]:
+                - textbox "Check delivery to your PIN code" [ref=f7e119]:
+                  - /placeholder: Enter PIN code
+                - button "Check" [ref=f7e120] [cursor=pointer]
+          - list [ref=f7e121]:
+            - listitem [ref=f7e122]:
+              - generic [ref=f7e126]: Secure payments
+          - group [ref=f7e127]:
+            - generic "Description" [ref=f7e128] [cursor=pointer]
+            - generic [ref=f7e129]: This PREMIUM snowboard is so SUPERDUPER awesome!
+      - generic [ref=f7e130]:
+        - heading "You may also like" [level=2] [ref=f7e133]
+        - list [ref=f7e134]:
+          - listitem [ref=f7e135]:
+            - article [ref=f7e136]:
+              - generic [ref=f7e138]:
+                - heading [level=3] [ref=f7e139]:
+                  - link "The Multi-location Snowboard" [ref=f7e140] [cursor=pointer]:
+                    - /url: /products/the-multi-location-snowboard
+                - generic [ref=f7e141]: Rs. 729.95
+                - button "Add The Multi-location Snowboard to cart" [ref=f7e143] [cursor=pointer]
+          - listitem [ref=f7e146]:
+            - article [ref=f7e147]:
+              - generic [ref=f7e149]:
+                - heading [level=3] [ref=f7e150]:
+                  - link "The Multi-managed Snowboard" [ref=f7e151] [cursor=pointer]:
+                    - /url: /products/the-multi-managed-snowboard
+                - generic [ref=f7e152]: Rs. 629.95
+                - button "Add The Multi-managed Snowboard to cart" [ref=f7e154] [cursor=pointer]
+          - listitem [ref=f7e157]:
+            - article [ref=f7e158]:
+              - generic [ref=f7e160]:
+                - heading [level=3] [ref=f7e161]:
+                  - 'link "The Collection Snowboard: Liquid" [ref=f7e162] [cursor=pointer]':
+                    - /url: /products/the-collection-snowboard-liquid
+                - generic [ref=f7e163]: Rs. 749.95
+                - 'button "Add The Collection Snowboard: Liquid to cart" [ref=f7e165] [cursor=pointer]'
+          - listitem [ref=f7e168]:
+            - article [ref=f7e169]:
+              - generic [ref=f7e171]:
+                - heading [level=3] [ref=f7e172]:
+                  - 'link "The Collection Snowboard: Hydrogen" [ref=f7e173] [cursor=pointer]':
+                    - /url: /products/the-collection-snowboard-hydrogen
+                - generic [ref=f7e174]: Rs. 600.00
+                - 'button "Add The Collection Snowboard: Hydrogen to cart" [ref=f7e176] [cursor=pointer]'
+  - contentinfo [ref=f7e180]:
+    - generic [ref=f7e182]:
+      - generic [ref=f7e183]:
+        - heading "Stay in the loop" [level=2] [ref=f7e184]
+        - paragraph [ref=f7e185]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f7e186]:
+        - generic [ref=f7e187]: Email address
+        - generic [ref=f7e188]:
+          - textbox "Email address" [ref=f7e189]
+          - button "Sign up" [ref=f7e190] [cursor=pointer]
+    - generic [ref=f7e191]:
+      - generic [ref=f7e192]:
+        - generic [ref=f7e193]:
+          - paragraph [ref=f7e194]: devDailyFixz
+          - paragraph [ref=f7e195]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f7e196]:
+          - heading "Footer menu" [level=2] [ref=f7e197]
+          - list [ref=f7e198]:
+            - listitem [ref=f7e199]:
+              - link "Search" [ref=f7e200] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f7e201]:
+        - generic [ref=f7e202]:
+          - generic [ref=f7e203]: Country or region
+          - combobox "Country or region" [ref=f7e204]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f7e205] [cursor=pointer]
+      - generic [ref=f7e206]:
+        - paragraph [ref=f7e207]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f7e208]:
+          - listitem [ref=f7e209]:
+            - img "Visa" [ref=f7e210]
+          - listitem [ref=f7e215]:
+            - img "Mastercard" [ref=f7e216]
+          - listitem [ref=f7e223]:
+            - img "American Express" [ref=f7e224]
+          - listitem [ref=f7e229]:
+            - img "PayPal" [ref=f7e230]
+          - listitem [ref=f7e236]:
+            - img "Diners Club" [ref=f7e237]
+          - listitem [ref=f7e241]:
+            - img "Discover" [ref=f7e242]
+  - navigation "App navigation" [ref=f7e251]:
+    - list [ref=f7e252]:
+      - listitem [ref=f7e253]:
+        - link "Home" [ref=f7e254] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=f7e259]:
+        - link "Explore" [ref=f7e260] [cursor=pointer]:
+          - /url: /collections/all
+      - listitem [ref=f7e265]:
+        - link "Orders" [ref=f7e266] [cursor=pointer]:
+          - /url: /account
+      - listitem [ref=f7e271]:
+        - link "Profile" [ref=f7e272] [cursor=pointer]:
+          - /url: /account
+  - status [ref=f7e277]

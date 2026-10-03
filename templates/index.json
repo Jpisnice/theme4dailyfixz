@@ -1,36 +1,39 @@
 {
   "sections": {
-    "hero": {
-      "type": "hero",
+    "promo-banner": {
+      "type": "promo-banner",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {}
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "heading": "Fresh finds for every room",
+            "subheading": "New arrivals, ready to ship.",
+            "button_label": "Explore"
+          }
+        }
+      },
+      "block_order": [
+        "slide-1",
+        "slide-2"
+      ],
+      "settings": {}
+    },
+    "brand-row": {
+      "type": "brand-row",
       "settings": {}
     },
     "featured-collection": {
       "type": "featured-collection",
       "settings": {}
-    },
-    "trust-strip": {
-      "type": "trust-strip",
-      "settings": {}
-    },
-    "collection-tiles": {
-      "type": "collection-tiles",
-      "settings": {}
-    },
-    "brand-story": {
-      "type": "brand-story",
-      "settings": {}
-    },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {}
     }
   },
   "order": [
-    "hero",
-    "featured-collection",
-    "trust-strip",
-    "collection-tiles",
-    "brand-story",
-    "newsletter"
+    "promo-banner",
+    "brand-row",
+    "featured-collection"
   ]
 }

@@ -89,6 +89,25 @@
     "placeholder": "Search articles, pages, or products",
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
+    "similar_title": "Similar items",
+    "no_results_hint": "Check the spelling or try a more general word.",
+    "suggested_title": "Try searching for",
+    "filter_label": "Result type",
+    "types": {
+      "all": "All",
+      "product": "Products",
+      "collection": "Collections",
+      "article": "Articles",
+      "page": "Pages"
+    },
+    "sort": {
+      "label": "Sort by",
+      "relevance": "Relevance",
+      "price_asc": "Price, low to high",
+      "price_desc": "Price, high to low",
+      "apply": "Apply"
+    },
+    "popular_title": "Popular right now",
     "results_for_html": "{{ count }} results found for {{ terms }}"
   },
   "general": {
@@ -101,19 +120,39 @@
       "next_page": "Next page",
       "page": "Page {{ page }}",
       "current_page": "Page {{ page }}, current page"
+    },
+    "breadcrumbs": {
+      "label": "Breadcrumb",
+      "home": "Home"
     }
   },
   "header": {
     "main_menu": "Main menu",
-    "menu_open": "Open menu",
-    "menu_close": "Close menu",
-    "submenu_toggle": "Show submenu for {{ title }}",
     "search": "Search",
+    "search_placeholder": "Search products",
+    "search_suggested": "Suggested searches",
+    "search_suggestions": "Suggestions",
+    "search_products": "Products",
+    "search_collections": "Collections",
+    "search_see_all": "See all results for {{ terms }}",
+    "search_no_results": "No suggestions for {{ terms }}",
+    "search_count": {
+      "one": "{{ count }} suggestion available",
+      "other": "{{ count }} suggestions available"
+    },
     "account": "Account",
     "cart_label": {
       "one": "Cart, {{ count }} item",
       "other": "Cart, {{ count }} items"
     }
+  },
+  "tab_bar": {
+    "label": "App navigation",
+    "home": "Home",
+    "explore": "Explore",
+    "orders": "Orders",
+    "cart": "Cart",
+    "profile": "Profile"
   },
   "footer": {
     "newsletter_title": "Stay in the loop",
@@ -146,7 +185,11 @@
       "regular": "Regular price",
       "sale": "Sale price",
       "unit": "Unit price",
-      "from_html": "From {{ price }}"
+      "from_html": "From {{ price }}",
+      "save": "Save {{ amount }} ({{ percent }}%)",
+      "mrp": "MRP",
+      "you_save": "You save {{ amount }}",
+      "taxes_included": "Inclusive of all taxes"
     },
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",
@@ -158,11 +201,138 @@
     "sku": "SKU: {{ sku }}",
     "description": "Description",
     "related": "You may also like",
-    "view_details": "View full details"
+    "discount_off": "{{ percent }}% off",
+    "rating_label": "Rated {{ rating }} out of {{ max }}",
+    "reviews": {
+      "one": "{{ count }} review",
+      "other": "{{ count }} reviews"
+    },
+    "gallery_label": "Product images",
+    "dot_label": "Show image {{ index }} of {{ total }}",
+    "view_details": "View full details",
+    "card": {
+      "add_aria": "Add {{ product }} to cart",
+      "options_aria": "Choose options for {{ product }}",
+      "added": "{{ product }} added to cart",
+      "add_failed": "Could not add {{ product }} to cart",
+      "options": {
+        "one": "{{ count }} option",
+        "other": "{{ count }} options"
+      }
+    },
+    "variant": "Variant",
+    "added": "Added to cart",
+    "add_error": "Could not add to cart.",
+    "view_cart": "View cart",
+    "checkout": "Checkout",
+    "gallery": {
+      "counter": "{{ index }} / {{ total }}",
+      "slide_of": "Image {{ index }} of {{ total }}",
+      "zoom": "Open image full size",
+      "previous": "Previous image",
+      "next": "Next image",
+      "show_image": "Show image {{ index }} of {{ total }}",
+      "lightbox": "Product image viewer",
+      "close": "Close"
+    },
+    "availability": {
+      "in_stock": "In stock",
+      "low_stock": {
+        "one": "Only {{ count }} left",
+        "other": "Only {{ count }} left"
+      },
+      "out_of_stock": "Out of stock",
+      "backorder": "Available on backorder"
+    },
+    "delivery": {
+      "title": "Delivery",
+      "dispatch": "Dispatched within {{ days }} business days",
+      "dispatch_range": "Dispatched within {{ min }} to {{ max }} business days",
+      "free_shipping": "Free shipping on orders over {{ amount }}",
+      "cod": "Cash on delivery available",
+      "pin_label": "Check delivery to your PIN code",
+      "pin_placeholder": "Enter PIN code",
+      "check": "Check",
+      "invalid": "Enter a valid 6-digit PIN code.",
+      "available": "Delivery available to {{ pin }}",
+      "unavailable": "Sorry, we cannot deliver to {{ pin }} yet.",
+      "estimate": "Estimated delivery: {{ dates }}"
+    },
+    "offers": {
+      "title": "Offers for you",
+      "copy": "Copy",
+      "copy_aria": "Copy code {{ code }}",
+      "copied": "Code copied",
+      "apply": "Apply",
+      "applied": "Applied. The discount shows at checkout.",
+      "apply_error": "Could not apply this code. Copy it and enter it at checkout.",
+      "best_price_html": "Get it for <strong>{{ price }}</strong> with this code"
+    },
+    "specs": {
+      "title": "Specifications",
+      "brand": "Brand",
+      "type": "Type",
+      "weight": "Weight"
+    },
+    "sheet": {
+      "close": "Close",
+      "quantity": "Qty: {{ count }}",
+      "subtotal": {
+        "one": "Cart subtotal ({{ count }} item)",
+        "other": "Cart subtotal ({{ count }} items)"
+      },
+      "shipping_progress": "Progress towards free shipping"
+    },
+    "bundle": {
+      "this_item": "This item:",
+      "view": "View",
+      "total": "Total for selected",
+      "add": {
+        "one": "Add to cart",
+        "other": "Add {{ count }} to cart"
+      },
+      "added": "Added to cart."
+    },
+    "reviews_section": {
+      "based_on": {
+        "one": "Based on {{ count }} review",
+        "other": "Based on {{ count }} reviews"
+      },
+      "filter_stars": {
+        "one": "Show {{ stars }}-star reviews ({{ count }} review)",
+        "other": "Show {{ stars }}-star reviews ({{ count }} reviews)"
+      },
+      "write": "Write a review",
+      "filters": "Filter reviews",
+      "all": "All",
+      "stars": {
+        "one": "{{ count }} star",
+        "other": "{{ count }} stars"
+      },
+      "with_photos": "With photos",
+      "showing": "Showing {{ shown }} of {{ total }}",
+      "open_photo": "Open photo full size",
+      "verified": "Verified buyer",
+      "reply": "Reply from {{ shop }}",
+      "more": "Show more reviews"
+    },
+    "ribbon": {
+      "sale": "Sale {{ percent }}% off"
+    }
   },
   "home": {
     "featured": {
-      "view_all": "View all"
+      "view_all": "See all"
+    },
+    "promo": {
+      "label": "Promotions",
+      "slide_of": "Slide {{ index }} of {{ total }}",
+      "go_to_slide": "Go to slide",
+      "pause": "Pause",
+      "play": "Play"
+    },
+    "brands": {
+      "see_all": "See all"
     },
     "placeholder": {
       "product_title": "Product name",

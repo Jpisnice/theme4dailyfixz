@@ -1,0 +1,79 @@
+{%- liquid
+  assign pick_limit = section.settings.limit
+  assign fbt = product.metafields.custom.fbt.value
+  assign fbt_count = 0
+  for pick in fbt
+    if pick.available and pick.id != product.id
+      assign fbt_count = fbt_count | plus: 1
+    endif
+  endfor
+  assign recs_url = ''
+  if product and fbt_count == 0 and section.settings.use_recommendations
+    assign recs_url = routes.product_recommendations_url | append: '?section_id=' | append: section.id | append: '&product_id=' | append: product.id | append: '&limit=' | append: pick_limit | append: '&intent=complementary'
+  endif
+-%}
+
+{%- if recommendations.performed? -%}
+  <ul data-bundle-list>
+    {%- for pick in recommendations.products limit: 4 -%}
+      {%- if pick.available -%}
+        {% render 'bundle-item', product: pick, variant: pick.selected_or_first_available_variant %}
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- elsif product -%}
+  {%- assign current = product.selected_or_first_available_variant -%}
+  <section
+    class="bundle page-width"
+    data-bundle
+    data-recs-url="{{ recs_url }}"
+    data-limit="{{ pick_limit }}"
+    data-money-format="{{ shop.money_format | escape }}"
+    data-label-add-one="{{ 'products.bundle.add.one' | t }}"
+    data-label-add-other="{{ 'products.bundle.add.other' | t: count: '__COUNT__' }}"
+    data-label-added="{{ 'products.bundle.added' | t }}"
+    data-label-error="{{ 'products.add_error' | t }}"
+    {% if fbt_count == 0 %}hidden{% endif %}
+  >
+    <div class="bundle__card">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="bundle__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      <ul class="bundle__list" role="list" data-bundle-list>
+        {% render 'bundle-item', product: product, variant: current, current: true %}
+        {%- assign shown = 0 -%}
+        {%- for pick in fbt -%}
+          {%- if pick.available and pick.id != product.id and shown < pick_limit -%}
+            {% render 'bundle-item', product: pick, variant: pick.selected_or_first_available_variant %}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <div class="bundle__footer">
+        <p class="bundle__total">
+          <span>{{ 'products.bundle.total' | t }}</span>
+          <strong data-bundle-total></strong>
+        </p>
+        <button type="button" class="button button--primary bundle__add" data-bundle-add>
+          <span data-bundle-add-label>{{ 'products.bundle.add.other' | t: count: 2 }}</span>
+        </button>
+      </div>
+      <p class="bundle__status" role="status" aria-live="polite" data-bundle-status></p>
+    </div>
+  </section>
+  <script src="{{ 'bundle.js' | asset_url }}" type="module" defer></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:general.product_bundle",
+  "settings": [
+    { "type": "paragraph", "content": "t:info.product_bundle" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Frequently bought together" },
+    { "type": "checkbox", "id": "use_recommendations", "label": "t:labels.bundle_use_recommendations", "info": "t:info.bundle_use_recommendations", "default": true },
+    { "type": "range", "id": "limit", "label": "t:labels.products_to_show", "min": 1, "max": 3, "step": 1, "default": 2 }
+  ],
+  "enabled_on": { "templates": ["product"] },
+  "presets": [{ "name": "t:general.product_bundle" }]
+}
+{% endschema %}

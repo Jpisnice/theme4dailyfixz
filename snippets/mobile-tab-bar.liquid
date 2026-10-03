@@ -1,0 +1,72 @@
+{% doc %}
+  Renders the sticky bottom tab bar (Home, Explore, Orders, Profile). Shown on
+  mobile only; layout/theme.liquid renders it once. The current tab is marked
+  with aria-current. When customer accounts are off, Orders becomes Cart and
+  Profile is dropped.
+
+  @example
+  {% render 'mobile-tab-bar' %}
+{% enddoc %}
+
+{%- liquid
+  assign page_type = request.page_type
+  assign home_active = false
+  assign explore_active = false
+  assign orders_active = false
+  assign profile_active = false
+
+  if page_type == 'index'
+    assign home_active = true
+  elsif page_type == 'collection' or page_type == 'list-collections' or page_type == 'product' or page_type == 'search'
+    assign explore_active = true
+  elsif page_type == 'cart'
+    assign orders_active = true
+  elsif page_type contains 'customers'
+    if page_type == 'customers/order'
+      assign orders_active = true
+    else
+      assign profile_active = true
+    endif
+  endif
+
+  if shop.customer_accounts_enabled
+    assign orders_url = routes.account_url
+    assign orders_label = 'tab_bar.orders' | t
+    assign orders_icon = 'orders'
+  else
+    assign orders_url = routes.cart_url
+    assign orders_label = 'tab_bar.cart' | t
+    assign orders_icon = 'cart'
+  endif
+-%}
+
+<nav class="tab-bar" aria-label="{{ 'tab_bar.label' | t }}">
+  <ul class="tab-bar__list" role="list">
+    <li class="tab-bar__item">
+      <a class="tab-bar__link" href="{{ routes.root_url }}"{% if home_active %} aria-current="page"{% endif %}>
+        {% render 'icon', name: 'home' %}
+        <span class="tab-bar__label">{{ 'tab_bar.home' | t }}</span>
+      </a>
+    </li>
+    <li class="tab-bar__item">
+      <a class="tab-bar__link" href="{{ routes.all_products_collection_url }}"{% if explore_active %} aria-current="page"{% endif %}>
+        {% render 'icon', name: 'compass' %}
+        <span class="tab-bar__label">{{ 'tab_bar.explore' | t }}</span>
+      </a>
+    </li>
+    <li class="tab-bar__item">
+      <a class="tab-bar__link" href="{{ orders_url }}"{% if orders_active %} aria-current="page"{% endif %}>
+        {% render 'icon', name: orders_icon %}
+        <span class="tab-bar__label">{{ orders_label }}</span>
+      </a>
+    </li>
+    {%- if shop.customer_accounts_enabled -%}
+      <li class="tab-bar__item">
+        <a class="tab-bar__link" href="{{ routes.account_url }}"{% if profile_active %} aria-current="page"{% endif %}>
+          {% render 'icon', name: 'account' %}
+          <span class="tab-bar__label">{{ 'tab_bar.profile' | t }}</span>
+        </a>
+      </li>
+    {%- endif -%}
+  </ul>
+</nav>

@@ -1,0 +1,89 @@
+{% doc %}
+  Renders a single Product JSON-LD block: name, description, brand, sku, gtin,
+  images, one Offer per variant (price, currency, availability, URL) and an
+  aggregateRating when reviews exist. Replaces the generic structured_data
+  filter on product pages.
+
+  @param {product} product - The current product
+
+  @example
+  {% render 'product-structured-data', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  capture stats
+    render 'review-stats', product: product
+  endcapture
+  assign stat_parts = stats | strip | split: '|'
+  assign rating_average = stat_parts[0]
+  assign rating_total = stat_parts[1] | plus: 0
+  assign product_url = request.origin | append: product.url
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "@id": {{ product_url | append: '#product' | json }},
+    "name": {{ product.title | json }},
+    "url": {{ product_url | json }},
+    "description": {{ product.description | strip_html | strip_newlines | truncate: 5000, '' | json }},
+    "sku": {{ current.sku | json }},
+    {%- if current.barcode != blank -%}
+      "gtin": {{ current.barcode | json }},
+    {%- endif -%}
+    {%- if product.vendor != blank -%}
+      "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+    {%- endif -%}
+    {%- if product.images.size > 0 -%}
+      "image": [
+        {%- for image in product.images limit: 6 -%}
+          {{ image | image_url: width: 1200 | replace: 'https:', '' | prepend: 'https:' | json }}{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ],
+    {%- endif -%}
+    {%- if rating_total > 0 -%}
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": {{ rating_average | json }},
+        "reviewCount": {{ rating_total }},
+        "bestRating": 5,
+        "worstRating": 1
+      },
+      {%- assign ld_reviews = product.metafields.custom.reviews.value -%}
+      {%- assign ld_sep = '' -%}
+      {%- if ld_reviews.size > 0 -%}
+        "review": [
+          {%- for review in ld_reviews limit: 5 -%}
+            {%- assign ld_rating = review.rating.value | plus: 0 -%}
+            {%- if ld_rating >= 1 and review.author.value != blank -%}
+              {{ ld_sep }}{
+                "@type": "Review",
+                "author": { "@type": "Person", "name": {{ review.author.value | json }} },
+                {%- if review.date.value != blank -%}"datePublished": {{ review.date.value | date: '%Y-%m-%d' | json }},{%- endif -%}
+                {%- if review.body.value != blank -%}"reviewBody": {{ review.body.value | json }},{%- endif -%}
+                "reviewRating": { "@type": "Rating", "ratingValue": {{ ld_rating }}, "bestRating": 5, "worstRating": 1 }
+              }
+              {%- assign ld_sep = ',' -%}
+            {%- endif -%}
+          {%- endfor -%}
+        ],
+      {%- endif -%}
+    {%- endif -%}
+    "offers": [
+      {%- for variant in product.variants -%}
+        {
+          "@type": "Offer",
+          "name": {{ variant.title | json }},
+          "url": {{ request.origin | append: variant.url | json }},
+          "sku": {{ variant.sku | json }},
+          "price": {{ variant.price | divided_by: 100.0 }},
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": {% if variant.available %}"https://schema.org/InStock"{% else %}"https://schema.org/OutOfStock"{% endif %}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>

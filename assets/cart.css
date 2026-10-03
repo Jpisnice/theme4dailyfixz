@@ -160,3 +160,30 @@
     align-items: start;
   }
 }
+
+/* ---------- Mobile sticky checkout bar: subtotal + checkout, above the tab bar ---------- */
+@media (max-width: 47.999em) {
+  .cart__form {
+    display: flex;
+    flex-direction: column;
+  }
+  .cart__footer {
+    display: contents;
+  }
+  .cart__note {
+    margin-top: var(--space-5);
+  }
+  .cart__summary {
+    position: sticky;
+    bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
+    z-index: 15;
+    margin: var(--space-5) calc(var(--page-margin) * -1) 0;
+    padding: var(--space-3) var(--page-margin);
+    border-width: var(--border-width) 0 0;
+    border-radius: 0;
+    gap: var(--space-2);
+  }
+  .cart__taxes {
+    font-size: var(--text-xs);
+  }
+}

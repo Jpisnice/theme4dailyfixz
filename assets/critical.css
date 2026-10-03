@@ -35,13 +35,13 @@ select {
 }
 
 select {
-  background-color: var(--color-background, #FFFFFF);
+  background-color: var(--color-surface, #FFFFFF);
   color: currentcolor;
 }
 
 dialog {
-  background-color: var(--color-background, #FFFFFF);
-  color: var(--color-foreground, #141414);
+  background-color: var(--color-surface, #FFFFFF);
+  color: var(--color-foreground, #1A1D1F);
 }
 
 p {
@@ -74,20 +74,20 @@ p:empty {
 /** Theme styles below */
 body {
   font-family: var(--font-body--family, system-ui, sans-serif);
-  background-color: var(--color-background, #FFFFFF);
-  color: var(--color-foreground, #141414);
+  background-color: var(--color-background, #F6F7F9);
+  color: var(--color-foreground, #1A1D1F);
 }
 
 /* Above-the-fold shell skeleton: avoids a jump before base.css applies. */
 .announcement-bar {
-  background-color: var(--color-announcement-bg, #141414);
+  background-color: var(--color-announcement-bg, #1A1D1F);
   color: var(--color-announcement-text, #FFFFFF);
   text-align: center;
   font-size: var(--text-sm, 0.8125rem);
 }
 .site-header {
-  background-color: var(--color-background, #FFFFFF);
-  border-bottom: 1px solid var(--color-border, #E4E4DF);
+  background-color: var(--color-surface, #FFFFFF);
+  border-bottom: 1px solid var(--color-border, #EDEFF2);
 }
 .skip-link:not(:focus) {
   position: absolute;

@@ -26,6 +26,9 @@
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'context.js' | asset_url }}" type="module" defer></script>
+    <script src="{{ 'analytics.js' | asset_url }}" type="module" defer></script>
+    <script src="{{ 'quick-add.js' | asset_url }}" type="module" defer></script>
     {% case request.page_type %}
       {% when 'index' %}
         {{ 'collection.css' | asset_url | stylesheet_tag }}
@@ -35,6 +38,7 @@
       {% when 'product' %}
         {{ 'collection.css' | asset_url | stylesheet_tag }}
         {{ 'product.css' | asset_url | stylesheet_tag }}
+        {{ 'product-content.css' | asset_url | stylesheet_tag }}
       {% when 'cart' %}
         {{ 'cart.css' | asset_url | stylesheet_tag }}
       {% when 'search', 'article', 'blog', 'page', '404' %}
@@ -57,5 +61,9 @@
     </main>
 
     {% sections 'footer-group' %}
+
+    {% render 'mobile-tab-bar' %}
+
+    <div class="visually-hidden" role="status" aria-live="polite" data-quick-add-status></div>
   </body>
 </html>

@@ -1,0 +1,129 @@
+- generic [active] [ref=f88e1]:
+  - link "Skip to content" [ref=f88e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f88e4]:
+    - generic [ref=f88e5]:
+      - link "devDailyFixz" [ref=f88e7] [cursor=pointer]:
+        - /url: /
+      - search [ref=f88e9]:
+        - generic [ref=f88e10]: Search
+        - combobox "Search" [ref=f88e11]
+      - generic [ref=f88e12]:
+        - link "Account" [ref=f88e13] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 1 item" [ref=f88e18] [cursor=pointer]:
+          - /url: /cart
+          - generic [aria-hidden] [ref=f88e24]: "1"
+  - main [ref=f88e25]:
+    - generic [ref=f88e27]:
+      - text: / /
+      - generic [ref=f88e28]:
+        - list [ref=f88e32]:
+          - listitem "Image 1 of 1" [ref=f88e33]:
+            - button "Open image full size" [ref=f88e34]:
+              - img "Top and bottom view of a snowboard. The top view shows pixelated clouds, with the top-most one being the shape of the Shopify bag logo. The bottom view has a pixelated cloudy sky with blue, pink and purple colours." [ref=f88e35]
+        - generic [ref=f88e36]:
+          - generic [ref=f88e37]:
+            - paragraph [ref=f88e38]: devDailyFixz
+            - heading "The Compare at Price Snowboard" [level=1] [ref=f88e39]
+          - generic [ref=f88e40]:
+            - generic [ref=f88e41]:
+              - generic [ref=f88e42]:
+                - generic [ref=f88e43]:
+                  - generic [ref=f88e44]: Sale price
+                  - text: Rs. 785.95
+                - generic [ref=f88e45]:
+                  - text: MRP
+                  - generic [ref=f88e46]:
+                    - generic [ref=f88e47]: Regular price
+                    - text: Rs. 885.95
+                - generic [ref=f88e48]: 11% off
+              - paragraph [ref=f88e49]: You save Rs. 100.00
+              - paragraph [ref=f88e50]: Inclusive of all taxes
+            - list [ref=f88e51]:
+              - listitem [ref=f88e52]:
+                - generic [ref=f88e57]: Fast delivery
+              - listitem [ref=f88e58]:
+                - generic [ref=f88e62]: Easy returns
+              - listitem [ref=f88e63]:
+                - generic [ref=f88e67]: Secure checkout
+          - paragraph [ref=f88e69]: In stock
+          - generic [ref=f88e72]:
+            - generic [ref=f88e73]:
+              - generic [ref=f88e74]:
+                - button "Decrease quantity" [ref=f88e75] [cursor=pointer]
+                - spinbutton "Quantity" [ref=f88e77]: "1"
+                - button "Increase quantity" [ref=f88e78] [cursor=pointer]
+              - button "Add to cart" [ref=f88e81] [cursor=pointer]
+            - button "Buy it now" [ref=f88e91] [cursor=pointer]
+          - generic [ref=f88e92]:
+            - heading "Delivery" [level=2] [ref=f88e93]
+            - generic [ref=f88e98]:
+              - generic [ref=f88e99]: Check delivery to your PIN code
+              - generic [ref=f88e100]:
+                - textbox "Check delivery to your PIN code" [ref=f88e101]:
+                  - /placeholder: Enter PIN code
+                - button "Check" [ref=f88e102] [cursor=pointer]
+          - list [ref=f88e103]:
+            - listitem [ref=f88e104]:
+              - generic [ref=f88e108]: Secure payments
+          - group [ref=f88e109]:
+            - generic "Specifications" [ref=f88e110] [cursor=pointer]
+  - contentinfo [ref=f88e112]:
+    - generic [ref=f88e114]:
+      - generic [ref=f88e115]:
+        - heading "Stay in the loop" [level=2] [ref=f88e116]
+        - paragraph [ref=f88e117]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f88e118]:
+        - generic [ref=f88e119]: Email address
+        - generic [ref=f88e120]:
+          - textbox "Email address" [ref=f88e121]
+          - button "Sign up" [ref=f88e122] [cursor=pointer]
+    - generic [ref=f88e123]:
+      - generic [ref=f88e124]:
+        - generic [ref=f88e125]:
+          - paragraph [ref=f88e126]: devDailyFixz
+          - paragraph [ref=f88e127]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f88e128]:
+          - heading "Footer menu" [level=2] [ref=f88e129]
+          - list [ref=f88e130]:
+            - listitem [ref=f88e131]:
+              - link "Search" [ref=f88e132] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f88e133]:
+        - generic [ref=f88e134]:
+          - generic [ref=f88e135]: Country or region
+          - combobox "Country or region" [ref=f88e136]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f88e137] [cursor=pointer]
+      - generic [ref=f88e138]:
+        - paragraph [ref=f88e139]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f88e140]:
+          - listitem [ref=f88e141]:
+            - img "Visa" [ref=f88e142]
+          - listitem [ref=f88e147]:
+            - img "Mastercard" [ref=f88e148]
+          - listitem [ref=f88e155]:
+            - img "American Express" [ref=f88e156]
+          - listitem [ref=f88e161]:
+            - img "PayPal" [ref=f88e162]
+          - listitem [ref=f88e168]:
+            - img "Diners Club" [ref=f88e169]
+          - listitem [ref=f88e173]:
+            - img "Discover" [ref=f88e174]
+  - navigation "App navigation" [ref=f88e183]:
+    - list [ref=f88e184]:
+      - listitem [ref=f88e185]:
+        - link "Home" [ref=f88e186] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=f88e191]:
+        - link "Explore" [ref=f88e192] [cursor=pointer]:
+          - /url: /collections/all
+      - listitem [ref=f88e197]:
+        - link "Orders" [ref=f88e198] [cursor=pointer]:
+          - /url: /account
+      - listitem [ref=f88e203]:
+        - link "Profile" [ref=f88e204] [cursor=pointer]:
+          - /url: /account
+  - status [ref=f88e209]

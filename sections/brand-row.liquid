@@ -1,0 +1,85 @@
+{%- liquid
+  assign row_heading = section.settings.heading | escape
+  assign view_all_url = nil
+  assign view_all_text = nil
+  if section.settings.see_all_link != blank
+    assign view_all_url = section.settings.see_all_link
+    assign view_all_text = 'home.brands.see_all' | t
+  endif
+  assign vendors = collections.all.all_vendors | sort_natural
+  assign has_content = false
+  if section.blocks.size > 0 or vendors.size > 0
+    assign has_content = true
+  endif
+-%}
+
+{%- if has_content -%}
+  <div class="home-section brand-row page-width">
+    {%- if row_heading != blank -%}
+      {% render 'section-heading', heading: row_heading, url: view_all_url, link_text: view_all_text %}
+    {%- endif -%}
+
+    <ul class="brand-row__list" role="list">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign brand_name = block.settings.name | escape -%}
+          <li class="brand-row__item" {{ block.shopify_attributes }}>
+            <a class="brand-row__link" href="{{ block.settings.link | default: routes.all_products_collection_url }}">
+              <span class="brand-row__avatar">
+                {%- if block.settings.image -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 240, height: 240, crop: 'center'
+                    | image_tag:
+                      widths: '120, 180, 240',
+                      sizes: '72px',
+                      loading: 'lazy',
+                      alt: '',
+                      class: 'brand-row__image'
+                  }}
+                {%- else -%}
+                  <span class="brand-row__initial" aria-hidden="true">{{ brand_name | strip_html | slice: 0 | upcase }}</span>
+                {%- endif -%}
+              </span>
+              <span class="brand-row__name">{{ brand_name }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for vendor in vendors limit: 12 -%}
+          <li class="brand-row__item">
+            <a class="brand-row__link" href="{{ vendor | url_for_vendor }}">
+              <span class="brand-row__avatar">
+                <span class="brand-row__initial" aria-hidden="true">{{ vendor | slice: 0 | upcase }}</span>
+              </span>
+              <span class="brand-row__name">{{ vendor | escape }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:general.brand_row",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Top brands", "info": "t:info.brands_fallback" },
+    { "type": "url", "id": "see_all_link", "label": "t:labels.see_all_link" }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "t:general.brand",
+      "settings": [
+        { "type": "text", "id": "name", "label": "t:labels.brand_name", "default": "Brand" },
+        { "type": "image_picker", "id": "image", "label": "t:labels.image" },
+        { "type": "url", "id": "link", "label": "t:labels.button_link", "info": "t:info.brand_link" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "t:general.brand_row" }]
+}
+{% endschema %}

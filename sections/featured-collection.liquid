@@ -15,7 +15,7 @@
   endif
 -%}
 
-<div class="home-section featured-collection">
+<div class="home-section featured-collection page-width">
   {%- if featured_heading != blank -%}
     {% render 'section-heading', heading: featured_heading, url: view_all_url, link_text: view_all_text %}
   {%- endif -%}
@@ -24,7 +24,7 @@
     <ul class="product-grid" role="list">
       {%- for product in source.products limit: card_count -%}
         <li class="product-grid__item">
-          {% render 'product-card', product: product, sizes: '(min-width: 64em) 22vw, (min-width: 48em) 30vw, 46vw' %}
+          {% render 'product-card', product: product, quick_add: true, sizes: '(min-width: 64em) 22vw, (min-width: 48em) 30vw, 46vw' %}
         </li>
       {%- endfor -%}
     </ul>
@@ -51,7 +51,7 @@
 {
   "name": "t:general.featured_collection",
   "settings": [
-    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Everyday favourites" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Recommended for you" },
     { "type": "collection", "id": "collection", "label": "t:labels.collection", "info": "t:info.collection_fallback" },
     { "type": "range", "id": "product_count", "min": 2, "max": 12, "step": 1, "label": "t:labels.product_count", "default": 4 },
     { "type": "checkbox", "id": "show_view_all", "label": "t:labels.show_view_all", "default": true }

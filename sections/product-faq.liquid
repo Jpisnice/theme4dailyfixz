@@ -1,0 +1,85 @@
+{%- liquid
+  assign product_faqs = product.metafields.custom.faq.value
+  assign faq_total = 0
+  for faq in product_faqs
+    if faq.question.value != blank and faq.answer.value != blank
+      assign faq_total = faq_total | plus: 1
+    endif
+  endfor
+  for block in section.blocks
+    if block.settings.question != blank and block.settings.answer != blank
+      assign faq_total = faq_total | plus: 1
+    endif
+  endfor
+  assign group_name = 'faq-' | append: section.id
+-%}
+
+{%- if faq_total > 0 -%}
+  <section class="faq page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="content-heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    <div class="faq__list">
+      {%- for faq in product_faqs -%}
+        {%- if faq.question.value != blank and faq.answer.value != blank -%}
+          <details class="pdp-accordion" name="{{ group_name }}">
+            <summary class="pdp-accordion__summary">{{ faq.question.value | escape }}</summary>
+            <div class="pdp-accordion__body rte">{{ faq.answer.value | escape | newline_to_br }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.question != blank and block.settings.answer != blank -%}
+          <details class="pdp-accordion" name="{{ group_name }}" {{ block.shopify_attributes }}>
+            <summary class="pdp-accordion__summary">{{ block.settings.question | escape }}</summary>
+            <div class="pdp-accordion__body rte">{{ block.settings.answer }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+
+  {%- assign faq_sep = '' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for faq in product_faqs -%}
+          {%- if faq.question.value != blank and faq.answer.value != blank -%}
+            {{ faq_sep }}{ "@type": "Question", "name": {{ faq.question.value | json }}, "acceptedAnswer": { "@type": "Answer", "text": {{ faq.answer.value | json }} } }
+            {%- assign faq_sep = ',' -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.question != blank and block.settings.answer != blank -%}
+            {{ faq_sep }}{ "@type": "Question", "name": {{ block.settings.question | json }}, "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} } }
+            {%- assign faq_sep = ',' -%}
+          {%- endif -%}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:general.product_faq",
+  "settings": [
+    { "type": "paragraph", "content": "t:info.product_faq" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Questions and answers" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "t:general.faq_question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "t:labels.faq_question" },
+        { "type": "richtext", "id": "answer", "label": "t:labels.faq_answer" }
+      ]
+    }
+  ],
+  "enabled_on": { "templates": ["product"] },
+  "presets": [{ "name": "t:general.product_faq" }]
+}
+{% endschema %}

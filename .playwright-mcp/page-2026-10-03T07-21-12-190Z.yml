@@ -1,0 +1,208 @@
+- generic [active] [ref=f4e1]:
+  - link "Skip to content" [ref=f4e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f4e4]:
+    - generic [ref=f4e5]:
+      - link "devDailyFixz" [ref=f4e7] [cursor=pointer]:
+        - /url: /
+      - search [ref=f4e9]:
+        - generic [ref=f4e10]: Search
+        - combobox "Search" [ref=f4e11]
+      - generic [ref=f4e12]:
+        - link "Account" [ref=f4e13] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 0 items" [ref=f4e18] [cursor=pointer]:
+          - /url: /cart
+  - main [ref=f4e24]:
+    - generic [ref=f4e25]:
+      - heading "Products" [level=1] [ref=f4e30]
+      - generic [ref=f4e31]:
+        - button "Filters" [ref=f4e32] [cursor=pointer]
+        - paragraph [ref=f4e38]: 13 products
+        - generic [ref=f4e39]:
+          - generic [ref=f4e40]: Sort by
+          - combobox "Sort by" [ref=f4e41]:
+            - option "Featured"
+            - option "Most relevant"
+            - option "Best selling"
+            - option "Alphabetically, A-Z" [selected]
+            - option "Alphabetically, Z-A"
+            - option "Price, low to high"
+            - option "Price, high to low"
+            - option "Date, old to new"
+            - option "Date, new to old"
+      - list [ref=f4e45]:
+        - listitem [ref=f4e46]:
+          - article [ref=f4e47]:
+            - generic [ref=f4e48]: Sold out
+            - generic [ref=f4e51]:
+              - heading [level=3] [ref=f4e52]:
+                - link "Gift Card" [ref=f4e53] [cursor=pointer]:
+                  - /url: /products/gift-card
+              - generic [ref=f4e54]: From Rs. 10.00
+              - paragraph [ref=f4e56]: 4 options
+        - listitem [ref=f4e57]:
+          - article [ref=f4e58]:
+            - generic [ref=f4e60]:
+              - heading [level=3] [ref=f4e61]:
+                - link "Selling Plans Ski Wax" [ref=f4e62] [cursor=pointer]:
+                  - /url: /products/selling-plans-ski-wax
+              - generic [ref=f4e63]: From Rs. 9.95
+              - paragraph [ref=f4e65]: 3 options
+              - link "Choose options for Selling Plans Ski Wax" [ref=f4e66] [cursor=pointer]:
+                - /url: /products/selling-plans-ski-wax
+        - listitem [ref=f4e69]:
+          - article [ref=f4e70]:
+            - generic [ref=f4e71]: Sold out
+            - generic [ref=f4e74]:
+              - heading [level=3] [ref=f4e75]:
+                - link "The 3p Fulfilled Snowboard" [ref=f4e76] [cursor=pointer]:
+                  - /url: /products/the-3p-fulfilled-snowboard
+              - generic [ref=f4e77]: Rs. 2,629.95
+        - listitem [ref=f4e79]:
+          - article [ref=f4e80]:
+            - generic [ref=f4e82]:
+              - heading [level=3] [ref=f4e83]:
+                - 'link "The Collection Snowboard: Hydrogen" [ref=f4e84] [cursor=pointer]':
+                  - /url: /products/the-collection-snowboard-hydrogen
+              - generic [ref=f4e85]: Rs. 600.00
+              - 'button "Add The Collection Snowboard: Hydrogen to cart" [ref=f4e87] [cursor=pointer]'
+        - listitem [ref=f4e90]:
+          - article [ref=f4e91]:
+            - generic [ref=f4e93]:
+              - heading [level=3] [ref=f4e94]:
+                - 'link "The Collection Snowboard: Liquid" [ref=f4e95] [cursor=pointer]':
+                  - /url: /products/the-collection-snowboard-liquid
+              - generic [ref=f4e96]: Rs. 749.95
+              - 'button "Add The Collection Snowboard: Liquid to cart" [ref=f4e98] [cursor=pointer]'
+        - listitem [ref=f4e101]:
+          - article [ref=f4e102]:
+            - generic [ref=f4e104]:
+              - heading [level=3] [ref=f4e105]:
+                - 'link "The Collection Snowboard: Oxygen" [ref=f4e106] [cursor=pointer]':
+                  - /url: /products/the-collection-snowboard-oxygen
+              - generic [ref=f4e107]: Rs. 1,025.00
+              - 'button "Add The Collection Snowboard: Oxygen to cart" [ref=f4e109] [cursor=pointer]'
+        - listitem [ref=f4e112]:
+          - article [ref=f4e113]:
+            - generic [ref=f4e114]: Sale
+            - generic [ref=f4e117]:
+              - heading [level=3] [ref=f4e118]:
+                - link "The Compare at Price Snowboard" [ref=f4e119] [cursor=pointer]:
+                  - /url: /products/the-compare-at-price-snowboard
+              - generic [ref=f4e120]:
+                - generic [ref=f4e121]:
+                  - generic [ref=f4e122]: Regular price
+                  - text: Rs. 885.95
+                - generic [ref=f4e123]:
+                  - generic [ref=f4e124]: Sale price
+                  - text: Rs. 785.95
+              - button "Add The Compare at Price Snowboard to cart" [ref=f4e125] [cursor=pointer]
+        - listitem [ref=f4e128]:
+          - article [ref=f4e129]:
+            - generic [ref=f4e131]:
+              - heading [level=3] [ref=f4e132]:
+                - link "The Complete Snowboard" [ref=f4e133] [cursor=pointer]:
+                  - /url: /products/the-complete-snowboard
+              - generic [ref=f4e134]: Rs. 699.95
+              - paragraph [ref=f4e136]: 5 options
+              - link "Choose options for The Complete Snowboard" [ref=f4e137] [cursor=pointer]:
+                - /url: /products/the-complete-snowboard
+        - listitem [ref=f4e140]:
+          - article [ref=f4e141]:
+            - generic [ref=f4e143]:
+              - heading [level=3] [ref=f4e144]:
+                - link "The Inventory Not Tracked Snowboard" [ref=f4e145] [cursor=pointer]:
+                  - /url: /products/the-inventory-not-tracked-snowboard
+              - generic [ref=f4e146]: Rs. 949.95
+              - button "Add The Inventory Not Tracked Snowboard to cart" [ref=f4e148] [cursor=pointer]
+        - listitem [ref=f4e151]:
+          - article [ref=f4e152]:
+            - generic [ref=f4e154]:
+              - heading [level=3] [ref=f4e155]:
+                - link "The Multi-location Snowboard" [ref=f4e156] [cursor=pointer]:
+                  - /url: /products/the-multi-location-snowboard
+              - generic [ref=f4e157]: Rs. 729.95
+              - button "Add The Multi-location Snowboard to cart" [ref=f4e159] [cursor=pointer]
+        - listitem [ref=f4e162]:
+          - article [ref=f4e163]:
+            - generic [ref=f4e165]:
+              - heading [level=3] [ref=f4e166]:
+                - link "The Multi-managed Snowboard" [ref=f4e167] [cursor=pointer]:
+                  - /url: /products/the-multi-managed-snowboard
+              - generic [ref=f4e168]: Rs. 629.95
+              - button "Add The Multi-managed Snowboard to cart" [ref=f4e170] [cursor=pointer]
+        - listitem [ref=f4e173]:
+          - article [ref=f4e174]:
+            - generic [ref=f4e175]: Sold out
+            - generic [ref=f4e178]:
+              - heading [level=3] [ref=f4e179]:
+                - link "The Out of Stock Snowboard" [ref=f4e180] [cursor=pointer]:
+                  - /url: /products/the-out-of-stock-snowboard
+              - generic [ref=f4e181]: Rs. 885.95
+        - listitem [ref=f4e183]:
+          - article [ref=f4e184]:
+            - generic [ref=f4e186]:
+              - heading [level=3] [ref=f4e187]:
+                - link "The Videographer Snowboard" [ref=f4e188] [cursor=pointer]:
+                  - /url: /products/the-videographer-snowboard
+              - generic [ref=f4e189]: Rs. 885.95
+              - button "Add The Videographer Snowboard to cart" [ref=f4e191] [cursor=pointer]
+  - contentinfo [ref=f4e195]:
+    - generic [ref=f4e197]:
+      - generic [ref=f4e198]:
+        - heading "Stay in the loop" [level=2] [ref=f4e199]
+        - paragraph [ref=f4e200]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f4e201]:
+        - generic [ref=f4e202]: Email address
+        - generic [ref=f4e203]:
+          - textbox "Email address" [ref=f4e204]
+          - button "Sign up" [ref=f4e205] [cursor=pointer]
+    - generic [ref=f4e206]:
+      - generic [ref=f4e207]:
+        - generic [ref=f4e208]:
+          - paragraph [ref=f4e209]: devDailyFixz
+          - paragraph [ref=f4e210]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f4e211]:
+          - heading "Footer menu" [level=2] [ref=f4e212]
+          - list [ref=f4e213]:
+            - listitem [ref=f4e214]:
+              - link "Search" [ref=f4e215] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f4e216]:
+        - generic [ref=f4e217]:
+          - generic [ref=f4e218]: Country or region
+          - combobox "Country or region" [ref=f4e219]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f4e220] [cursor=pointer]
+      - generic [ref=f4e221]:
+        - paragraph [ref=f4e222]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f4e223]:
+          - listitem [ref=f4e224]:
+            - img "Visa" [ref=f4e225]
+          - listitem [ref=f4e230]:
+            - img "Mastercard" [ref=f4e231]
+          - listitem [ref=f4e238]:
+            - img "American Express" [ref=f4e239]
+          - listitem [ref=f4e244]:
+            - img "PayPal" [ref=f4e245]
+          - listitem [ref=f4e251]:
+            - img "Diners Club" [ref=f4e252]
+          - listitem [ref=f4e256]:
+            - img "Discover" [ref=f4e257]
+  - navigation "App navigation" [ref=f4e266]:
+    - list [ref=f4e267]:
+      - listitem [ref=f4e268]:
+        - link "Home" [ref=f4e269] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=f4e274]:
+        - link "Explore" [ref=f4e275] [cursor=pointer]:
+          - /url: /collections/all
+      - listitem [ref=f4e280]:
+        - link "Orders" [ref=f4e281] [cursor=pointer]:
+          - /url: /account
+      - listitem [ref=f4e286]:
+        - link "Profile" [ref=f4e287] [cursor=pointer]:
+          - /url: /account
+  - status [ref=f4e292]

@@ -1,0 +1,45 @@
+{% doc %}
+  Renders the mobile sticky Add to Cart bar: thumbnail, price, variant chip and
+  the CTA. product.js shows it whenever the main buy block is off screen,
+  including while it is still below the fold. The button submits the product
+  form through the form attribute, so quantity and variant come along.
+
+  @param {product} product - The current product
+  @param {variant} variant - The selected variant
+
+  @example
+  {% render 'product-sticky-bar', product: product, variant: current %}
+{% enddoc %}
+
+{%- assign bar_image = variant.featured_image | default: product.featured_image -%}
+
+<div class="sticky-bar" data-sticky-bar hidden>
+  <div class="sticky-bar__media" data-variant-region="sticky-media" aria-hidden="true">
+    {%- if bar_image -%}
+      {{ bar_image | image_url: width: 120 | image_tag: widths: '60, 120', sizes: '48px', loading: 'lazy', alt: '', class: 'sticky-bar__image' }}
+    {%- endif -%}
+  </div>
+  <div class="sticky-bar__info">
+    <div class="sticky-bar__price" data-variant-region="sticky-price">
+      {% render 'price', price: variant.price, compare_at_price: variant.compare_at_price %}
+    </div>
+    {%- unless product.has_only_default_variant -%}
+      <button type="button" class="sticky-bar__variant" data-sticky-variant>
+        <span data-variant-region="sticky-variant">{{ variant.title | escape }}</span>
+        {% render 'icon', name: 'chevron' %}
+      </button>
+    {%- endunless -%}
+  </div>
+  <button
+    type="submit"
+    form="ProductForm"
+    name="add"
+    class="button button--primary sticky-bar__button"
+    data-sticky-add
+    {% unless variant.available %}disabled{% endunless %}
+  >
+    <span data-add-label-sticky data-variant-region="sticky-label">
+      {%- if variant.available -%}{{ 'products.add_to_cart' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
+    </span>
+  </button>
+</div>

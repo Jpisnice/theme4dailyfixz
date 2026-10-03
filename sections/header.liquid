@@ -1,23 +1,15 @@
 {%- liquid
   assign menu_links = section.settings.menu.links
   assign logo = settings.logo
+  assign suggested_terms = section.settings.suggested_terms | split: ','
+  assign search_terms = ''
+  if request.page_type == 'search'
+    assign search_terms = search.terms
+  endif
 -%}
 
 <header class="site-header" data-header data-cart-url="{{ routes.cart_url }}">
   <div class="site-header__inner page-width">
-    {%- if menu_links.size > 0 -%}
-      <button
-        type="button"
-        class="site-header__toggle header-icon"
-        aria-expanded="false"
-        aria-controls="MenuDrawer"
-        data-menu-toggle
-      >
-        {% render 'icon', name: 'menu' %}
-        <span class="visually-hidden">{{ 'header.menu_open' | t }}</span>
-      </button>
-    {%- endif -%}
-
     <div class="site-header__brand">
       <a class="site-header__home" href="{{ routes.root_url }}">
         {%- if logo -%}
@@ -44,56 +36,79 @@
     </div>
 
     {%- if menu_links.size > 0 -%}
-      <div class="menu-drawer" id="MenuDrawer" data-menu-drawer>
-        <div class="menu-drawer__top">
-          <button type="button" class="menu-drawer__close header-icon" data-menu-close>
-            {% render 'icon', name: 'close' %}
-            <span class="visually-hidden">{{ 'header.menu_close' | t }}</span>
-          </button>
-        </div>
-        <nav class="menu" aria-label="{{ 'header.main_menu' | t }}">
-          <ul class="menu__list">
-            {%- for link in menu_links -%}
-              <li class="menu__item{% if link.links.size > 0 %} has-children{% endif %}">
-                <a class="menu__link" href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
-                {%- if link.links.size > 0 -%}
-                  <button
-                    type="button"
-                    class="menu__sub-toggle"
-                    aria-expanded="false"
-                    aria-controls="MenuSub{{ forloop.index }}"
-                    data-submenu-toggle
-                  >
-                    {% render 'icon', name: 'chevron' %}
-                    <span class="visually-hidden">{{ 'header.submenu_toggle' | t: title: link.title }}</span>
-                  </button>
-                  <ul class="menu__sub" id="MenuSub{{ forloop.index }}">
-                    {%- for child in link.links -%}
-                      <li>
-                        <a class="menu__link menu__link--sub" href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title | escape }}</a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                {%- endif -%}
-              </li>
-            {%- endfor -%}
-          </ul>
-        </nav>
-        {%- if shop.customer_accounts_enabled -%}
-          <a class="menu-drawer__account" href="{{ routes.account_url }}">
-            {% render 'icon', name: 'account' %}
-            <span>{{ 'header.account' | t }}</span>
-          </a>
-        {%- endif -%}
-      </div>
-      <div class="menu-backdrop" data-menu-backdrop hidden></div>
+      <nav class="site-nav menu" aria-label="{{ 'header.main_menu' | t }}">
+        <ul class="menu__list">
+          {%- for link in menu_links -%}
+            <li class="menu__item{% if link.links.size > 0 %} has-children{% endif %}">
+              <a class="menu__link" href="{{ link.url }}"{% if link.active or link.child_active %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+              {%- if link.links.size > 0 -%}
+                <ul class="menu__sub">
+                  {%- for child in link.links -%}
+                    <li>
+                      <a class="menu__link menu__link--sub" href="{{ child.url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title | escape }}</a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
     {%- endif -%}
 
+    <form
+      class="site-search"
+      action="{{ routes.search_url }}"
+      method="get"
+      role="search"
+      data-predictive-search
+      data-predictive-url="{{ routes.predictive_search_url }}"
+      data-label-suggestions="{{ 'header.search_suggestions' | t }}"
+      data-label-products="{{ 'header.search_products' | t }}"
+      data-label-collections="{{ 'header.search_collections' | t }}"
+      data-label-all="{{ 'header.search_see_all' | t: terms: '__TERMS__' }}"
+      data-label-empty="{{ 'header.search_no_results' | t: terms: '__TERMS__' }}"
+      data-label-count="{{ 'header.search_count' | t: count: 99999 | replace: '99999', '__COUNT__' }}"
+    >
+      <label class="visually-hidden" for="HeaderSearch">{{ 'header.search' | t }}</label>
+      <span class="site-search__icon">{% render 'icon', name: 'search' %}</span>
+      <input
+        id="HeaderSearch"
+        class="site-search__input"
+        type="search"
+        name="q"
+        value="{{ search_terms | escape }}"
+        placeholder="{{ 'header.search_placeholder' | t }}"
+        autocomplete="off"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-controls="HeaderSearchPanel"
+        data-search-input
+      >
+      <input type="hidden" name="options[prefix]" value="last">
+      <div class="site-search__panel" id="HeaderSearchPanel" role="listbox" aria-label="{{ 'header.search_suggestions' | t }}" hidden data-search-panel>
+        {%- if suggested_terms.size > 0 -%}
+          <div class="site-search__group" data-search-suggested hidden>
+            <p class="site-search__group-title">{{ 'header.search_suggested' | t }}</p>
+            <ul class="site-search__chips" role="presentation">
+              {%- for term in suggested_terms -%}
+                {%- assign term_text = term | strip -%}
+                {%- if term_text != blank -%}
+                  <li role="presentation">
+                    <a class="site-search__chip" role="option" id="SearchSuggested{{ forloop.index }}" href="{{ routes.search_url }}?q={{ term_text | url_encode }}&options%5Bprefix%5D=last">{{ term_text | escape }}</a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+        <div data-search-results hidden></div>
+      </div>
+      <p class="visually-hidden" role="status" aria-live="polite" data-search-status></p>
+    </form>
+
     <div class="site-header__icons">
-      <a class="header-icon" href="{{ routes.search_url }}">
-        {% render 'icon', name: 'search' %}
-        <span class="visually-hidden">{{ 'header.search' | t }}</span>
-      </a>
       {%- if shop.customer_accounts_enabled -%}
         <a class="header-icon header-icon--account" href="{{ routes.account_url }}">
           {% render 'icon', name: 'account' %}
@@ -116,6 +131,7 @@
 </header>
 
 <script src="{{ 'header.js' | asset_url }}" type="module"></script>
+<script src="{{ 'predictive-search.js' | asset_url }}" type="module" defer></script>
 
 {% schema %}
 {
@@ -125,7 +141,15 @@
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu",
-      "default": "main-menu"
+      "default": "main-menu",
+      "info": "t:info.header_menu"
+    },
+    {
+      "type": "text",
+      "id": "suggested_terms",
+      "label": "t:labels.suggested_terms",
+      "info": "t:info.suggested_terms",
+      "default": "Cleaning, Kitchen, Storage, Bath"
     }
   ]
 }

@@ -1,38 +1,71 @@
 {% doc %}
-  Renders the variant picker. Without JavaScript a native variant <select>
-  (name="id") is the source of truth and submits a valid variant. With
-  JavaScript, product.js shows option buttons that drive that select and
-  hides it. Nothing is rendered beyond the select when the product has a
+  Renders the variant picker for the product form (form="ProductForm"). A
+  native variant <select name="id"> is always present and is the no-JS source
+  of truth. With JavaScript, option buttons or swatches drive it and the select
+  is hidden. Sold-out values are marked, and when the product has a single
+  option each button shows its variant price. Renders nothing visible for a
   single default variant.
 
-  @param {product} product - The product to pick a variant for.
+  @param {product} product - The product to pick a variant for
 
   @example
   {% render 'variant-picker', product: product %}
 {% enddoc %}
 
 {%- assign current = product.selected_or_first_available_variant -%}
+{%- assign single_option = false -%}
+{%- if product.options.size == 1 -%}
+  {%- assign single_option = true -%}
+{%- endif -%}
 
 <div class="variant-picker" data-variant-picker>
   {%- unless product.has_only_default_variant -%}
     <div class="variant-picker__options" data-variant-options>
       {%- for option in product.options_with_values -%}
         <fieldset class="variant-option" data-option-position="{{ option.position }}">
-          <legend class="variant-option__label">{{ option.name | escape }}</legend>
+          <legend class="variant-option__label">
+            {{ option.name | escape }}<span class="variant-option__selected" data-option-selected>{{ option.selected_value | escape }}</span>
+          </legend>
           <div class="variant-option__values">
             {%- for value in option.values -%}
-              {%- assign input_id = 'Option-' | append: option.position | append: '-' | append: forloop.index -%}
+              {%- liquid
+                assign input_id = 'Option-' | append: option.position | append: '-' | append: forloop.index
+                assign value_sold_out = false
+                unless value.available
+                  assign value_sold_out = true
+                endunless
+                assign swatch = value.swatch
+                assign value_price = ''
+                if single_option and value.variant
+                  assign value_price = value.variant.price | money
+                endif
+              -%}
               <input
                 class="variant-option__input visually-hidden"
                 type="radio"
                 id="{{ input_id }}"
                 name="Option-{{ option.position }}"
-                value="{{ value | escape }}"
+                value="{{ value.name | escape }}"
                 data-option-input
                 data-option-position="{{ option.position }}"
-                {% if option.selected_value == value %}checked{% endif %}
+                {% if value.selected %}checked{% endif %}
               >
-              <label class="variant-option__value" for="{{ input_id }}">{{ value | escape }}</label>
+              <label
+                class="variant-option__value{% if swatch %} variant-option__value--swatch{% endif %}{% if value_sold_out %} is-sold-out{% endif %}"
+                for="{{ input_id }}"
+                {% if swatch.color %}style="--swatch: {{ swatch.color }}"{% endif %}
+              >
+                {%- if swatch -%}
+                  <span class="variant-option__swatch"{% if swatch.image %} style="background-image: url('{{ swatch.image | image_url: width: 80 }}')"{% endif %} aria-hidden="true"></span>
+                {%- endif -%}
+                <span class="variant-option__name">{{ value.name | escape }}</span>
+                {%- if value_price != blank -%}
+                  <span class="variant-option__price">{{ value_price }}</span>
+                {%- endif -%}
+                {%- if value_sold_out -%}
+                  <span class="visually-hidden" data-sold-out-label>{{ 'products.sold_out' | t }}</span>
+                {%- endif -%}
+              </label>
             {%- endfor -%}
           </div>
         </fieldset>
@@ -41,8 +74,8 @@
   {%- endunless -%}
 
   <div class="variant-picker__select">
-    <label class="visually-hidden" for="VariantSelect">{{ 'products.quantity' | t }}</label>
-    <select class="select" id="VariantSelect" name="id" data-variant-select>
+    <label class="visually-hidden" for="VariantSelect">{{ 'products.variant' | t }}</label>
+    <select class="select" id="VariantSelect" name="id" form="ProductForm" data-variant-select>
       {%- for variant in product.variants -%}
         <option
           value="{{ variant.id }}"

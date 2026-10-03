@@ -1,0 +1,168 @@
+- generic [active] [ref=f61e1]:
+  - link "Skip to content" [ref=f61e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=f61e4]:
+    - generic [ref=f61e5]:
+      - link "devDailyFixz" [ref=f61e7] [cursor=pointer]:
+        - /url: /
+      - search [ref=f61e9]:
+        - generic [ref=f61e10]: Search
+        - combobox "Search" [ref=f61e11]
+      - generic [ref=f61e12]:
+        - link "Account" [ref=f61e13] [cursor=pointer]:
+          - /url: /account
+        - link "Cart, 1 item" [ref=f61e18] [cursor=pointer]:
+          - /url: /cart
+          - generic [aria-hidden] [ref=f61e24]: "1"
+  - main [ref=f61e25]:
+    - generic [ref=f61e27]:
+      - text: /
+      - generic [ref=f61e28]:
+        - generic [ref=f61e30]:
+          - generic [ref=f61e31]:
+            - list [ref=f61e32]:
+              - listitem "Image 1 of 3" [ref=f61e33]:
+                - button "Open image full size" [ref=f61e34]:
+                  - img "A bar of golden yellow wax" [ref=f61e35]
+              - listitem "Image 2 of 3" [ref=f61e36]:
+                - button "Open image full size" [ref=f61e37]:
+                  - img "A bar of purple wax" [ref=f61e38]
+              - listitem "Image 3 of 3" [ref=f61e39]:
+                - button "Open image full size" [ref=f61e40]:
+                  - img "a small cube of wax" [ref=f61e41]
+            - paragraph [aria-hidden]: 1 / 3
+          - group "Product images":
+            - button "Show image 1 of 3" [ref=f61e42] [cursor=pointer]
+            - button "Show image 2 of 3" [ref=f61e43] [cursor=pointer]
+            - button "Show image 3 of 3" [ref=f61e44] [cursor=pointer]
+        - generic [ref=f61e45]:
+          - generic [ref=f61e46]:
+            - paragraph [ref=f61e47]: devDailyFixz
+            - heading "Selling Plans Ski Wax" [level=1] [ref=f61e48]
+          - generic [ref=f61e49]:
+            - generic [ref=f61e50]:
+              - generic [ref=f61e51]: Rs. 24.95
+              - paragraph [ref=f61e53]: Inclusive of all taxes
+            - list [ref=f61e54]:
+              - listitem [ref=f61e55]:
+                - generic [ref=f61e60]: Fast delivery
+              - listitem [ref=f61e61]:
+                - generic [ref=f61e65]: Easy returns
+              - listitem [ref=f61e66]:
+                - generic [ref=f61e70]: Secure checkout
+          - generic [ref=f61e71]:
+            - heading "Offers for you" [level=2] [ref=f61e72]
+            - list [ref=f61e76]:
+              - listitem [ref=f61e77]:
+                - generic [ref=f61e78]:
+                  - paragraph [ref=f61e79]: Extra 10% off your first order
+                  - paragraph [ref=f61e80]: Min. order Rs. 499
+                  - paragraph [ref=f61e81]:
+                    - text: Get it for
+                    - strong [ref=f61e82]: Rs. 22.45
+                    - text: with this code
+                - generic [ref=f61e83]:
+                  - generic [ref=f61e84]: WELCOME10
+                  - button "Copy code WELCOME10" [ref=f61e85] [cursor=pointer]:
+                    - generic [ref=f61e89]: Copy
+                  - link "Apply" [ref=f61e90] [cursor=pointer]:
+                    - /url: /discount/WELCOME10?redirect=/products/selling-plans-ski-wax
+          - group "TitleSelling Plans Ski Wax" [ref=f61e94]:
+            - generic [ref=f61e96]:
+              - radio "Selling Plans Ski Wax Rs. 24.95" [checked] [ref=f61e97]
+              - generic [ref=f61e98] [cursor=pointer]:
+                - generic [ref=f61e99]: Selling Plans Ski Wax
+                - generic [ref=f61e100]: Rs. 24.95
+              - radio "Special Selling Plans Ski Wax Rs. 49.95" [ref=f61e101]
+              - generic [ref=f61e102] [cursor=pointer]:
+                - generic [ref=f61e103]: Special Selling Plans Ski Wax
+                - generic [ref=f61e104]: Rs. 49.95
+              - radio "Sample Selling Plans Ski Wax Rs. 9.95" [ref=f61e105]
+              - generic [ref=f61e106] [cursor=pointer]:
+                - generic [ref=f61e107]: Sample Selling Plans Ski Wax
+                - generic [ref=f61e108]: Rs. 9.95
+          - paragraph [ref=f61e110]: In stock
+          - generic [ref=f61e113]:
+            - generic [ref=f61e114]:
+              - generic [ref=f61e115]:
+                - button "Decrease quantity" [ref=f61e116] [cursor=pointer]
+                - spinbutton "Quantity" [ref=f61e118]: "1"
+                - button "Increase quantity" [ref=f61e119] [cursor=pointer]
+              - button "Add to cart" [ref=f61e122] [cursor=pointer]
+            - button "Buy it now" [ref=f61e132] [cursor=pointer]
+          - generic [ref=f61e133]:
+            - heading "Delivery" [level=2] [ref=f61e134]
+            - generic [ref=f61e139]:
+              - generic [ref=f61e140]: Check delivery to your PIN code
+              - generic [ref=f61e141]:
+                - textbox "Check delivery to your PIN code" [ref=f61e142]:
+                  - /placeholder: Enter PIN code
+                - button "Check" [ref=f61e143] [cursor=pointer]
+          - list [ref=f61e144]:
+            - listitem [ref=f61e145]:
+              - generic [ref=f61e149]: Secure payments
+          - group [ref=f61e150]:
+            - generic "Specifications" [ref=f61e151] [cursor=pointer]
+      - generic [ref=f61e152]:
+        - generic [ref=f61e154]:
+          - generic [ref=f61e155]: Rs. 24.95
+          - button "Selling Plans Ski Wax" [ref=f61e158] [cursor=pointer]
+        - button "Add to cart" [ref=f61e162] [cursor=pointer]
+  - contentinfo [ref=f61e165]:
+    - generic [ref=f61e167]:
+      - generic [ref=f61e168]:
+        - heading "Stay in the loop" [level=2] [ref=f61e169]
+        - paragraph [ref=f61e170]: New arrivals and everyday offers, no clutter.
+      - generic [ref=f61e171]:
+        - generic [ref=f61e172]: Email address
+        - generic [ref=f61e173]:
+          - textbox "Email address" [ref=f61e174]
+          - button "Sign up" [ref=f61e175] [cursor=pointer]
+    - generic [ref=f61e176]:
+      - generic [ref=f61e177]:
+        - generic [ref=f61e178]:
+          - paragraph [ref=f61e179]: devDailyFixz
+          - paragraph [ref=f61e180]: Everyday essentials, done well. Simple things you reach for every day.
+        - navigation [ref=f61e181]:
+          - heading "Footer menu" [level=2] [ref=f61e182]
+          - list [ref=f61e183]:
+            - listitem [ref=f61e184]:
+              - link "Search" [ref=f61e185] [cursor=pointer]:
+                - /url: /search
+      - generic [ref=f61e186]:
+        - generic [ref=f61e187]:
+          - generic [ref=f61e188]: Country or region
+          - combobox "Country or region" [ref=f61e189]:
+            - option "Canada (INR ₹)"
+            - option "India (INR ₹)" [selected]
+        - button "Update" [ref=f61e190] [cursor=pointer]
+      - generic [ref=f61e191]:
+        - paragraph [ref=f61e192]: © 2026 devDailyFixz
+        - list "Payment methods" [ref=f61e193]:
+          - listitem [ref=f61e194]:
+            - img "Visa" [ref=f61e195]
+          - listitem [ref=f61e200]:
+            - img "Mastercard" [ref=f61e201]
+          - listitem [ref=f61e208]:
+            - img "American Express" [ref=f61e209]
+          - listitem [ref=f61e214]:
+            - img "PayPal" [ref=f61e215]
+          - listitem [ref=f61e221]:
+            - img "Diners Club" [ref=f61e222]
+          - listitem [ref=f61e226]:
+            - img "Discover" [ref=f61e227]
+  - navigation "App navigation" [ref=f61e236]:
+    - list [ref=f61e237]:
+      - listitem [ref=f61e238]:
+        - link "Home" [ref=f61e239] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=f61e244]:
+        - link "Explore" [ref=f61e245] [cursor=pointer]:
+          - /url: /collections/all
+      - listitem [ref=f61e250]:
+        - link "Orders" [ref=f61e251] [cursor=pointer]:
+          - /url: /account
+      - listitem [ref=f61e256]:
+        - link "Profile" [ref=f61e257] [cursor=pointer]:
+          - /url: /account
+  - status [ref=f61e262]

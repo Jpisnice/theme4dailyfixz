@@ -1,0 +1,180 @@
+{%- liquid
+  capture stats
+    render 'review-stats', product: product
+  endcapture
+  assign parts = stats | strip | split: '|'
+  assign average = parts[0]
+  assign total = parts[1] | plus: 0
+  assign star_counts = parts | slice: 2, 5
+
+  assign reviews = product.metafields.custom.reviews.value
+  assign native_total = 0
+  assign photo_total = 0
+  for review in reviews
+    assign native_total = native_total | plus: 1
+    if review.photos.value.size > 0
+      assign photo_total = photo_total | plus: 1
+    endif
+  endfor
+
+  assign app_blocks = section.blocks | where: 'type', '@app'
+  assign batch = section.settings.batch_size
+  assign write_url = section.settings.write_url
+
+  assign show_section = false
+  if total > 0 or native_total > 0 or app_blocks.size > 0 or write_url != blank
+    assign show_section = true
+  endif
+-%}
+
+{%- if show_section -%}
+  <section
+    class="reviews page-width"
+    id="reviews"
+    data-reviews
+    data-batch="{{ batch }}"
+    data-label-count="{{ 'products.reviews_section.showing' | t: shown: '__SHOWN__', total: '__TOTAL__' }}"
+  >
+    <h2 class="content-heading">{{ section.settings.heading | escape }}</h2>
+
+    {%- if total > 0 -%}
+      <div class="reviews__summary">
+        <div class="reviews__score">
+          <p class="reviews__average">{{ average }}</p>
+          {% render 'rating-stars', rating: average, class: 'reviews__stars' %}
+          <p class="reviews__based">{{ 'products.reviews_section.based_on' | t: count: total }}</p>
+        </div>
+        {%- if native_total > 0 -%}
+          <ul class="reviews__bars" role="list">
+            {%- for count in star_counts -%}
+              {%- liquid
+                assign stars = 6 | minus: forloop.index
+                assign bar_count = count | plus: 0
+                assign bar_percent = 0
+                if native_total > 0
+                  assign bar_percent = bar_count | times: 100 | divided_by: native_total
+                endif
+              -%}
+              <li>
+                <button
+                  type="button"
+                  class="reviews__bar"
+                  data-review-filter="{{ stars }}"
+                  {% if bar_count == 0 %}disabled{% endif %}
+                  aria-label="{{ 'products.reviews_section.filter_stars' | t: stars: stars, count: bar_count }}"
+                >
+                  <span class="reviews__bar-label" aria-hidden="true">{{ stars }} {% render 'icon', name: 'star' %}</span>
+                  <span class="reviews__bar-track" aria-hidden="true"><span class="reviews__bar-fill" style="--fill: {{ bar_percent }}%"></span></span>
+                  <span class="reviews__bar-count" aria-hidden="true">{{ bar_count }}</span>
+                </button>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if write_url != blank -%}
+      <a class="button button--secondary reviews__write" href="{{ write_url }}">{{ 'products.reviews_section.write' | t }}</a>
+    {%- endif -%}
+
+    {%- if native_total > 0 -%}
+      <div class="reviews__filters" role="group" aria-label="{{ 'products.reviews_section.filters' | t }}">
+        <button type="button" class="reviews__chip" data-review-filter="all" aria-pressed="true">{{ 'products.reviews_section.all' | t }}</button>
+        {%- for count in star_counts -%}
+          {%- assign stars = 6 | minus: forloop.index -%}
+          {%- assign chip_count = count | plus: 0 -%}
+          {%- if chip_count > 0 -%}
+            <button type="button" class="reviews__chip" data-review-filter="{{ stars }}" aria-pressed="false">
+              {{ stars }} {% render 'icon', name: 'star' %}<span class="visually-hidden">{{ 'products.reviews_section.stars' | t: count: stars }}</span>
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if photo_total > 0 -%}
+          <button type="button" class="reviews__chip" data-review-filter="photos" aria-pressed="false">{{ 'products.reviews_section.with_photos' | t }}</button>
+        {%- endif -%}
+      </div>
+      {%- assign initially_shown = native_total | at_most: batch -%}
+      <p class="reviews__count" role="status" aria-live="polite" data-review-count>
+        {{ 'products.reviews_section.showing' | t: shown: initially_shown, total: native_total }}
+      </p>
+
+      <ul class="reviews__list" role="list" data-review-list>
+        {%- for review in reviews limit: 50 -%}
+          {%- liquid
+            assign review_rating = review.rating.value | plus: 0
+            assign review_photos = review.photos.value
+            assign has_photos = false
+            if review_photos.size > 0
+              assign has_photos = true
+            endif
+          -%}
+          <li class="review" data-review data-rating="{{ review_rating }}" data-photos="{{ has_photos }}" {% if forloop.index > batch %}hidden{% endif %}>
+            <div class="review__head">
+              {% render 'rating-stars', rating: review_rating, class: 'review__stars' %}
+              {%- if review.date.value != blank -%}
+                <time class="review__date" datetime="{{ review.date.value | date: '%Y-%m-%d' }}">{{ review.date.value | date: '%d %b %Y' }}</time>
+              {%- endif -%}
+            </div>
+            {%- if review.title.value != blank -%}
+              <h3 class="review__title">{{ review.title.value | escape }}</h3>
+            {%- endif -%}
+            {%- if review.body.value != blank -%}
+              <p class="review__body">{{ review.body.value | escape | newline_to_br }}</p>
+            {%- endif -%}
+            {%- if has_photos -%}
+              <ul class="review__photos" role="list">
+                {%- for photo in review_photos limit: 4 -%}
+                  {%- if photo.preview_image -%}
+                    <li>
+                      <a class="review__photo" href="{{ photo.preview_image | image_url: width: 1600 }}" target="_blank" rel="noopener" data-review-photo>
+                        {{ photo.preview_image | image_url: width: 240 | image_tag: widths: '120, 240', sizes: '80px', loading: 'lazy', alt: photo.alt | default: '' }}
+                        <span class="visually-hidden">{{ 'products.reviews_section.open_photo' | t }}</span>
+                      </a>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+            <p class="review__author">
+              <span>{{ review.author.value | default: '' | escape }}</span>
+              {%- if review.verified.value == true -%}
+                <span class="review__verified">{% render 'icon', name: 'check-circle' %}{{ 'products.reviews_section.verified' | t }}</span>
+              {%- endif -%}
+            </p>
+            {%- if review.reply.value != blank -%}
+              <div class="review__reply">
+                <p class="review__reply-label">{{ 'products.reviews_section.reply' | t: shop: shop.name }}</p>
+                <p>{{ review.reply.value | escape | newline_to_br }}</p>
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if native_total > batch -%}
+        <button type="button" class="button button--secondary reviews__more" data-review-more>{{ 'products.reviews_section.more' | t }}</button>
+      {%- endif -%}
+      <script src="{{ 'reviews.js' | asset_url }}" type="module" defer></script>
+    {%- endif -%}
+
+    {%- for block in app_blocks -%}
+      <div class="reviews__app">{% render block %}</div>
+    {%- endfor -%}
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:general.product_reviews",
+  "settings": [
+    { "type": "paragraph", "content": "t:info.product_reviews" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Customer reviews" },
+    { "type": "range", "id": "batch_size", "label": "t:labels.reviews_batch", "min": 3, "max": 12, "step": 1, "default": 6 },
+    { "type": "url", "id": "write_url", "label": "t:labels.reviews_write_url", "info": "t:info.reviews_write_url" }
+  ],
+  "blocks": [{ "type": "@app" }],
+  "enabled_on": { "templates": ["product"] },
+  "presets": [{ "name": "t:general.product_reviews" }]
+}
+{% endschema %}

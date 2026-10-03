@@ -2,8 +2,174 @@
   "sections": {
     "main": {
       "type": "main-product",
-      "settings": {}
+      "blocks": {
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
+        "value_prop": {
+          "type": "value_prop",
+          "settings": {
+            "use_description": false
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "offer-1": {
+          "type": "offer",
+          "settings": {
+            "code": "",
+            "title": "",
+            "details": "",
+            "product_tag": ""
+          }
+        },
+        "variants": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "availability": {
+          "type": "availability",
+          "settings": {
+            "low_stock_threshold": 5,
+            "show_sku": false
+          }
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_buy_now": true
+          }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {
+            "show_checker": true,
+            "cod_enabled": false,
+            "off_day": ""
+          }
+        },
+        "trust": {
+          "type": "trust_signals",
+          "settings": {
+            "text_1": "Secure payments"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "open": false
+          }
+        },
+        "specs": {
+          "type": "specs",
+          "settings": {
+            "show_vendor": true
+          }
+        },
+        "highlight-1": {
+          "type": "highlight",
+          "settings": {
+            "icon": "truck",
+            "label": "Fast delivery"
+          }
+        },
+        "highlight-2": {
+          "type": "highlight",
+          "settings": {
+            "icon": "return",
+            "label": "Easy returns"
+          }
+        },
+        "highlight-3": {
+          "type": "highlight",
+          "settings": {
+            "icon": "lock",
+            "label": "Secure checkout"
+          }
+        },
+        "features": {
+          "type": "feature_gallery",
+          "settings": {
+            "heading": "Key features"
+          }
+        }
+      },
+      "block_order": [
+        "rating",
+        "value_prop",
+        "price",
+        "offer-1",
+        "variants",
+        "availability",
+        "buy",
+        "features",
+        "delivery",
+        "trust",
+        "description",
+        "specs",
+        "highlight-1",
+        "highlight-2",
+        "highlight-3"
+      ],
+      "settings": {
+        "show_vendor": true,
+        "auto_sale_ribbon": true
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You may also like",
+        "intent": "related",
+        "limit": 8
+      }
+    },
+    "bundle": {
+      "type": "product-bundle",
+      "settings": {
+        "heading": "Frequently bought together",
+        "use_recommendations": true,
+        "limit": 2
+      }
+    },
+    "benefits": {
+      "type": "product-benefits",
+      "settings": {
+        "heading": "Why you'll love it"
+      }
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "settings": {
+        "heading": "Customer reviews",
+        "batch_size": 6,
+        "write_url": ""
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "settings": {
+        "heading": "Questions and answers"
+      }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "heading": "Recently viewed",
+        "limit": 6
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "bundle",
+    "benefits",
+    "reviews",
+    "faq",
+    "recommendations",
+    "recently_viewed"
+  ]
 }
