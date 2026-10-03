@@ -74,8 +74,9 @@
     "faq_question": "Question",
     "recently_viewed": "Recently viewed",
     "product_card_item": "Product card",
-    "ribbons": "Offer ribbons",
-    "feature_gallery": "Feature gallery"
+    "ribbons": "Combo offer ribbons",
+    "feature_gallery": "Feature gallery",
+    "offer_marquee": "Offer marquee"
   },
   "labels": {
     "alignment": "Alignment",
@@ -188,7 +189,9 @@
     "reviews_write_url": "Write a review link",
     "faq_question": "Question",
     "faq_answer": "Answer",
-    "auto_sale_ribbon": "Show a sale ribbon automatically",
+    "show_offer_marquee": "Show the offer marquee",
+    "marquee_text": "Extra marquee message",
+    "marquee_speed": "Scroll speed",
     "footer_show_blurb": "Show the footer blurb",
     "footer_show_newsletter": "Show newsletter signup"
   },
@@ -288,8 +291,10 @@
     "reviews_write_url": "Optional. For example a contact page or your review app form.",
     "product_faq": "Shows questions from the custom.faq metafield, then these blocks. Hidden when empty.",
     "recently_viewed": "Products this shopper viewed on this device. Hidden for first-time visitors.",
-    "ribbons": "Ribbons come from each product's custom.ribbons field (up to 3, for example \"Buy 1 get 1 free\"), plus the product's badge: tag. Only add an offer ribbon when a matching discount is active in Shopify Discounts.",
-    "auto_sale_ribbon": "Shows \"Sale X% off\" when the selected variant's compare-at price is higher than its price.",
-    "feature_gallery": "Shows the product's custom.features entries (image, title and short text). Hidden when the product has none."
+    "ribbons": "Ribbons on the product image show combo offers from each product's custom.ribbons field (up to 3, for example \"Buy 1 get 1 free\" or \"Buy 2 get 1 free\"). They also appear in the offer marquee. Only add one when a matching discount is active in Shopify Discounts. Sales are shown by the marquee and the price, not as a ribbon.",
+    "feature_gallery": "Shows the images from the product's custom.features entries as a full-width list. Hidden when the product has none.",
+    "offer_marquee": "A red scrolling strip under the header listing this product's offers: the selected variant's sale, the offer codes above that apply to it, its custom.ribbons entries and the extra message. Hidden when there are none.",
+    "marquee_speed": "Higher is faster. The pace stays the same however many messages there are.",
+    "marquee_text": "Optional, for example \"Free delivery on orders over Rs. 499\". Only add claims you honour."
   }
 }

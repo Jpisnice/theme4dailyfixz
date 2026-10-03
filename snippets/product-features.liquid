@@ -1,10 +1,11 @@
 {% doc %}
-  Renders the product feature gallery: a swipeable row of cards (image, title,
-  short text) from the product's custom.features list of product_feature
-  entries. Renders nothing when the product has no feature with an image.
+  Renders the product's key features as a simple full-width list of images,
+  stacked one under another, from the product's custom.features list of
+  product_feature entries. Feature titles are used only as image alt text.
+  Renders nothing when the product has no feature with an image.
 
   @param {product} product - The product whose features to show
-  @param {string} [heading] - Heading above the row
+  @param {string} [heading] - Heading above the list
   @param {string} [attributes] - Theme editor attributes for the block wrapper
 
   @example
@@ -26,25 +27,13 @@
     {%- if heading != blank -%}
       <h2 class="features__title">{{ heading | escape }}</h2>
     {%- endif -%}
-    <ul class="features__track" role="list" data-features>
+    <ul class="features__list" role="list">
       {%- for feature in features limit: 12 -%}
         {%- assign feature_image = feature.image.value.preview_image -%}
         {%- if feature_image -%}
           {%- assign feature_alt = feature.title.value | default: feature_image.alt | default: product.title -%}
           <li class="feature">
-            <div class="feature__media">
-              {{ feature_image | image_url: width: 720 | image_tag: widths: '320, 480, 720', sizes: '(min-width: 48em) 16rem, 72vw', loading: 'lazy', alt: feature_alt, class: 'feature__image' }}
-            </div>
-            {%- if feature.title.value != blank or feature.text.value != blank -%}
-              <div class="feature__body">
-                {%- if feature.title.value != blank -%}
-                  <p class="feature__title">{{ feature.title.value | escape }}</p>
-                {%- endif -%}
-                {%- if feature.text.value != blank -%}
-                  <p class="feature__text">{{ feature.text.value | escape }}</p>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
+            {{ feature_image | image_url: width: 1200 | image_tag: widths: '480, 720, 960, 1200', sizes: '(min-width: 48em) 40vw, 100vw', loading: 'lazy', alt: feature_alt, class: 'feature__image' }}
           </li>
         {%- endif -%}
       {%- endfor -%}

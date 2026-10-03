@@ -1,40 +1,30 @@
 {%- liquid
-  assign submit_label = 'search.submit' | t
   assign card_sizes = '(min-width: 64em) 22vw, (min-width: 48em) 30vw, 46vw'
   assign suggested_terms = section.settings.suggested_terms | split: ','
-  assign active_type = search.types | first | default: 'all'
+  assign active_type = 'all'
+  if search.types.size == 1
+    assign active_type = search.types | first
+  endif
   assign active_sort = search.sort_by | default: 'relevance'
   assign terms_param = search.terms | url_encode
+  assign search_terms_safe = search.terms | escape
   assign type_list = 'all,product,collection,article,page' | split: ','
 -%}
 
 <section class="page-width content-search" data-live-search data-search-url="{{ routes.search_url }}" data-section-id="{{ section.id }}">
-  <header class="content-header">
-    <h1 class="content-header__title">{{ 'search.title' | t }}</h1>
-    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search" data-live-search-form>
-      <label class="visually-hidden" for="SearchInput">{{ 'search.title' | t }}</label>
-      <input
-        class="input search-form__input"
-        id="SearchInput"
-        type="search"
-        name="q"
-        value="{{ search.terms | escape }}"
-        placeholder="{{ 'search.placeholder' | t }}"
-        autocomplete="off"
-        data-live-search-input
-      >
-      {%- if active_type != 'all' -%}
-        <input type="hidden" name="type" value="{{ active_type }}">
-      {%- endif -%}
-      {%- if active_sort != 'relevance' -%}
-        <input type="hidden" name="sort_by" value="{{ active_sort }}">
-      {%- endif -%}
-      {% render 'button', text: submit_label, type: 'submit' %}
-    </form>
-    <p class="visually-hidden" role="status" aria-live="polite" data-live-search-status></p>
-  </header>
+  <p class="visually-hidden" role="status" aria-live="polite" data-live-search-status></p>
 
   <div class="content-search__live" data-live-search-region>
+    <header class="content-header content-search__header">
+      {%- if search.performed -%}
+        <h1 class="content-header__title content-search__title">{{ 'search.results_title_html' | t: terms: search_terms_safe }}</h1>
+        <p class="content-search__meta">{{ 'search.results_count' | t: count: search.results_count }}</p>
+      {%- else -%}
+        <h1 class="content-header__title content-search__title">{{ 'search.title' | t }}</h1>
+        <p class="content-search__meta">{{ 'search.start_hint' | t }}</p>
+      {%- endif -%}
+    </header>
+
     {%- if search.performed -%}
       <div class="content-search__bar">
         <ul class="search-tabs" role="list" aria-label="{{ 'search.filter_label' | t }}">
@@ -42,9 +32,9 @@
             {%- assign type_key = 'search.types.' | append: type -%}
             <li>
               {%- if type == 'all' -%}
-                <a class="search-tabs__link" href="{{ routes.search_url }}?q={{ terms_param }}"{% if active_type == 'all' %} aria-current="true"{% endif %}>{{ type_key | t }}</a>
+                <a class="search-tabs__link" data-live-search-link href="{{ routes.search_url }}?q={{ terms_param }}"{% if active_type == 'all' %} aria-current="true"{% endif %}>{{ type_key | t }}</a>
               {%- else -%}
-                <a class="search-tabs__link" href="{{ routes.search_url }}?q={{ terms_param }}&type={{ type }}"{% if active_type == type %} aria-current="true"{% endif %}>{{ type_key | t }}</a>
+                <a class="search-tabs__link" data-live-search-link href="{{ routes.search_url }}?q={{ terms_param }}&type={{ type }}"{% if active_type == type %} aria-current="true"{% endif %}>{{ type_key | t }}</a>
               {%- endif -%}
             </li>
           {%- endfor -%}
@@ -67,7 +57,7 @@
 
       {%- if search.results_count == 0 -%}
         <div class="content-search__empty-state">
-          <h2 class="content-search__empty-title">{{ 'search.no_results_html' | t: terms: search.terms }}</h2>
+          <h2 class="content-search__empty-title">{{ 'search.no_results_html' | t: terms: search_terms_safe }}</h2>
           <p class="content-search__hint">{{ 'search.no_results_hint' | t }}</p>
           {%- if suggested_terms.size > 0 -%}
             <ul class="search-chips" role="list" aria-label="{{ 'search.suggested_title' | t }}">
@@ -81,7 +71,6 @@
           {%- endif -%}
         </div>
       {%- else -%}
-        <p class="content-search__meta">{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
         {%- paginate search.results by 24 -%}
           {%- liquid
             assign shown_ids = '|'
@@ -101,16 +90,20 @@
                 {%- if result.object_type == 'product' -%}
                   {% render 'product-card', product: result, sizes: card_sizes %}
                 {%- else -%}
+                  {%- assign result_type_key = 'search.result_type.' | append: result.object_type -%}
                   <a class="search-card" href="{{ result.url }}">
                     <span class="search-card__media">
                       {%- assign result_image = result.featured_image | default: result.image -%}
                       {%- if result_image -%}
-                        {{ result_image | image_url: width: 600 | image_tag: widths: '300, 600', sizes: card_sizes, loading: 'lazy', alt: result.title, class: 'search-card__image' }}
+                        {{ result_image | image_url: width: 600 | image_tag: widths: '300, 600', sizes: card_sizes, loading: 'lazy', alt: '', class: 'search-card__image' }}
                       {%- else -%}
                         {{ 'image' | placeholder_svg_tag: 'search-card__image search-card__placeholder' }}
                       {%- endif -%}
                     </span>
-                    <span class="search-card__title">{{ result.title }}</span>
+                    <span class="search-card__body">
+                      <span class="search-card__type">{{ result_type_key | t }}</span>
+                      <span class="search-card__title">{{ result.title | escape }}</span>
+                    </span>
                   </a>
                 {%- endif -%}
               </li>

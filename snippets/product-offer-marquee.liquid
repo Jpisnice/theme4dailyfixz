@@ -1,0 +1,96 @@
+{% doc %}
+  Renders a full-width red offer marquee for the current product, placed right
+  under the header. Messages, in order: the selected variant's sale (when its
+  compare-at price is higher), each offer code from the section's offer blocks
+  that applies to this product, up to 3 combo offers (custom.ribbons), and an optional
+  extra message. Renders nothing when there is no message. The strip scrolls
+  continuously with CSS only (messages are repeated so there are no gaps) and
+  is static for reduced motion.
+
+  @param {product} product - The current product
+  @param {variant} variant - The selected variant
+  @param {object} [offer_blocks] - The section blocks to read offer codes from (main-product section.blocks)
+  @param {string} [extra_text] - Optional merchant message added at the end
+  @param {number} [speed] - Scroll speed in characters per second. Default: 6
+
+  @example
+  {% render 'product-offer-marquee', product: product, variant: current, offer_blocks: section.blocks, extra_text: section.settings.marquee_text %}
+{% enddoc %}
+
+{%- liquid
+  assign message_count = 0
+
+  capture messages_html
+    if variant.compare_at_price > variant.price
+      assign sale_saving = variant.compare_at_price | minus: variant.price
+      assign sale_percent = sale_saving | times: 100 | divided_by: variant.compare_at_price
+      if sale_percent > 0
+        assign sale_price = variant.price | money
+        echo '<li class="offer-marquee__item">'
+        echo 'products.marquee.sale' | t: percent: sale_percent, price: sale_price
+        echo '</li>'
+        assign message_count = message_count | plus: 1
+      endif
+    endif
+
+    for offer in offer_blocks
+      if offer.type == 'offer' and offer.settings.code != blank
+        if offer.settings.product_tag == blank or product.tags contains offer.settings.product_tag
+          assign offer_code = offer.settings.code | strip | upcase | escape
+          echo '<li class="offer-marquee__item">'
+          if offer.settings.title != blank
+            assign offer_title = offer.settings.title | escape
+            echo 'products.marquee.code_with_title_html' | t: title: offer_title, code: offer_code
+          else
+            echo 'products.marquee.code_html' | t: code: offer_code
+          endif
+          echo '</li>'
+          assign message_count = message_count | plus: 1
+        endif
+      endif
+    endfor
+
+    for ribbon in product.metafields.custom.ribbons.value limit: 3
+      if ribbon != blank
+        echo '<li class="offer-marquee__item">'
+        echo ribbon | escape
+        echo '</li>'
+        assign message_count = message_count | plus: 1
+      endif
+    endfor
+
+    if extra_text != blank
+      echo '<li class="offer-marquee__item">'
+      echo extra_text | escape
+      echo '</li>'
+      assign message_count = message_count | plus: 1
+    endif
+  endcapture
+
+  # Repeat the messages so each copy is wider than any screen (a continuous
+  # loop), and time the loop by text length so the pace stays steady.
+  assign message_chars = messages_html | strip_html | strip | size | at_least: 1
+  assign repeat_count = 200 | divided_by: message_chars | plus: 1 | at_most: 10
+  assign chars_per_second = speed | default: 6 | at_least: 1
+  assign loop_chars = message_count | times: 5 | plus: message_chars | times: repeat_count
+  assign loop_seconds = loop_chars | times: 1.0 | divided_by: chars_per_second | round: 1
+-%}
+
+<div class="offer-marquee-region" data-variant-region="offer-marquee">
+{%- if message_count > 0 -%}
+  <div class="offer-marquee" style="--marquee-duration: {{ loop_seconds }}s">
+    <ul class="visually-hidden" role="list" aria-label="{{ 'products.marquee.label' | t }}">
+      {{ messages_html }}
+    </ul>
+    <div class="offer-marquee__track" aria-hidden="true">
+      {%- for copy in (1..2) -%}
+        <ul class="offer-marquee__group" role="list">
+          {%- for i in (1..repeat_count) -%}
+            {{ messages_html }}
+          {%- endfor -%}
+        </ul>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+</div>

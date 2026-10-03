@@ -137,3 +137,59 @@ Contract: `harness/sprints/08-pdp-content-crosssell/contract.md`. `npm run check
   - The panel rating link and a `#reviews` URL open it.
   - `view_reviews` fires on first open.
 - **Product cards:** prices no longer wrap ("Rs." / "785.95").
+
+## Search page + uniform product cards (2026-10-03)
+
+`npm run check` and `validate_theme` are clean. Browser-verified with Playwright at 390 and 1280. NOT graded by the evaluator agent.
+
+- **Search page** (`sections/main-search.liquid`, `assets/search-page.js`, `assets/content.css`):
+  - The page's own search form is gone; the header search is the only input.
+  - Header shows "Results for “x”" plus a count, or "Search" plus a hint before any search.
+  - Type tabs are one swipeable chip row on mobile. Tabs and sort update in place through Section Rendering, and focus returns to the active control.
+  - Fixed: the "Articles" tab showed as active on unfiltered searches (`search.types | first`).
+  - Collection, article and page results use the product card shell with a type label.
+- **Product card** (`snippets/product-card.liquid`, `assets/base.css`):
+  - Fixed slots: contained (uncropped) image, a 2-line clamped title, a one-line price (current price first and large), and a footer with the rating, the options count and the "+".
+  - Cards fill their grid cell; measured as equal heights in the search, collection and recommendation grids.
+  - Sale badge now reads "X% off" (`badge` snippet takes `text`). Sold-out cards dim the image.
+  - Base `.rating` / `.rating__stars` CSS moved from `product.css` to `base.css`.
+- **Unverified:** the card rating row, because the dev store has 0 reviews. Unit-price products, where the price row is allowed to wrap.
+
+## PDP: trust row removed, smaller variant picker (2026-10-03)
+
+- Removed the `trust` block ("Secure payments") from `templates/product.json`. The `trust_signals` block type stays in `main-product` so it can be re-added in the editor.
+- Variant picker (`assets/product.css`): option buttons went from 92x54 to 84x43 at 390px, with tighter gaps, `text-sm` and the `--radius` corner. The picker is 117px tall instead of 146px, and Add to Cart moved up 29px. Taps are still 40px or more.
+
+## PDP: key features as a full-width image list (2026-10-03)
+
+- `snippets/product-features.liquid` now renders only the feature images, stacked vertically. Feature titles are used as alt text, and the per-feature title and text are no longer shown. The block heading ("Key features") is still a block setting.
+- `assets/product.css`: `.features__list` uses negative margins so the images run edge to edge. Measured at 390px: images at x=0, 390px wide, no gaps. At 1280 they span the info panel (692 to 1260).
+- Verified with 3 temporary TEST `product_feature` entries on the-complete-snowboard, which were then deleted along with the metafield. Two older `product_feature` entries (…4839161, …5330681) still exist in the store and were not created in this session.
+
+## Product card quick-add button (2026-10-03)
+
+- The card's "+" is now a 48px round button with the `cart` icon, in a muted style: a 12% accent tint background, a deep-teal `--color-accent-strong` icon and a faint border. After an add it turns solid deep teal with a `check` icon. The aria labels are unchanged.
+- A bright cyan "BUY" text version was tried first and dropped because it was too loud.
+- Verified at 390px: 48x48 and circular. Quick-add updated the header count to 1 (cart cleared afterwards). The check state was verified by toggling `.is-added`. Card heights are still uniform (333px).
+
+## PDP offer marquee (2026-10-03)
+
+- New `snippets/product-offer-marquee.liquid`, rendered first inside `main-product`, so it sits directly under the header. It is a full-width red strip (`--color-sale` #C0392B, white text, about 5.4:1 contrast).
+- Messages: the selected variant's sale ("11% off today, now Rs. 785.95"), then each applicable `offer` block code ("Title: use code CODE"), then up to 3 `custom.ribbons`, then the optional section setting `marquee_text`. It is hidden when there is none. The wrapper is a `data-variant-region`, so it follows variant changes.
+- **Continuous, with no controls (owner request):**
+  - The messages repeat inside each of two copies until a copy is about 200 characters wide, and the track scrolls one copy-width, so there is never a gap.
+  - The loop time comes from the text length, so the pace is steady. `marquee_speed` is in characters per second (2-10, default 4, about 29px/s).
+  - There is no pause button and no hover pause.
+  - Screen readers get one visually-hidden list, and the animated track is aria-hidden.
+  - With reduced motion it is static and scrollable.
+- WCAG 2.2.2 (pause, stop, hide) is not met for motion-tolerant users, because there is no pause control, by owner choice. Reduced-motion users get a static strip.
+- Verified at 390px: top equals the header bottom (117). A copy is 1652px wide, so the screen is never uncovered. It scrolls at 29px/s, and there is no toggle. Offer-code messages were checked earlier with a temporary local TESTCODE (reverted).
+
+## Combo-offer ribbons + faster marquee (2026-10-03)
+
+- **Image ribbon** now shows only combo offers (`custom.ribbons`, up to 3, e.g. "Buy 1 get 1 free"), as `.ribbon--combo` in deep accent `--color-accent-strong`.
+  - Removed the automatic "Sale X% off" ribbon, the `auto_sale_ribbon` setting (schema + product.json) and the `products.ribbon.sale` key, because the marquee and the price pill already show the sale.
+  - Removed the `badge:` tag ribbon and its tag parsing. If a "Bestseller"-type badge is wanted again it needs a new home.
+  - The marquee still lists combo offers too.
+- **Marquee:** `marquee_speed` default 4 → 6 chars/s (range now 2-12), measured at 43px/s (was 29).
+- Verified with a temporary TEST `custom.ribbons` value on the-compare-at-price-snowboard. Only the combo ribbon showed, and it also appeared in the marquee. The value was then deleted.

@@ -51,12 +51,6 @@
             "off_day": ""
           }
         },
-        "trust": {
-          "type": "trust_signals",
-          "settings": {
-            "text_1": "Secure payments"
-          }
-        },
         "description": {
           "type": "description",
           "settings": {
@@ -107,7 +101,6 @@
         "buy",
         "features",
         "delivery",
-        "trust",
         "description",
         "specs",
         "highlight-1",
@@ -115,8 +108,7 @@
         "highlight-3"
       ],
       "settings": {
-        "show_vendor": true,
-        "auto_sale_ribbon": true
+        "show_vendor": true
       }
     },
     "recommendations": {

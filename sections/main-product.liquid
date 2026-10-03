@@ -1,15 +1,12 @@
 {%- liquid
   assign current = product.selected_or_first_available_variant
 
-  assign badge_text = ''
   assign fact_tags = ''
   for tag in product.tags
     if tag contains ':'
       assign tag_prefix = tag | split: ':' | first | strip | downcase
       assign tag_value = tag | split: ':' | slice: 1, 99 | join: ':' | strip
-      if tag_prefix == 'badge' and badge_text == blank
-        assign badge_text = tag_value
-      elsif tag_prefix == 'fact'
+      if tag_prefix == 'fact'
         assign fact_tags = fact_tags | append: tag_value | append: '||'
       endif
     endif
@@ -33,29 +30,16 @@
     endif
   endfor
 
-  assign ribbon_sale_percent = 0
-  if section.settings.auto_sale_ribbon and current.compare_at_price > current.price
-    assign ribbon_saving = current.compare_at_price | minus: current.price
-    assign ribbon_sale_percent = ribbon_saving | times: 100 | divided_by: current.compare_at_price
-  endif
+  # The image ribbon is only for combo offers ("Buy 1 get 1 free"), from the
+  # product's custom.ribbons list. Sales show in the offer marquee and price.
   capture ribbons_html
-    if ribbon_sale_percent > 0
-      echo '<span class="ribbon ribbon--sale">'
-      echo 'products.ribbon.sale' | t: percent: ribbon_sale_percent
-      echo '</span>'
-    endif
     for ribbon in product.metafields.custom.ribbons.value limit: 3
       if ribbon != blank
-        echo '<span class="ribbon ribbon--offer">'
+        echo '<span class="ribbon ribbon--combo">'
         echo ribbon | escape
         echo '</span>'
       endif
     endfor
-    if badge_text != blank
-      echo '<span class="ribbon ribbon--badge">'
-      echo badge_text | escape
-      echo '</span>'
-    endif
   endcapture
 
   assign analytics_json = '{"product_id":"' | append: product.id | append: '","handle":"' | append: product.handle | append: '","currency":"' | append: cart.currency.iso_code | append: '"}'
@@ -76,6 +60,9 @@
   data-label-applied="{{ 'products.offers.applied' | t }}"
   data-label-apply-error="{{ 'products.offers.apply_error' | t }}"
 >
+  {%- if section.settings.show_offer_marquee -%}
+    {% render 'product-offer-marquee', product: product, variant: current, offer_blocks: section.blocks, extra_text: section.settings.marquee_text, speed: section.settings.marquee_speed %}
+  {%- endif -%}
   <div class="page-width product__crumbs">
     {% render 'breadcrumbs', product: product %}
   </div>
@@ -484,7 +471,11 @@
     { "type": "checkbox", "id": "show_vendor", "label": "t:labels.show_vendor", "default": true },
     { "type": "header", "content": "t:general.ribbons" },
     { "type": "paragraph", "content": "t:info.ribbons" },
-    { "type": "checkbox", "id": "auto_sale_ribbon", "label": "t:labels.auto_sale_ribbon", "info": "t:info.auto_sale_ribbon", "default": true }
+    { "type": "header", "content": "t:general.offer_marquee" },
+    { "type": "paragraph", "content": "t:info.offer_marquee" },
+    { "type": "checkbox", "id": "show_offer_marquee", "label": "t:labels.show_offer_marquee", "default": true },
+    { "type": "text", "id": "marquee_text", "label": "t:labels.marquee_text", "info": "t:info.marquee_text" },
+    { "type": "range", "id": "marquee_speed", "label": "t:labels.marquee_speed", "info": "t:info.marquee_speed", "min": 2, "max": 12, "step": 1, "default": 6 }
   ],
   "blocks": [
     {
