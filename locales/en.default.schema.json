@@ -188,7 +188,9 @@
     "reviews_write_url": "Write a review link",
     "faq_question": "Question",
     "faq_answer": "Answer",
-    "auto_sale_ribbon": "Show a sale ribbon automatically"
+    "auto_sale_ribbon": "Show a sale ribbon automatically",
+    "footer_show_blurb": "Show the footer blurb",
+    "footer_show_newsletter": "Show newsletter signup"
   },
   "options": {
     "alignment": {

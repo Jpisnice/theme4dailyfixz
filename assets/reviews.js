@@ -54,15 +54,14 @@ function initReviews(section) {
     }
   });
 
-  if ('IntersectionObserver' in window) {
-    const seen = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        seen.disconnect();
-        track('view_reviews', { source: 'scroll' });
-      }
-    }, { threshold: 0.25 });
-    seen.observe(section);
-  }
+  // The section is a collapsed <details>; count a view when a shopper opens it.
+  let announced = false;
+  section.addEventListener('toggle', () => {
+    if (section.open && !announced) {
+      announced = true;
+      track('view_reviews', { source: 'toggle' });
+    }
+  });
 
   render();
 }

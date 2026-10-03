@@ -122,3 +122,18 @@ Contract: `harness/sprints/08-pdp-content-crosssell/contract.md`. `npm run check
 - **Store:**
   - Created the `product_feature` metaobject, plus product metafields `custom.features` and `custom.ribbons` (owner approved).
   - Temporary TEST content was used for the check and then deleted; 0 entries remain.
+
+## Minimal footer + collapsible reviews (2026-10-03)
+
+`npm run check` and `validate_theme` are clean. Browser-verified at 390 and 1280.
+
+- **Footer** (`sections/footer.liquid`, footer CSS in `assets/base.css`):
+  - Two light rows: store name, one inline menu and social icons; then ©, a compact country picker that submits on change (the button only shows without JS), and optional payment icons.
+  - Newsletter band, blurb and payment icons are now settings, all off by default. Menus 2 and 3 were removed.
+  - Footer height dropped to 166px.
+- **Reviews:**
+  - `product-reviews` content now sits inside `<details id="reviews">`, collapsed by default (setting: `open_by_default`).
+  - The summary row shows the heading, stars, average and count.
+  - The panel rating link and a `#reviews` URL open it.
+  - `view_reviews` fires on first open.
+- **Product cards:** prices no longer wrap ("Rs." / "785.95").

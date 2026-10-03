@@ -5,8 +5,10 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "menu_1": "footer",
-        "show_payment_icons": true
+        "menu": "footer",
+        "show_blurb": false,
+        "show_newsletter": false,
+        "show_payment_icons": false
       }
     }
   },
