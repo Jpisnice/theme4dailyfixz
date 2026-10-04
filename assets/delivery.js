@@ -91,8 +91,7 @@ function init(root) {
     return { now, beforeCutoff, minutesLeft, days };
   }
 
-  function estimate(lane) {
-    const { now, days } = timing();
+  function estimate(lane, { now, days } = timing()) {
     if (days[1] === null || lane[1] === null) return '';
     const earliest = addBusinessDays(now, (days[0] ?? days[1]) + (lane[0] ?? lane[1]), offDay);
     const latest = addBusinessDays(now, days[1] + lane[1], offDay);
@@ -101,16 +100,20 @@ function init(root) {
 
   function renderPromise() {
     if (!promise || !etaLine || !cutoffLine) return;
-    const { beforeCutoff, minutesLeft } = timing();
-    etaLine.textContent = checkedPin ? '' : estimate(transit);
+    const moment = timing();
+    const { beforeCutoff, minutesLeft } = moment;
+    etaLine.textContent = checkedPin ? '' : estimate(transit, moment);
     etaLine.hidden = etaLine.textContent === '';
     cutoffLine.hidden = !beforeCutoff;
     if (beforeCutoff) {
       const hours = Math.floor(minutesLeft / 60);
-      const minutes = String(minutesLeft % 60);
-      const time = hours > 0
-        ? d.labelHours.replace('__H__', String(hours)).replace('__M__', minutes)
-        : d.labelMinutes.replace('__M__', minutes);
+      const minutes = minutesLeft % 60;
+      let time = d.labelMinutes.replace('__M__', String(minutes));
+      if (hours > 0) {
+        time = minutes > 0
+          ? d.labelHoursMinutes.replace('__H__', String(hours)).replace('__M__', String(minutes))
+          : d.labelHours.replace('__H__', String(hours));
+      }
       cutoffLine.textContent = d.labelCutoff.replace('__TIME__', time);
     }
     promise.hidden = etaLine.hidden && cutoffLine.hidden;

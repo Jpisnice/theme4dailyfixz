@@ -266,6 +266,7 @@
       "unavailable": "Sorry, we cannot deliver to {{ pin }} yet.",
       "estimate": "Estimated delivery: {{ dates }}",
       "cutoff": "Order within {{ time }} to dispatch today",
+      "hours": "{{ hours }} h",
       "hours_minutes": "{{ hours }} h {{ minutes }} min",
       "minutes": "{{ minutes }} min",
       "shipping_policy": "Shipping policy",

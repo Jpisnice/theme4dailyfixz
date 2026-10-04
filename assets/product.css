@@ -1005,11 +1005,6 @@ html:not(.js) .offer__copy {
   width: 0.875rem;
   height: 0.875rem;
 }
-.secure-pay__icons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-}
 .secure-pay__icons .payment-icon {
   display: block;
   width: 2.125rem;
