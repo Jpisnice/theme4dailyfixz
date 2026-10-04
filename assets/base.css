@@ -1,7 +1,7 @@
 /**
  * Base styles: design-system components and the global shell.
  * All colour, radius, font and spacing values come from the tokens emitted
- * by snippets/css-variables.liquid. Reset and block-container live in critical.css.
+ * by snippets/css-variables.liquid. The reset lives in critical.css.
  */
 
 /* ---------- Typography ---------- */
@@ -68,17 +68,6 @@ a {
 }
 .template-content > :first-child {
   margin-top: 0;
-}
-
-/* Accent underline motif: a short accent bar under headings. */
-.accent-underline::after {
-  content: "";
-  display: block;
-  width: 2.75rem;
-  height: 0.25rem;
-  margin-top: var(--space-2);
-  border-radius: var(--radius-button);
-  background-color: var(--color-accent);
 }
 
 /* ---------- Focus, skip link ---------- */
@@ -1107,50 +1096,111 @@ th {
   font-weight: 700;
 }
 
-/* ---------- Legacy block styles (token-based) ---------- */
-
-/** Text block */
-.text {
-  text-align: var(--text-align);
-}
-.text--title {
-  font-size: 2rem;
-  font-weight: 700;
-}
-.text--subtitle {
-  font-size: 1.5rem;
-}
-
-/** Search page */
-.search-results {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
-}
-.search-results .prev,
-.search-results .page,
-.search-results .next {
-  grid-column: 1 / -1;
-}
-
-/** Image snippet */
-.image {
-  display: block;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: auto;
-}
-.image > img {
-  width: 100%;
-  height: auto;
-}
-
 /** Gift card template */
 .template-gift-card main {
   text-align: center;
 }
 .template-gift-card main img {
   display: unset;
+}
+
+/* ---------- Motion ----------
+ * Subtle, opacity/transform-only animation (no layout shift). Everything that
+ * moves on its own is gated on prefers-reduced-motion: no-preference; the
+ * global reduced-motion block below also zeroes durations as a backstop. */
+@keyframes dfx-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes dfx-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+@keyframes dfx-drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+}
+@keyframes dfx-bump {
+  40% {
+    transform: scale(1.3);
+  }
+}
+@keyframes dfx-refresh {
+  from {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Press feedback on buttons and the card "+". */
+  .button {
+    transition-property: background-color, color, border-color, box-shadow, transform;
+  }
+  .button:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+  .product-card__add:active:not(:disabled) {
+    transform: scale(0.92);
+  }
+
+  /* Cards lift a touch on hover (pointer devices only). */
+  .product-card {
+    transition: box-shadow var(--transition-base) var(--ease), transform var(--transition-base) var(--ease);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .product-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Cart badge pops when an item is added (header.js toggles the class). */
+  .cart-count.is-bumped {
+    animation: dfx-bump 360ms var(--ease);
+  }
+
+  /* Variant-dependent regions settle in after a variant switch (product.js). */
+  .is-refreshed {
+    animation: dfx-refresh 260ms var(--ease);
+  }
+
+  /* Accordions and the reviews panel ease open. */
+  .pdp-accordion[open] > .pdp-accordion__body,
+  .reviews__collapsible[open] > .reviews__content {
+    animation: dfx-drop-in var(--transition-base) var(--ease);
+  }
+
+  /* Delivery estimate and PIN result fade in when they appear. */
+  .delivery__promise:not([hidden]),
+  .delivery__result:not(:empty) {
+    animation: dfx-fade-in 300ms var(--ease);
+  }
+}
+
+/* Sections and grid cards rise in as they scroll into view. Scroll-driven, so
+ * no JavaScript and nothing is hidden where it is unsupported; content that is
+ * already on screen at load is past the range and shows in its final state. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .home-section,
+    .benefits,
+    .bundle,
+    .reviews,
+    .faq,
+    .product-recs,
+    .recently-viewed,
+    .product-grid__item {
+      animation: dfx-rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 60%;
+    }
+  }
 }
 
 /* ---------- Reduced motion ---------- */

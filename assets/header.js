@@ -25,6 +25,12 @@ function initDropdowns(header) {
   });
 }
 
+function replay(element, className) {
+  element.classList.remove(className);
+  void element.offsetWidth;
+  element.classList.add(className);
+}
+
 function initCart(header) {
   const link = header.querySelector('[data-cart-link]');
   if (!link) return;
@@ -35,8 +41,10 @@ function initCart(header) {
 
   function render(count) {
     if (badge) {
+      const previous = Number(badge.textContent) || 0;
       badge.textContent = String(count);
       badge.hidden = count < 1;
+      if (count > previous) replay(badge, 'is-bumped');
     }
     if (label) {
       label.textContent =

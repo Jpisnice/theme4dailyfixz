@@ -1,6 +1,5 @@
 {
   "404": {
-    "title": "404",
     "not_found": "Page not found.",
     "back_to_shopping": "Back to shopping"
   },
@@ -22,22 +21,10 @@
     "continue": "Continue shopping",
     "subtotal": "Subtotal",
     "taxes_note": "Taxes and shipping calculated at checkout.",
-    "quantity": "Quantity",
     "note": "Order note",
     "note_placeholder": "Add a note for your order",
-    "product": "Product",
-    "price": "Price",
-    "total": "Total",
     "free_shipping_progress_html": "You're {{ amount }} away from free shipping.",
     "free_shipping_reached": "You've unlocked free shipping."
-  },
-  "customers": {
-    "login": {
-      "email": "Email",
-      "password": "Password",
-      "submit": "Sign in",
-      "title": "Login"
-    }
   },
   "collections": {
     "title": "Collections",
@@ -68,8 +55,7 @@
       "price_hint": "Highest price is {{ price }}",
       "price_pill_range": "{{ min }} to {{ max }}",
       "price_pill_min": "From {{ min }}",
-      "price_pill_max": "Up to {{ max }}",
-      "price_group": "Price"
+      "price_pill_max": "Up to {{ max }}"
     }
   },
   "gift_card": {
@@ -164,7 +150,6 @@
   },
   "footer": {
     "newsletter_title": "Stay in the loop",
-    "newsletter_sub": "New arrivals and everyday offers, no clutter.",
     "newsletter_label": "Email address",
     "newsletter_submit": "Sign up",
     "newsletter_success": "Thanks for signing up.",
@@ -172,7 +157,6 @@
     "social_title": "Follow us",
     "payment_title": "Payment methods",
     "country": "Country or region",
-    "language": "Language",
     "localization_submit": "Update",
     "copyright": "© {{ year }} {{ shop }}",
     "social": {
@@ -194,21 +178,17 @@
       "sale": "Sale price",
       "unit": "Unit price",
       "from_html": "From {{ price }}",
-      "save": "Save {{ amount }} ({{ percent }}%)",
       "mrp": "MRP",
       "you_save": "You save {{ amount }}",
       "taxes_included": "Inclusive of all taxes"
     },
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",
-    "unavailable": "Unavailable",
     "quantity": "Quantity",
     "decrease": "Decrease quantity",
     "increase": "Increase quantity",
-    "vendor_html": "By {{ vendor }}",
     "sku": "SKU: {{ sku }}",
     "description": "Description",
-    "related": "You may also like",
     "discount_off": "{{ percent }}% off",
     "rating_label": "Rated {{ rating }} out of {{ max }}",
     "reviews": {
@@ -216,8 +196,6 @@
       "other": "{{ count }} reviews"
     },
     "gallery_label": "Product images",
-    "dot_label": "Show image {{ index }} of {{ total }}",
-    "view_details": "View full details",
     "card": {
       "add_aria": "Add {{ product }} to cart",
       "options_aria": "Choose options for {{ product }}",
@@ -264,7 +242,13 @@
       "invalid": "Enter a valid 6-digit PIN code.",
       "available": "Delivery available to {{ pin }}",
       "unavailable": "Sorry, we cannot deliver to {{ pin }} yet.",
-      "estimate": "Estimated delivery: {{ dates }}"
+      "estimate": "Estimated delivery: {{ dates }}",
+      "cutoff": "Order within {{ time }} to dispatch today",
+      "hours": "{{ hours }} h",
+      "hours_minutes": "{{ hours }} h {{ minutes }} min",
+      "minutes": "{{ minutes }} min",
+      "shipping_policy": "Shipping policy",
+      "refund_policy": "Return and refund policy"
     },
     "offers": {
       "title": "Offers for you",
@@ -329,6 +313,16 @@
       "sale": "{{ percent }}% off today, now {{ price }}",
       "code_html": "Use code <strong>{{ code }}</strong> at checkout",
       "code_with_title_html": "{{ title }}: use code <strong>{{ code }}</strong>"
+    },
+    "secure_pay": {
+      "label": "Secure payments",
+      "methods": "Accepted payment methods"
+    },
+    "review_pick": {
+      "see_all": {
+        "one": "See {{ count }} review",
+        "other": "See all {{ count }} reviews"
+      }
     }
   },
   "home": {

@@ -2,32 +2,17 @@
   "general": {
     "404": "Not found",
     "article": "Article",
-    "block": "Block",
     "blog": "Blog",
     "cart": "Cart",
     "collection": "Collection",
-    "collections": "Collections",
-    "collection_card": "Collection card",
-    "collections_grid": "Collections grid",
     "colors": "Colors",
-    "column": "Column",
-    "container": "Container",
-    "content": "Content",
     "fonts": "Fonts",
     "footer": "Footer",
-    "group": "Group",
     "header": "Header",
     "layout": "Layout",
-    "main": "Main",
     "page": "Page",
-    "password": "Password",
     "product": "Product",
-    "row": "Row",
     "search": "Search",
-    "secondary": "Secondary",
-    "settings": "Settings",
-    "sidebar": "Sidebar",
-    "theme": "Theme",
     "typography": "Typography",
     "announcement_bar": "Announcement bar",
     "logo": "Logo",
@@ -44,10 +29,6 @@
     "brand_row": "Top brands",
     "brand": "Brand",
     "highlight": "Highlight",
-    "collection_banner": "Collection banner",
-    "collection_toolbar": "Collection toolbar",
-    "collection_filters": "Collection filters",
-    "collection_grid": "Collection grid",
     "collection_pages": "Collection pages",
     "rating": "Rating",
     "value_prop": "Short value proposition",
@@ -76,17 +57,14 @@
     "product_card_item": "Product card",
     "ribbons": "Combo offer ribbons",
     "feature_gallery": "Feature gallery",
-    "offer_marquee": "Offer marquee"
+    "offer_marquee": "Offer marquee",
+    "review_highlight": "Review highlight",
+    "delivery_promise": "Delivery promise"
   },
   "labels": {
-    "alignment": "Alignment",
     "background": "Background",
     "foreground": "Foreground",
-    "grid_gap": "Grid spacing",
-    "grid_item_width": "Grid item width",
-    "layout_direction": "Layout direction",
     "menu": "Menu",
-    "padding": "Padding",
     "page_margin": "Page margin",
     "page_width": "Page width",
     "show_payment_icons": "Show payment icons",
@@ -111,8 +89,6 @@
     "announcement_text_color": "Text colour",
     "footer_blurb": "Brand blurb",
     "footer_menu_1": "First menu",
-    "footer_menu_2": "Second menu",
-    "footer_menu_3": "Third menu",
     "social_instagram": "Instagram URL",
     "social_facebook": "Facebook URL",
     "social_tiktok": "TikTok URL",
@@ -145,15 +121,12 @@
     "collection_show_count": "Show product count",
     "show_vendor": "Show vendor",
     "show_sku": "Show SKU",
-    "show_related": "Show related products",
-    "show_trust": "Show reassurance row",
     "free_shipping_threshold": "Free shipping threshold",
     "show_free_shipping_bar": "Show free shipping bar",
     "autoplay_seconds": "Autoplay interval",
     "see_all_link": "See all link",
     "brand_name": "Brand name",
     "suggested_terms": "Suggested searches",
-    "guarantee_text": "Guarantee line",
     "highlight_icon": "Icon",
     "highlight_label": "Label",
     "use_description": "Use the description when no value proposition is set",
@@ -193,7 +166,11 @@
     "marquee_text": "Extra marquee message",
     "marquee_speed": "Scroll speed",
     "footer_show_blurb": "Show the footer blurb",
-    "footer_show_newsletter": "Show newsletter signup"
+    "footer_show_newsletter": "Show newsletter signup",
+    "show_secure_pay": "Show payment methods",
+    "review_min_rating": "Lowest star rating to feature",
+    "show_policy_links": "Show shipping and return policy links",
+    "cutoff_hour": "Same-day dispatch cutoff (shop time)"
   },
   "options": {
     "alignment": {
@@ -201,17 +178,9 @@
       "center": "Center",
       "right": "Right"
     },
-    "direction": {
-      "horizontal": "Horizontal",
-      "vertical": "Vertical"
-    },
     "page_width": {
       "narrow": "Narrow",
       "wide": "Wide"
-    },
-    "size": {
-      "large": "Large",
-      "small": "Small"
     },
     "card_ratio": {
       "square": "Square",
@@ -260,7 +229,6 @@
     "brand_link": "Without a link it goes to all products.",
     "suggested_terms": "Comma-separated terms shown when the search box is focused and empty.",
     "search_page_terms": "Comma-separated terms shown on the search page before and when nothing matches.",
-    "product_tags": "Per-product details use tags: badge:Bestseller, fact:Pack of 4, perk:Dishwasher safe. Ratings use the standard reviews.rating and reviews.rating_count metafields.",
     "header_menu": "Shown as the inline menu on desktop. On mobile, navigation is the bottom tab bar.",
     "rating_block": "Shows the average and count from your reviews. The count links to the reviews section. Hidden when there are no reviews.",
     "value_prop": "Reads the custom.value_prop product metafield.",
@@ -295,6 +263,11 @@
     "feature_gallery": "Shows the images from the product's custom.features entries as a full-width list. Hidden when the product has none.",
     "offer_marquee": "A red scrolling strip under the header listing this product's offers: the selected variant's sale, the offer codes above that apply to it, its custom.ribbons entries and the extra message. Hidden when there are none.",
     "marquee_speed": "Higher is faster. The pace stays the same however many messages there are.",
-    "marquee_text": "Optional, for example \"Free delivery on orders over Rs. 499\". Only add claims you honour."
+    "marquee_text": "Optional, for example \"Free delivery on orders over Rs. 499\". Only add claims you honour.",
+    "secure_pay": "Shows a 'Secure payments' line and the payment methods enabled in your store under the buttons.",
+    "review_highlight": "Features your best real review (with text) next to the buy buttons. Hidden when the product has no reviews in custom.reviews.",
+    "policy_links": "Links to the policies set in Settings > Policies. Hidden when they are not set.",
+    "delivery_promise": "Shows 'Estimated delivery' dates up front, before a PIN is entered. Needs the dispatch and transit days below.",
+    "cutoff_hour": "Orders before this hour are dispatched the same day, and a countdown is shown. 0 turns it off. Only set this if you really dispatch same-day orders."
   }
 }

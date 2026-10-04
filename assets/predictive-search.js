@@ -7,6 +7,8 @@
  * - Combobox keyboard support: Arrow keys, Enter, Escape. Results are announced
  *   in the [data-search-status] live region.
  */
+import { formatMoney } from './money.js';
+
 const MIN_CHARS = 2;
 const DEBOUNCE_MS = 200;
 
@@ -17,15 +19,11 @@ function el(tag, className, text) {
   return node;
 }
 
+// Suggest API prices are decimal strings in the presentment currency.
 function formatPrice(value) {
   const number = Number(value);
-  const currency = window.Shopify && window.Shopify.currency && window.Shopify.currency.active;
-  if (!currency || Number.isNaN(number)) return '';
-  try {
-    return new Intl.NumberFormat(document.documentElement.lang || undefined, { style: 'currency', currency }).format(number);
-  } catch (error) {
-    return '';
-  }
+  if (value === undefined || value === null || value === '' || Number.isNaN(number)) return '';
+  return formatMoney(Math.round(number * 100));
 }
 
 function initSearch(form) {

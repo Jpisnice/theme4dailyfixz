@@ -11,6 +11,9 @@
 <header class="site-header" data-header data-cart-url="{{ routes.cart_url }}">
   <div class="site-header__inner page-width">
     <div class="site-header__brand">
+      {%- if request.page_type == 'index' -%}
+        <h1 class="visually-hidden">{{ shop.name }}</h1>
+      {%- endif -%}
       <a class="site-header__home" href="{{ routes.root_url }}">
         {%- if logo -%}
           {%- liquid

@@ -40,7 +40,8 @@
         "buy": {
           "type": "buy_buttons",
           "settings": {
-            "show_buy_now": true
+            "show_buy_now": true,
+            "show_payment_icons": true
           }
         },
         "delivery": {
@@ -48,7 +49,9 @@
           "settings": {
             "show_checker": true,
             "cod_enabled": false,
-            "off_day": ""
+            "off_day": "",
+            "show_policy_links": true,
+            "cutoff_hour": 0
           }
         },
         "description": {
@@ -89,6 +92,12 @@
           "settings": {
             "heading": "Key features"
           }
+        },
+        "review_pick": {
+          "type": "review_highlight",
+          "settings": {
+            "min_rating": 4
+          }
         }
       },
       "block_order": [
@@ -99,8 +108,9 @@
         "variants",
         "availability",
         "buy",
-        "features",
+        "review_pick",
         "delivery",
+        "features",
         "description",
         "specs",
         "highlight-1",

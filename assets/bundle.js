@@ -4,25 +4,10 @@
 // follows the main variant picker, and adds every checked item in one
 // /cart/add.js request.
 
+import { formatMoney } from './money.js';
+
 function track(name, data) {
   document.dispatchEvent(new CustomEvent('dfx:track', { detail: { name, data } }));
-}
-
-function formatMoney(cents, format) {
-  const value = Number(cents) / 100;
-  const group = (amount, decimals, thousands, separator) => {
-    const [whole, fraction] = amount.toFixed(decimals).split('.');
-    return whole.replace(/\B(?=(\d{3})+(?!\d))/g, thousands) + (fraction ? separator + fraction : '');
-  };
-  return (format || '{{amount}}').replace(/\{\{\s*(\w+)\s*\}\}/, (match, key) => {
-    switch (key) {
-      case 'amount_no_decimals': return group(value, 0, ',', '.');
-      case 'amount_with_comma_separator': return group(value, 2, '.', ',');
-      case 'amount_no_decimals_with_comma_separator': return group(value, 0, '.', ',');
-      case 'amount_with_apostrophe_separator': return group(value, 2, "'", '.');
-      default: return group(value, 2, ',', '.');
-    }
-  });
 }
 
 function initBundle(bundle) {
@@ -31,7 +16,6 @@ function initBundle(bundle) {
   const addButton = bundle.querySelector('[data-bundle-add]');
   const addLabel = bundle.querySelector('[data-bundle-add-label]');
   const status = bundle.querySelector('[data-bundle-status]');
-  const format = bundle.dataset.moneyFormat;
   const rows = () => Array.from(list.querySelectorAll('[data-bundle-item]'));
   const checked = () => rows().filter((row) => {
     const box = row.querySelector('[data-bundle-check]');
@@ -40,7 +24,7 @@ function initBundle(bundle) {
 
   function refresh() {
     const picked = checked();
-    total.textContent = formatMoney(picked.reduce((sum, row) => sum + Number(row.dataset.price || 0), 0), format);
+    total.textContent = formatMoney(picked.reduce((sum, row) => sum + Number(row.dataset.price || 0), 0));
     const count = picked.length;
     addLabel.textContent = count === 1
       ? bundle.dataset.labelAddOne
@@ -72,7 +56,7 @@ function initBundle(bundle) {
     const name = row.querySelector('[data-bundle-variant]');
     if (name) name.textContent = variant.title;
     const price = row.querySelector('[data-bundle-price] .price__current');
-    if (price) price.textContent = formatMoney(variant.price, format);
+    if (price) price.textContent = formatMoney(variant.price);
     const compare = row.querySelector('[data-bundle-price] .price__compare');
     if (compare) compare.hidden = !(variant.compare_at_price > variant.price);
     const box = row.querySelector('[data-bundle-check]');

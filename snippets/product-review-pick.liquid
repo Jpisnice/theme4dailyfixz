@@ -1,0 +1,50 @@
+{% doc %}
+  Renders one real customer review next to the buy buttons as social proof at
+  the moment of decision. Picks the highest-rated review with text from the
+  native custom.reviews list (the first one wins a tie). Renders nothing when
+  no review reaches min_rating.
+
+  @param {product} product - The current product
+  @param {number} [min_rating] - Lowest star rating that may be featured (default 4)
+  @param {number} [total] - Total review count for the "see all" link
+  @param {string} [attributes] - block.shopify_attributes for the theme editor
+
+  @example
+  {% render 'product-review-pick', product: product, min_rating: 4, total: 12 %}
+{% enddoc %}
+
+{%- liquid
+  assign pick = nil
+  assign pick_rating = 0
+  assign pick_min = min_rating | default: 4
+  for candidate in product.metafields.custom.reviews.value limit: 50
+    assign candidate_rating = candidate.rating.value | plus: 0
+    if candidate_rating >= pick_min and candidate_rating > pick_rating
+      if candidate.body.value != blank
+        assign pick = candidate
+        assign pick_rating = candidate_rating
+      endif
+    endif
+  endfor
+  assign review_total = total | default: 0 | plus: 0
+-%}
+
+{%- if pick != nil -%}
+  <figure class="product__block review-pick" {{ attributes }}>
+    <div class="review-pick__head">
+      {% render 'rating-stars', rating: pick_rating, class: 'review-pick__stars' %}
+      {%- if review_total > 1 -%}
+        <a class="review-pick__all" href="#reviews" data-rating-link="review_pick">{{ 'products.review_pick.see_all' | t: count: review_total }}</a>
+      {%- endif -%}
+    </div>
+    <blockquote class="review-pick__quote">
+      <p>{{ pick.body.value | strip_newlines | truncate: 180 | escape }}</p>
+    </blockquote>
+    <figcaption class="review-pick__author">
+      {%- if pick.author.value != blank -%}<span>{{ pick.author.value | escape }}</span>{%- endif -%}
+      {%- if pick.verified.value == true -%}
+        <span class="review-pick__verified">{% render 'icon', name: 'check-circle' %}{{ 'products.reviews_section.verified' | t }}</span>
+      {%- endif -%}
+    </figcaption>
+  </figure>
+{%- endif -%}

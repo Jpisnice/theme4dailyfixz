@@ -3,23 +3,14 @@
 // dispatching cart:updated so the header count refreshes. Without JavaScript
 // the page is a normal cart form (edit quantities, press Update / Remove).
 
+import { formatMoney as money } from './money.js';
+
 const root = document.querySelector('[data-cart]');
 if (root) {
   root.classList.add('cart--enhanced');
 
   const subtotalEl = root.querySelector('[data-cart-subtotal]');
   const shipping = root.querySelector('[data-free-shipping]');
-
-  const money = (cents) => {
-    try {
-      return new Intl.NumberFormat(document.documentElement.lang || 'en', {
-        style: 'currency',
-        currency: window.Shopify && window.Shopify.currency ? window.Shopify.currency.active : 'USD',
-      }).format(cents / 100);
-    } catch (e) {
-      return (cents / 100).toFixed(2);
-    }
-  };
 
   const setBusy = (busy) => root.classList.toggle('is-busy', busy);
 

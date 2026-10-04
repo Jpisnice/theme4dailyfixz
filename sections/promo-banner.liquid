@@ -5,7 +5,7 @@
 
 {%- if slides.size > 0 -%}
   <div
-    class="home-section promo page-width"
+    class="home-section promo page-width{% if slides.size > 1 %} promo--paged{% endif %}"
     data-carousel
     data-autoplay="{{ autoplay_seconds }}"
     data-label-slide="{{ 'home.promo.go_to_slide' | t }}"

@@ -95,7 +95,12 @@ if (root) {
   function applyRegions(doc) {
     root.querySelectorAll('[data-variant-region]').forEach((region) => {
       const fresh = doc.querySelector(`[data-variant-region="${region.dataset.variantRegion}"]`);
-      if (fresh) region.innerHTML = fresh.innerHTML;
+      if (fresh && region.innerHTML !== fresh.innerHTML) {
+        region.innerHTML = fresh.innerHTML;
+        region.classList.remove('is-refreshed');
+        void region.offsetWidth;
+        region.classList.add('is-refreshed');
+      }
     });
     const freshButton = doc.querySelector('[data-add-to-cart]');
     if (freshButton) addButtons.forEach((button) => { button.disabled = freshButton.disabled; });
@@ -171,11 +176,19 @@ if (root) {
   const sheetBody = sheet && sheet.querySelector('[data-cart-sheet-body]');
   const sheetRecs = sheet && sheet.querySelector('[data-cart-sheet-recs]');
   let sheetOpener = null;
-  let recsLoaded = false;
+  let recsPromise = null;
+  const RECS_WAIT_MS = 1200;
 
-  async function loadSheetRecs() {
-    if (!sheetRecs || recsLoaded || !root.dataset.recsUrl) return;
-    recsLoaded = true;
+  // Started alongside the add request and awaited (briefly) before the sheet
+  // opens, so the recommendations are in place on first paint instead of
+  // pushing the sheet's content around when they arrive.
+  function loadSheetRecs() {
+    if (!sheetRecs || !root.dataset.recsUrl) return Promise.resolve();
+    if (!recsPromise) recsPromise = fetchSheetRecs();
+    return recsPromise;
+  }
+
+  async function fetchSheetRecs() {
     for (const intent of ['complementary', 'related']) {
       try {
         const url = `${root.dataset.recsUrl}?section_id=product-recommendations&product_id=${root.dataset.productId}&limit=4&intent=${intent}`;
@@ -202,17 +215,17 @@ if (root) {
     }
   }
 
-  function openSheet(html, key, opener) {
+  async function openSheet(html, key, opener) {
     if (!sheet || typeof sheet.showModal !== 'function' || !html) return false;
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const content = doc.querySelector('.cart-added');
     if (!content) return false;
     const line = Array.from(content.querySelectorAll('[data-line-key]')).find((item) => item.dataset.lineKey === key);
     if (line) line.hidden = false;
+    await Promise.race([loadSheetRecs(), new Promise((resolve) => { window.setTimeout(resolve, RECS_WAIT_MS); })]);
     sheetBody.replaceChildren(content);
     sheetOpener = opener;
     sheet.showModal();
-    loadSheetRecs();
     return true;
   }
 
@@ -246,6 +259,7 @@ if (root) {
       const opener = (event.submitter instanceof HTMLElement && event.submitter) || addButtons[0];
       addButtons.forEach((button) => button.setAttribute('aria-busy', 'true'));
       if (status) status.textContent = '';
+      loadSheetRecs();
       try {
         const body = new FormData(form);
         body.append('sections', 'cart-added');
@@ -260,7 +274,7 @@ if (root) {
         document.dispatchEvent(new CustomEvent('cart:updated'));
         const quantity = Number((form.querySelector('[data-qty-input]') || {}).value) || 1;
         track('add_to_cart', context({ quantity }));
-        const shown = openSheet(result && result.sections && result.sections['cart-added'], result && result.key, opener);
+        const shown = await openSheet(result && result.sections && result.sections['cart-added'], result && result.key, opener);
         if (status) status.textContent = shown ? '' : labels.added;
         if (!shown) {
           setLabel(labels.added);
@@ -353,15 +367,14 @@ if (root) {
     });
   }
 
-  const ratingLink = root.querySelector('[data-rating-link]');
-  if (ratingLink) {
+  root.querySelectorAll('[data-rating-link]').forEach((ratingLink) => {
     ratingLink.addEventListener('click', () => {
       // Reviews live in a collapsed <details id="reviews">; open it so the jump lands on content.
       const reviews = document.getElementById('reviews');
       if (reviews && reviews.tagName === 'DETAILS') reviews.open = true;
-      track('view_reviews', context({ source: 'rating_link' }));
+      track('view_reviews', context({ source: ratingLink.dataset.ratingLink || 'rating_link' }));
     });
-  }
+  });
   if (window.location.hash === '#reviews') {
     const reviews = document.getElementById('reviews');
     if (reviews && reviews.tagName === 'DETAILS') reviews.open = true;

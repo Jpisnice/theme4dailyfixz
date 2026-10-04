@@ -193,3 +193,68 @@ Contract: `harness/sprints/08-pdp-content-crosssell/contract.md`. `npm run check
   - The marquee still lists combo offers too.
 - **Marquee:** `marquee_speed` default 4 → 6 chars/s (range now 2-12), measured at 43px/s (was 29).
 - Verified with a temporary TEST `custom.ribbons` value on the-compare-at-price-snowboard. Only the combo ribbon showed, and it also appeared in the marquee. The value was then deleted.
+
+## PDP trust and conversion pass (2026-10-04)
+
+`npm run check` and `validate_theme` are clean. Browser-checked with Playwright (Edge) at 390 and 1280: no overflow and no page errors. NOT graded by the evaluator agent.
+
+- **Payment methods under the CTA:** the `buy_buttons` setting `show_payment_icons` (on) shows a "Secure payments" line plus `shop.enabled_payment_types`, up to 8. 6 icons were verified.
+- **Delivery promise** (`assets/delivery.js`):
+  - "Estimated delivery: Wed, Oct 7 – Fri, Oct 9" shows before any PIN is entered.
+  - New `cutoff_hour` setting (0 = off) adds "Order within X h Y min to dispatch today". It refreshes every minute and uses the shop's UTC offset (`'now' | date: '%z'`).
+  - Before the cutoff, orders dispatch the same day. After it, they follow the dispatch range, or the next business day when none is set.
+  - A successful PIN check replaces the generic estimate.
+  - Verified with temporary dispatch 0-1, transit 3-5 and cutoff 23 (reverted). The promise stays hidden while transit days are blank, as shipped.
+- **Policy links** in the delivery card: `show_policy_links` links to `shop.shipping_policy` and `shop.refund_policy` when they are set. Neither is set in the dev store, so the links are hidden.
+- **Review highlight block** (`review_highlight` → `snippets/product-review-pick.liquid`):
+  - Shows the highest-rated real review with text (at least `min_rating`, default 4) under the buy block, with a "See all N reviews" link that opens `#reviews`.
+  - UNVERIFIED in a browser, because the dev store has 0 reviews.
+  - `product.js` now binds every `[data-rating-link]`.
+- **Block order:** buy → review highlight → delivery → key-feature images. Delivery and returns info now sit right after the CTA instead of below the full-width feature images.
+- **Owner to do:** fill in the delivery block's dispatch and transit days (and the cutoff, if you dispatch same day). Set the shipping and refund policies. Add reviews.
+
+## Playwright layout and flow audit (2026-10-04)
+
+Ran Playwright (Edge) against `shopify theme dev` at 390 and 1280 on 13 pages: home, collections, 4 product pages, search, cart, 404, the collection list and the blog. The checks covered CLS (on load and while scrolling), horizontal overflow, JS errors, failed requests, image sizing, h1 count and tap targets. A second script ran the shopping flow: variant switch, add to cart and the sheet, sticky bar, PIN check, quick add, and the cart stepper. All checks now pass. CLS is 0 on every page.
+
+- **Fixed:**
+  - Home CLS 0.012 (desktop). `carousel.js` appended the dots after first paint. `.promo--paged` now reserves the dots row.
+  - Added-to-cart sheet CLS 0.35 (mobile). Recommendations loaded after `showModal()`. They now start with the add request, and the sheet waits up to 1.2s for them.
+  - The cart stepper showed "₹1,899.95" against the server's "Rs.". New `assets/money.js` uses `shop.money_format` (set on `<html>`) when the store currency is active, and Intl otherwise. Cart, bundle and predictive search share it, and the bundle's local copy was removed.
+  - The home page had no h1. Added a visually hidden shop-name h1 on the index page only.
+  - Tap targets: the sticky variant button went from 19 to 24px tall (negative margin, so the bar does not grow), and the gallery dots from 20 to 24px wide.
+- **Not issues:**
+  - Skip link and radio inputs at 1x1 (visually hidden by design).
+  - "Unnamed" buttons inside the closed filter drawer (visibility hidden).
+  - `origin_trials` CORS, `shop.app` 403 and the monorail/pixel aborts, which come from the local proxy.
+  - Card title links are short, but `::after` stretches them over the whole card.
+- **Unverified:** the bundle total in the new format (no recommendation data in the dev store); the multi-currency fallback.
+
+## Bundle/currency tests + subtle motion (2026-10-04)
+
+`npm run check` is clean. Browser-verified with Playwright (Edge) at 390 and 1280. A rerun of the full CLS audit (13 pages × 2 sizes) still gives 0 everywhere, and the flow test gives 33/33.
+
+- **Bundle** (tested with a temporary local `intent=related`, reverted):
+  - Totals and row prices use "Rs." and equal the sum of the checked items.
+  - Unchecking updates the total and the button label.
+  - The variant switch keeps the format.
+  - Adding the bundle put 3 items in the cart in one request.
+- **Money fallback** (`assets/money.js`, imported in the page):
+  - INR and no currency info use the store format.
+  - USD and EUR fall back to Intl.
+  - An invalid code gives a plain number.
+  - The comma, no-decimal and apostrophe formats are all correct.
+  - Predictive search showed "$" prices with a USD presentment currency.
+- **Motion** ("Motion" block in `assets/base.css`):
+  - Everything that moves is gated on `prefers-reduced-motion: no-preference`.
+  - Animations are opacity and transform only, so there is no CLS.
+  - The effects:
+    - scroll-driven reveal of home and PDP sections and collection grid cards (`animation-timeline: view()`, no JS, nothing hidden where unsupported)
+    - button press scale to 0.98 and card "+" press to 0.92
+    - card lift of 2px on hover
+    - cart badge bump (`header.js`, only when the count rises)
+    - fade of variant regions that actually changed (`product.js` now skips unchanged regions)
+    - accordion and reviews drop-in
+    - delivery estimate and result fade
+    - cart sheet backdrop fade, plus a 180ms fade/slide out on close (`allow-discrete`; elsewhere it just closes)
+  - Verified with reduced motion: all content visible, no reveal and no lift.

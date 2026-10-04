@@ -281,7 +281,23 @@
 
                 <p class="product-form__status" role="status" aria-live="polite" data-add-status></p>
               {%- endform -%}
+
+              {%- if block.settings.show_payment_icons -%}
+                <div class="secure-pay">
+                  <p class="secure-pay__label">{% render 'icon', name: 'lock' %}{{ 'products.secure_pay.label' | t }}</p>
+                  {%- if shop.enabled_payment_types.size > 0 -%}
+                    <ul class="payment-icons secure-pay__icons" role="list" aria-label="{{ 'products.secure_pay.methods' | t }}">
+                      {%- for type in shop.enabled_payment_types limit: 8 -%}
+                        <li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
             </div>
+
+          {%- when 'review_highlight' -%}
+            {% render 'product-review-pick', product: product, min_rating: block.settings.min_rating, total: rating_total, attributes: block.shopify_attributes %}
 
           {%- when 'feature_gallery' -%}
             {% render 'product-features', product: product, heading: block.settings.heading, attributes: block.shopify_attributes %}
@@ -313,6 +329,12 @@
               data-fast-max="{{ block.settings.fast_transit_days_max }}"
               data-off-day="{{ block.settings.off_day }}"
               data-cod="{{ cod_enabled }}"
+              data-cutoff-hour="{{ block.settings.cutoff_hour }}"
+              data-shop-offset="{{ 'now' | date: '%z' }}"
+              data-label-cutoff="{{ 'products.delivery.cutoff' | t: time: '__TIME__' }}"
+              data-label-hours-minutes="{{ 'products.delivery.hours_minutes' | t: hours: '__H__', minutes: '__M__' }}"
+              data-label-hours="{{ 'products.delivery.hours' | t: hours: '__H__' }}"
+              data-label-minutes="{{ 'products.delivery.minutes' | t: minutes: '__M__' }}"
               data-label-invalid="{{ 'products.delivery.invalid' | t }}"
               data-label-available="{{ 'products.delivery.available' | t: pin: '__PIN__' }}"
               data-label-unavailable="{{ 'products.delivery.unavailable' | t: pin: '__PIN__' }}"
@@ -321,6 +343,11 @@
               {{ block.shopify_attributes }}
             >
               <h2 class="delivery__title">{% render 'icon', name: 'truck' %}{{ 'products.delivery.title' | t }}</h2>
+
+              <div class="delivery__promise" data-delivery-promise hidden>
+                <p class="delivery__eta" data-delivery-eta></p>
+                <p class="delivery__cutoff" data-delivery-cutoff hidden></p>
+              </div>
 
               {%- if block.settings.show_checker -%}
                 <form class="delivery__form" data-delivery-form novalidate>
@@ -367,6 +394,19 @@
                   <li class="delivery__fact">{% render 'icon', name: 'return' %}<span>{{ block.settings.returns_text | escape }}</span></li>
                 {%- endif -%}
               </ul>
+
+              {%- if block.settings.show_policy_links -%}
+                {%- if shop.shipping_policy or shop.refund_policy -%}
+                  <p class="delivery__policies">
+                    {%- if shop.shipping_policy -%}
+                      <a href="{{ shop.shipping_policy.url }}">{{ 'products.delivery.shipping_policy' | t }}</a>
+                    {%- endif -%}
+                    {%- if shop.refund_policy -%}
+                      <a href="{{ shop.refund_policy.url }}">{{ 'products.delivery.refund_policy' | t }}</a>
+                    {%- endif -%}
+                  </p>
+                {%- endif -%}
+              {%- endif -%}
             </div>
 
           {%- when 'trust_signals' -%}
@@ -531,7 +571,17 @@
       "name": "t:general.buy_buttons",
       "limit": 1,
       "settings": [
-        { "type": "checkbox", "id": "show_buy_now", "label": "t:labels.show_buy_now", "info": "t:info.buy_now", "default": true }
+        { "type": "checkbox", "id": "show_buy_now", "label": "t:labels.show_buy_now", "info": "t:info.buy_now", "default": true },
+        { "type": "checkbox", "id": "show_payment_icons", "label": "t:labels.show_secure_pay", "info": "t:info.secure_pay", "default": true }
+      ]
+    },
+    {
+      "type": "review_highlight",
+      "name": "t:general.review_highlight",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "t:info.review_highlight" },
+        { "type": "range", "id": "min_rating", "label": "t:labels.review_min_rating", "min": 3, "max": 5, "step": 1, "default": 4 }
       ]
     },
     {
@@ -554,6 +604,10 @@
         { "type": "text", "id": "shipping_text", "label": "t:labels.shipping_text", "info": "t:info.delivery_blank" },
         { "type": "checkbox", "id": "cod_enabled", "label": "t:labels.cod_enabled", "info": "t:info.cod", "default": false },
         { "type": "text", "id": "returns_text", "label": "t:labels.returns_text", "info": "t:info.delivery_blank" },
+        { "type": "checkbox", "id": "show_policy_links", "label": "t:labels.show_policy_links", "info": "t:info.policy_links", "default": true },
+        { "type": "header", "content": "t:general.delivery_promise" },
+        { "type": "paragraph", "content": "t:info.delivery_promise" },
+        { "type": "range", "id": "cutoff_hour", "label": "t:labels.cutoff_hour", "info": "t:info.cutoff_hour", "min": 0, "max": 23, "step": 1, "unit": "h", "default": 0 },
         { "type": "header", "content": "t:general.delivery_checker" },
         { "type": "checkbox", "id": "show_checker", "label": "t:labels.show_checker", "default": true },
         { "type": "textarea", "id": "serviceable_prefixes", "label": "t:labels.serviceable_prefixes", "info": "t:info.serviceable_prefixes" },
