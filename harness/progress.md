@@ -193,3 +193,22 @@ Contract: `harness/sprints/08-pdp-content-crosssell/contract.md`. `npm run check
   - The marquee still lists combo offers too.
 - **Marquee:** `marquee_speed` default 4 → 6 chars/s (range now 2-12), measured at 43px/s (was 29).
 - Verified with a temporary TEST `custom.ribbons` value on the-compare-at-price-snowboard. Only the combo ribbon showed, and it also appeared in the marquee. The value was then deleted.
+
+## PDP trust and conversion pass (2026-10-04)
+
+`npm run check` and `validate_theme` are clean. Browser-checked with Playwright (Edge) at 390 and 1280: no overflow and no page errors. NOT graded by the evaluator agent.
+
+- **Payment methods under the CTA:** the `buy_buttons` setting `show_payment_icons` (on) shows a "Secure payments" line plus `shop.enabled_payment_types`, up to 8. 6 icons were verified.
+- **Delivery promise** (`assets/delivery.js`):
+  - "Estimated delivery: Wed, Oct 7 – Fri, Oct 9" shows before any PIN is entered.
+  - New `cutoff_hour` setting (0 = off) adds "Order within X h Y min to dispatch today". It refreshes every minute and uses the shop's UTC offset (`'now' | date: '%z'`).
+  - Before the cutoff, orders dispatch the same day. After it, they follow the dispatch range, or the next business day when none is set.
+  - A successful PIN check replaces the generic estimate.
+  - Verified with temporary dispatch 0-1, transit 3-5 and cutoff 23 (reverted). The promise stays hidden while transit days are blank, as shipped.
+- **Policy links** in the delivery card: `show_policy_links` links to `shop.shipping_policy` and `shop.refund_policy` when they are set. Neither is set in the dev store, so the links are hidden.
+- **Review highlight block** (`review_highlight` → `snippets/product-review-pick.liquid`):
+  - Shows the highest-rated real review with text (at least `min_rating`, default 4) under the buy block, with a "See all N reviews" link that opens `#reviews`.
+  - UNVERIFIED in a browser, because the dev store has 0 reviews.
+  - `product.js` now binds every `[data-rating-link]`.
+- **Block order:** buy → review highlight → delivery → key-feature images. Delivery and returns info now sit right after the CTA instead of below the full-width feature images.
+- **Owner to do:** fill in the delivery block's dispatch and transit days (and the cutoff, if you dispatch same day). Set the shipping and refund policies. Add reviews.

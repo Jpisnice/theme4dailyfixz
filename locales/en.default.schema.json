@@ -76,7 +76,9 @@
     "product_card_item": "Product card",
     "ribbons": "Combo offer ribbons",
     "feature_gallery": "Feature gallery",
-    "offer_marquee": "Offer marquee"
+    "offer_marquee": "Offer marquee",
+    "review_highlight": "Review highlight",
+    "delivery_promise": "Delivery promise"
   },
   "labels": {
     "alignment": "Alignment",
@@ -193,7 +195,11 @@
     "marquee_text": "Extra marquee message",
     "marquee_speed": "Scroll speed",
     "footer_show_blurb": "Show the footer blurb",
-    "footer_show_newsletter": "Show newsletter signup"
+    "footer_show_newsletter": "Show newsletter signup",
+    "show_secure_pay": "Show payment methods",
+    "review_min_rating": "Lowest star rating to feature",
+    "show_policy_links": "Show shipping and return policy links",
+    "cutoff_hour": "Same-day dispatch cutoff (shop time)"
   },
   "options": {
     "alignment": {
@@ -295,6 +301,11 @@
     "feature_gallery": "Shows the images from the product's custom.features entries as a full-width list. Hidden when the product has none.",
     "offer_marquee": "A red scrolling strip under the header listing this product's offers: the selected variant's sale, the offer codes above that apply to it, its custom.ribbons entries and the extra message. Hidden when there are none.",
     "marquee_speed": "Higher is faster. The pace stays the same however many messages there are.",
-    "marquee_text": "Optional, for example \"Free delivery on orders over Rs. 499\". Only add claims you honour."
+    "marquee_text": "Optional, for example \"Free delivery on orders over Rs. 499\". Only add claims you honour.",
+    "secure_pay": "Shows a 'Secure payments' line and the payment methods enabled in your store under the buttons.",
+    "review_highlight": "Features your best real review (with text) next to the buy buttons. Hidden when the product has no reviews in custom.reviews.",
+    "policy_links": "Links to the policies set in Settings > Policies. Hidden when they are not set.",
+    "delivery_promise": "Shows 'Estimated delivery' dates up front, before a PIN is entered. Needs the dispatch and transit days below.",
+    "cutoff_hour": "Orders before this hour are dispatched the same day, and a countdown is shown. 0 turns it off. Only set this if you really dispatch same-day orders."
   }
 }

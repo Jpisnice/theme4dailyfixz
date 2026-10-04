@@ -264,7 +264,12 @@
       "invalid": "Enter a valid 6-digit PIN code.",
       "available": "Delivery available to {{ pin }}",
       "unavailable": "Sorry, we cannot deliver to {{ pin }} yet.",
-      "estimate": "Estimated delivery: {{ dates }}"
+      "estimate": "Estimated delivery: {{ dates }}",
+      "cutoff": "Order within {{ time }} to dispatch today",
+      "hours_minutes": "{{ hours }} h {{ minutes }} min",
+      "minutes": "{{ minutes }} min",
+      "shipping_policy": "Shipping policy",
+      "refund_policy": "Return and refund policy"
     },
     "offers": {
       "title": "Offers for you",
@@ -329,6 +334,16 @@
       "sale": "{{ percent }}% off today, now {{ price }}",
       "code_html": "Use code <strong>{{ code }}</strong> at checkout",
       "code_with_title_html": "{{ title }}: use code <strong>{{ code }}</strong>"
+    },
+    "secure_pay": {
+      "label": "Secure payments",
+      "methods": "Accepted payment methods"
+    },
+    "review_pick": {
+      "see_all": {
+        "one": "See {{ count }} review",
+        "other": "See all {{ count }} reviews"
+      }
     }
   },
   "home": {
