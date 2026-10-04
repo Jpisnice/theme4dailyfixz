@@ -212,3 +212,20 @@ Contract: `harness/sprints/08-pdp-content-crosssell/contract.md`. `npm run check
   - `product.js` now binds every `[data-rating-link]`.
 - **Block order:** buy → review highlight → delivery → key-feature images. Delivery and returns info now sit right after the CTA instead of below the full-width feature images.
 - **Owner to do:** fill in the delivery block's dispatch and transit days (and the cutoff, if you dispatch same day). Set the shipping and refund policies. Add reviews.
+
+## Playwright layout and flow audit (2026-10-04)
+
+Ran Playwright (Edge) against `shopify theme dev` at 390 and 1280 on 13 pages: home, collections, 4 product pages, search, cart, 404, the collection list and the blog. The checks covered CLS (on load and while scrolling), horizontal overflow, JS errors, failed requests, image sizing, h1 count and tap targets. A second script ran the shopping flow: variant switch, add to cart and the sheet, sticky bar, PIN check, quick add, and the cart stepper. All checks now pass. CLS is 0 on every page.
+
+- **Fixed:**
+  - Home CLS 0.012 (desktop). `carousel.js` appended the dots after first paint. `.promo--paged` now reserves the dots row.
+  - Added-to-cart sheet CLS 0.35 (mobile). Recommendations loaded after `showModal()`. They now start with the add request, and the sheet waits up to 1.2s for them.
+  - The cart stepper showed "₹1,899.95" against the server's "Rs.". New `assets/money.js` uses `shop.money_format` (set on `<html>`) when the store currency is active, and Intl otherwise. Cart, bundle and predictive search share it, and the bundle's local copy was removed.
+  - The home page had no h1. Added a visually hidden shop-name h1 on the index page only.
+  - Tap targets: the sticky variant button went from 19 to 24px tall (negative margin, so the bar does not grow), and the gallery dots from 20 to 24px wide.
+- **Not issues:**
+  - Skip link and radio inputs at 1x1 (visually hidden by design).
+  - "Unnamed" buttons inside the closed filter drawer (visibility hidden).
+  - `origin_trials` CORS, `shop.app` 403 and the monorail/pixel aborts, which come from the local proxy.
+  - Card title links are short, but `::after` stretches them over the whole card.
+- **Unverified:** the bundle total in the new format (no recommendation data in the dev store); the multi-currency fallback.
