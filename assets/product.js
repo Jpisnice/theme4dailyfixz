@@ -95,7 +95,12 @@ if (root) {
   function applyRegions(doc) {
     root.querySelectorAll('[data-variant-region]').forEach((region) => {
       const fresh = doc.querySelector(`[data-variant-region="${region.dataset.variantRegion}"]`);
-      if (fresh) region.innerHTML = fresh.innerHTML;
+      if (fresh && region.innerHTML !== fresh.innerHTML) {
+        region.innerHTML = fresh.innerHTML;
+        region.classList.remove('is-refreshed');
+        void region.offsetWidth;
+        region.classList.add('is-refreshed');
+      }
     });
     const freshButton = doc.querySelector('[data-add-to-cart]');
     if (freshButton) addButtons.forEach((button) => { button.disabled = freshButton.disabled; });

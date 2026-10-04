@@ -229,3 +229,32 @@ Ran Playwright (Edge) against `shopify theme dev` at 390 and 1280 on 13 pages: h
   - `origin_trials` CORS, `shop.app` 403 and the monorail/pixel aborts, which come from the local proxy.
   - Card title links are short, but `::after` stretches them over the whole card.
 - **Unverified:** the bundle total in the new format (no recommendation data in the dev store); the multi-currency fallback.
+
+## Bundle/currency tests + subtle motion (2026-10-04)
+
+`npm run check` is clean. Browser-verified with Playwright (Edge) at 390 and 1280. A rerun of the full CLS audit (13 pages × 2 sizes) still gives 0 everywhere, and the flow test gives 33/33.
+
+- **Bundle** (tested with a temporary local `intent=related`, reverted):
+  - Totals and row prices use "Rs." and equal the sum of the checked items.
+  - Unchecking updates the total and the button label.
+  - The variant switch keeps the format.
+  - Adding the bundle put 3 items in the cart in one request.
+- **Money fallback** (`assets/money.js`, imported in the page):
+  - INR and no currency info use the store format.
+  - USD and EUR fall back to Intl.
+  - An invalid code gives a plain number.
+  - The comma, no-decimal and apostrophe formats are all correct.
+  - Predictive search showed "$" prices with a USD presentment currency.
+- **Motion** ("Motion" block in `assets/base.css`):
+  - Everything that moves is gated on `prefers-reduced-motion: no-preference`.
+  - Animations are opacity and transform only, so there is no CLS.
+  - The effects:
+    - scroll-driven reveal of home and PDP sections and collection grid cards (`animation-timeline: view()`, no JS, nothing hidden where unsupported)
+    - button press scale to 0.98 and card "+" press to 0.92
+    - card lift of 2px on hover
+    - cart badge bump (`header.js`, only when the count rises)
+    - fade of variant regions that actually changed (`product.js` now skips unchanged regions)
+    - accordion and reviews drop-in
+    - delivery estimate and result fade
+    - cart sheet backdrop fade, plus a 180ms fade/slide out on close (`allow-discrete`; elsewhere it just closes)
+  - Verified with reduced motion: all content visible, no reveal and no lift.

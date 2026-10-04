@@ -1436,18 +1436,27 @@ html:not(.js) .delivery__form {
 .cart-sheet::backdrop {
   background-color: rgb(16 24 40 / 0.5);
 }
-.cart-sheet[open] {
-  animation: sheet-up var(--transition-base) var(--ease);
+/* Opens with a short rise and a backdrop fade. Where allow-discrete is
+   supported it also slides back out on close instead of vanishing. */
+@media (prefers-reduced-motion: no-preference) {
+  .cart-sheet {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 180ms var(--ease), transform 180ms var(--ease), overlay 180ms allow-discrete, display 180ms allow-discrete;
+  }
+  .cart-sheet[open] {
+    opacity: 1;
+    transform: none;
+    animation: sheet-up 240ms var(--ease);
+  }
+  .cart-sheet[open]::backdrop {
+    animation: dfx-fade-in 240ms var(--ease);
+  }
 }
 @keyframes sheet-up {
   from {
-    transform: translateY(24px);
+    transform: translateY(1.5rem);
     opacity: 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .cart-sheet[open] {
-    animation: none;
   }
 }
 @media (min-width: 48em) {
