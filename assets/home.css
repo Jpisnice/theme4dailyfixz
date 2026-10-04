@@ -87,9 +87,6 @@
 .hero--align-center .hero__actions {
   justify-content: center;
 }
-.hero--align-center .accent-underline::after {
-  margin-inline: auto;
-}
 .hero--align-right .hero__content {
   align-items: flex-end;
   margin-inline-start: auto;
@@ -97,9 +94,6 @@
 }
 .hero--align-right .hero__actions {
   justify-content: flex-end;
-}
-.hero--align-right .accent-underline::after {
-  margin-inline-start: auto;
 }
 
 @media (min-width: 48em) {

@@ -1,7 +1,7 @@
 /**
  * Base styles: design-system components and the global shell.
  * All colour, radius, font and spacing values come from the tokens emitted
- * by snippets/css-variables.liquid. Reset and block-container live in critical.css.
+ * by snippets/css-variables.liquid. The reset lives in critical.css.
  */
 
 /* ---------- Typography ---------- */
@@ -68,17 +68,6 @@ a {
 }
 .template-content > :first-child {
   margin-top: 0;
-}
-
-/* Accent underline motif: a short accent bar under headings. */
-.accent-underline::after {
-  content: "";
-  display: block;
-  width: 2.75rem;
-  height: 0.25rem;
-  margin-top: var(--space-2);
-  border-radius: var(--radius-button);
-  background-color: var(--color-accent);
 }
 
 /* ---------- Focus, skip link ---------- */
@@ -1105,44 +1094,6 @@ td {
 }
 th {
   font-weight: 700;
-}
-
-/* ---------- Legacy block styles (token-based) ---------- */
-
-/** Text block */
-.text {
-  text-align: var(--text-align);
-}
-.text--title {
-  font-size: 2rem;
-  font-weight: 700;
-}
-.text--subtitle {
-  font-size: 1.5rem;
-}
-
-/** Search page */
-.search-results {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
-}
-.search-results .prev,
-.search-results .page,
-.search-results .next {
-  grid-column: 1 / -1;
-}
-
-/** Image snippet */
-.image {
-  display: block;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: auto;
-}
-.image > img {
-  width: 100%;
-  height: auto;
 }
 
 /** Gift card template */
